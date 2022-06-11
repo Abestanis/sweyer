@@ -75,6 +75,9 @@ android {
         }
     }
     namespace 'com.nt4f04und.sweyer'
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 flutter {
