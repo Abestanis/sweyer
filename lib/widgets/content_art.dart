@@ -52,8 +52,8 @@ class ContentArtSource with Equatable {
 
   /// Checks the kind of [PersistentQueue], and respectively either picks [ContentArtSource.album], or [ContentArtSource.playlist].
   const ContentArtSource.persistentQueue(PersistentQueue persistentQueue)
-      : assert(persistentQueue is Album || persistentQueue is Playlist),
-        _content = persistentQueue;
+    : assert(persistentQueue is Album || persistentQueue is Playlist),
+      _content = persistentQueue;
 
   const ContentArtSource.artist(Artist artist) : _content = artist;
 
@@ -106,9 +106,9 @@ class ContentArt extends StatefulWidget {
     this.current = false,
     this.onLoad,
     this.loadAnimationDuration = kArtListLoadAnimationDuration,
-  })  : size = kSongTileArtSize,
-        assetHighRes = false,
-        currentIndicatorScale = null;
+  }) : size = kSongTileArtSize,
+       assetHighRes = false,
+       currentIndicatorScale = null;
 
   /// Creates an art for the [PersistentQueueTile].
   /// It has the same image contents scale as [AlbumArt.songTile].
@@ -123,9 +123,9 @@ class ContentArt extends StatefulWidget {
     this.current = false,
     this.onLoad,
     this.loadAnimationDuration = kArtListLoadAnimationDuration,
-  })  : size = kPersistentQueueTileArtSize,
-        assetHighRes = false,
-        currentIndicatorScale = 1.17;
+  }) : size = kPersistentQueueTileArtSize,
+       assetHighRes = false,
+       currentIndicatorScale = 1.17;
 
   /// Creates an art for the [ArtistTile].
   /// It has the same image contents scale as [AlbumArt.songTile].
@@ -140,9 +140,9 @@ class ContentArt extends StatefulWidget {
     this.current = false,
     this.onLoad,
     this.loadAnimationDuration = kArtListLoadAnimationDuration,
-  })  : size = kPersistentQueueTileArtSize,
-        assetHighRes = false,
-        currentIndicatorScale = 1.1;
+  }) : size = kPersistentQueueTileArtSize,
+       assetHighRes = false,
+       currentIndicatorScale = 1.1;
 
   /// Creates an art for the [PlayerRoute].
   /// Its image contents scale differs from the [AlbumArt.songTile] and [AlbumArt.PersistentQueueTile].
@@ -157,9 +157,9 @@ class ContentArt extends StatefulWidget {
     this.borderRadius = kArtBorderRadius,
     this.onLoad,
     this.loadAnimationDuration = const Duration(milliseconds: 500),
-  })  : assetHighRes = true,
-        current = false,
-        currentIndicatorScale = null;
+  }) : assetHighRes = true,
+       current = false,
+       currentIndicatorScale = null;
 
   final ContentArtSource? source;
 

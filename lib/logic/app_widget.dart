@@ -43,10 +43,12 @@ class AppWidgetControl extends Control {
     }
     _lastSongContentUri = null;
     _lastPlayingState = null;
-    _currentSongListener =
-        PlaybackControl.instance.onSongChange.listen((song) => update(song, PlayerManager.instance.playing));
-    _playingStateListener =
-        PlayerManager.instance.playingStream.listen((playing) => update(PlaybackControl.instance.currentSong, playing));
+    _currentSongListener = PlaybackControl.instance.onSongChange.listen(
+      (song) => update(song, PlayerManager.instance.playing),
+    );
+    _playingStateListener = PlayerManager.instance.playingStream.listen(
+      (playing) => update(PlaybackControl.instance.currentSong, playing),
+    );
     await update(PlaybackControl.instance.currentSong, PlayerManager.instance.playing);
   }
 

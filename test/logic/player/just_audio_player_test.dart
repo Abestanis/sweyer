@@ -46,23 +46,23 @@ Song _songWithUri(String uri) => _SongWithUri(uri);
 // ignore: must_be_immutable
 class _SongWithUri extends Song {
   _SongWithUri(this._uri)
-      : super(
-          id: 1,
-          album: null,
-          albumId: null,
-          artist: 'Artist',
-          artistId: 1,
-          genre: null,
-          genreId: null,
-          title: 'Song',
-          track: null,
-          dateAdded: 0,
-          dateModified: 0,
-          duration: 120000,
-          size: null,
-          filesystemPath: null,
-          isFavoriteInMediaStore: false,
-        );
+    : super(
+        id: 1,
+        album: null,
+        albumId: null,
+        artist: 'Artist',
+        artistId: 1,
+        genre: null,
+        genreId: null,
+        title: 'Song',
+        track: null,
+        dateAdded: 0,
+        dateModified: 0,
+        duration: 120000,
+        size: null,
+        filesystemPath: null,
+        isFavoriteInMediaStore: false,
+      );
 
   final String _uri;
 

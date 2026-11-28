@@ -11,9 +11,9 @@ enum SortOrder {
 
   /// The inversion of the sort order.
   SortOrder get inverted => switch (this) {
-        SortOrder.ascending => SortOrder.descending,
-        SortOrder.descending => SortOrder.ascending,
-      };
+    SortOrder.ascending => SortOrder.descending,
+    SortOrder.descending => SortOrder.ascending,
+  };
 }
 
 /// Interface for other sort feature enums.
@@ -159,9 +159,9 @@ abstract class Sort<T extends Content> extends Equatable {
   Comparator<T> get comparator;
 
   Map<String, dynamic> toMap() => {
-        'feature': feature.id,
-        'order': order.name,
-      };
+    'feature': feature.id,
+    'order': order.name,
+  };
 }
 
 class SongSort extends Sort<Song> {
@@ -172,9 +172,9 @@ class SongSort extends Sort<Song> {
   SongSort.defaultOrder(super.feature) : super.defaultOrder();
 
   factory SongSort.fromMap(Map map) => SongSort(
-        feature: SongSortFeature.values.byName(map['feature']),
-        order: SortOrder.values.byName(map['order'] ?? 'ascending'),
-      );
+    feature: SongSortFeature.values.byName(map['feature']),
+    order: SortOrder.values.byName(map['order'] ?? 'ascending'),
+  );
 
   @override
   SongSort copyWith({
@@ -262,9 +262,9 @@ class AlbumSort extends Sort<Album> {
   AlbumSort.defaultOrder(super.feature) : super.defaultOrder();
 
   factory AlbumSort.fromMap(Map map) => AlbumSort(
-        feature: AlbumSortFeature.values.byName(map['feature']),
-        order: SortOrder.values.byName(map['order'] ?? 'ascending'),
-      );
+    feature: AlbumSortFeature.values.byName(map['feature']),
+    order: SortOrder.values.byName(map['order'] ?? 'ascending'),
+  );
 
   @override
   AlbumSort copyWith({
@@ -343,9 +343,9 @@ class PlaylistSort extends Sort<Playlist> {
   PlaylistSort.defaultOrder(super.feature) : super.defaultOrder();
 
   factory PlaylistSort.fromMap(Map map) => PlaylistSort(
-        feature: PlaylistSortFeature.values.byName(map['feature']),
-        order: SortOrder.values.byName(map['order'] ?? 'ascending'),
-      );
+    feature: PlaylistSortFeature.values.byName(map['feature']),
+    order: SortOrder.values.byName(map['order'] ?? 'ascending'),
+  );
 
   @override
   PlaylistSort copyWith({
@@ -372,8 +372,10 @@ class PlaylistSort extends Sort<Playlist> {
     switch (feature) {
       case PlaylistSortFeature.dateModified:
         c = (a, b) {
-          final compare = a.dateModified
-              .compareToNullable(b.dateModified, nullCompareResult: order == SortOrder.descending ? 1 : -1);
+          final compare = a.dateModified.compareToNullable(
+            b.dateModified,
+            nullCompareResult: order == SortOrder.descending ? 1 : -1,
+          );
           if (compare == 0) {
             return _fallbackName(a, b);
           }
@@ -382,8 +384,10 @@ class PlaylistSort extends Sort<Playlist> {
         break;
       case PlaylistSortFeature.dateAdded:
         c = (a, b) {
-          final compare =
-              a.dateAdded.compareToNullable(b.dateAdded, nullCompareResult: order == SortOrder.descending ? 1 : -1);
+          final compare = a.dateAdded.compareToNullable(
+            b.dateAdded,
+            nullCompareResult: order == SortOrder.descending ? 1 : -1,
+          );
           if (compare == 0) {
             return _fallbackName(a, b);
           }
@@ -417,9 +421,9 @@ class ArtistSort extends Sort<Artist> {
   ArtistSort.defaultOrder(super.feature) : super.defaultOrder();
 
   factory ArtistSort.fromMap(Map map) => ArtistSort(
-        feature: ArtistSortFeature.values.byName(map['feature']),
-        order: SortOrder.values.byName(map['order'] ?? 'ascending'),
-      );
+    feature: ArtistSortFeature.values.byName(map['feature']),
+    order: SortOrder.values.byName(map['order'] ?? 'ascending'),
+  );
 
   @override
   ArtistSort copyWith({

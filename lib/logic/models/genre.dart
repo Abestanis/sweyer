@@ -41,10 +41,10 @@ class Genre extends Content implements PlatformGenre {
 
   @override
   Map<String, dynamic> toMap() => {
-        'id': id,
-        'name': name,
-        'songIds': songIds,
-      };
+    'id': id,
+    'name': name,
+    'songIds': songIds,
+  };
 
   @override
   MediaItem toMediaItem() {

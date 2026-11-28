@@ -25,8 +25,7 @@ class Album extends PersistentQueue implements PlatformAlbum {
         prev.add(el.copyWith(origin: this));
       }
       return prev;
-    })
-      ..sort(_compareSongs);
+    })..sort(_compareSongs);
   }
 
   @override
@@ -107,22 +106,22 @@ class Album extends PersistentQueue implements PlatformAlbum {
 
   @override
   Map<String, dynamic> toMap() => <String, dynamic>{
-        'id': id,
-        'album': album,
-        'albumArt': albumArt,
-        'artist': artist,
-        'artistId': artistId,
-        'firstYear': firstYear,
-        'lastYear': lastYear,
-        'numberOfSongs': numberOfSongs,
-      };
+    'id': id,
+    'album': album,
+    'albumArt': albumArt,
+    'artist': artist,
+    'artistId': artistId,
+    'firstYear': firstYear,
+    'lastYear': lastYear,
+    'numberOfSongs': numberOfSongs,
+  };
 
   /// Compare [song1] with [song2]. This can be used to sort the tracks of the album.
   int _compareSongs(Song song1, Song song2) => song1.trackPosition == song2.trackPosition
       ? song1.title.compareTo(song2.title)
       : song2.trackPosition == null
-          ? -1
-          : song1.trackPosition?.compareTo(song2.trackPosition!) ?? 1;
+      ? -1
+      : song1.trackPosition?.compareTo(song2.trackPosition!) ?? 1;
 }
 
 /// The `copyWith` function type for [Album].

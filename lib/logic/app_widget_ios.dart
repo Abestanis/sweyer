@@ -219,8 +219,8 @@ class _WidgetQueueEntry {
   final String contentUri;
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'sourceId': sourceId,
-        'contentUri': contentUri,
-      };
+    'id': id,
+    'sourceId': sourceId,
+    'contentUri': contentUri,
+  };
 }

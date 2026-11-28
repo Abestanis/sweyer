@@ -45,7 +45,8 @@ class AppleMusicPlayer implements SweyerPlayer {
     }
 
     final songDuration = _currentSongDuration();
-    final reachedEnd = !_preparing &&
+    final reachedEnd =
+        !_preparing &&
         wasPlaying &&
         songDuration > Duration.zero &&
         position + _playbackCompletionTolerance >= songDuration;
@@ -55,8 +56,7 @@ class AppleMusicPlayer implements SweyerPlayer {
       playify.PlayifyStatus.paused ||
       playify.PlayifyStatus.interrupted ||
       playify.PlayifyStatus.seekingForward ||
-      playify.PlayifyStatus.seekingBackward =>
-        ProcessingState.ready,
+      playify.PlayifyStatus.seekingBackward => ProcessingState.ready,
       playify.PlayifyStatus.unknown => ProcessingState.loading,
     };
     if (!_processingStateSubject.isClosed && _processingStateSubject.value != processingState) {

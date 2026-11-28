@@ -13,10 +13,12 @@ void main() {
         expect(find.byIcon(Icons.settings_rounded).hitTestable(), findsOneWidget);
 
         // Open insertion settings
-        await tester.tap(find.descendant(
-          of: find.byType(SelectionActionsBar),
-          matching: find.byIcon(Icons.settings_rounded).hitTestable(),
-        ));
+        await tester.tap(
+          find.descendant(
+            of: find.byType(SelectionActionsBar),
+            matching: find.byIcon(Icons.settings_rounded).hitTestable(),
+          ),
+        );
         await tester.pumpAndSettle();
         expect(find.byIcon(Icons.settings_rounded).hitTestable(), findsNothing);
 
@@ -47,10 +49,12 @@ void main() {
         expect(tester.widget<ElevatedButton>(find.widgetWithText(ElevatedButton, l10n.done)).enabled, isFalse);
 
         // Open insertion settings
-        await tester.tap(find.descendant(
-          of: find.byType(SelectionActionsBar),
-          matching: find.byIcon(Icons.settings_rounded).hitTestable(),
-        ));
+        await tester.tap(
+          find.descendant(
+            of: find.byType(SelectionActionsBar),
+            matching: find.byIcon(Icons.settings_rounded).hitTestable(),
+          ),
+        );
         await tester.pumpAndSettle();
         expect(tester.widget<ElevatedButton>(find.widgetWithText(ElevatedButton, l10n.done)).enabled, isFalse);
 
@@ -59,17 +63,22 @@ void main() {
         await tester.pumpAndSettle();
 
         // Select Song 1
-        await tester.tap(find.descendant(
+        await tester.tap(
+          find.descendant(
             of: find.ancestor(of: find.text(song1.title), matching: find.byType(SongTile)),
-            matching: find.byIcon(Icons.add_rounded)));
+            matching: find.byIcon(Icons.add_rounded),
+          ),
+        );
         await tester.pumpAndSettle();
         expect(tester.widget<ElevatedButton>(find.widgetWithText(ElevatedButton, l10n.done)).enabled, isTrue);
 
         // Open insertion settings
-        await tester.tap(find.descendant(
-          of: find.byType(SelectionActionsBar),
-          matching: find.byIcon(Icons.settings_rounded).hitTestable(),
-        ));
+        await tester.tap(
+          find.descendant(
+            of: find.byType(SelectionActionsBar),
+            matching: find.byIcon(Icons.settings_rounded).hitTestable(),
+          ),
+        );
         await tester.pumpAndSettle();
         expect(tester.widget<ElevatedButton>(find.widgetWithText(ElevatedButton, l10n.done)).enabled, isTrue);
 
@@ -99,21 +108,31 @@ void main() {
         expect(find.byIcon(Icons.settings_rounded).hitTestable(), findsOneWidget);
 
         // Select Song 1
-        await tester.tap(find.descendant(
+        await tester.tap(
+          find.descendant(
             of: find.ancestor(of: find.text(song1.title), matching: find.byType(SongTile)),
-            matching: find.byIcon(Icons.add_rounded)));
+            matching: find.byIcon(Icons.add_rounded),
+          ),
+        );
         await tester.pumpAndSettle();
         expect(
-            find.descendant(of: find.byType(SelectionCounter), matching: find.text('1')).hitTestable(), findsOneWidget);
+          find.descendant(of: find.byType(SelectionCounter), matching: find.text('1')).hitTestable(),
+          findsOneWidget,
+        );
         expect(tester.widget<ElevatedButton>(find.widgetWithText(ElevatedButton, l10n.done)).enabled, isTrue);
 
         // Select Song 2
-        await tester.tap(find.descendant(
+        await tester.tap(
+          find.descendant(
             of: find.ancestor(of: find.text(song2.title), matching: find.byType(SongTile)),
-            matching: find.byIcon(Icons.add_rounded)));
+            matching: find.byIcon(Icons.add_rounded),
+          ),
+        );
         await tester.pumpAndSettle();
         expect(
-            find.descendant(of: find.byType(SelectionCounter), matching: find.text('2')).hitTestable(), findsOneWidget);
+          find.descendant(of: find.byType(SelectionCounter), matching: find.text('2')).hitTestable(),
+          findsOneWidget,
+        );
         expect(tester.widget<ElevatedButton>(find.widgetWithText(ElevatedButton, l10n.done)).enabled, isTrue);
 
         // The `NFMarquee` widget starts a timer for 2 seconds before it starts it's animation,
@@ -139,9 +158,12 @@ void main() {
         expect(find.byIcon(Icons.settings_rounded).hitTestable(), findsOneWidget);
 
         // Select Song 2
-        await tester.tap(find.descendant(
+        await tester.tap(
+          find.descendant(
             of: find.ancestor(of: find.text(song2.title), matching: find.byType(SongTile)),
-            matching: find.byIcon(Icons.add_rounded)));
+            matching: find.byIcon(Icons.add_rounded),
+          ),
+        );
         await tester.pumpAndSettle();
 
         // Add selected Song 2 to playlist
@@ -173,31 +195,34 @@ void main() {
         expect(find.byIcon(Icons.settings_rounded).hitTestable(), findsOneWidget);
 
         // Select Song 2
-        await tester.tap(find.descendant(
+        await tester.tap(
+          find.descendant(
             of: find.ancestor(of: find.text(song2.title), matching: find.byType(SongTile)),
-            matching: find.byIcon(Icons.add_rounded)));
+            matching: find.byIcon(Icons.add_rounded),
+          ),
+        );
         await tester.pumpAndSettle();
 
         // Open insertion settings
-        await tester.tap(find.descendant(
-          of: find.byType(SelectionActionsBar),
-          matching: find.byIcon(Icons.settings_rounded).hitTestable(),
-        ));
+        await tester.tap(
+          find.descendant(
+            of: find.byType(SelectionActionsBar),
+            matching: find.byIcon(Icons.settings_rounded).hitTestable(),
+          ),
+        );
         await tester.pumpAndSettle();
         expect(
-            tester
-                .widget<InListContentAction>(find.widgetWithText(InListContentAction, l10n.insertAtTheBeginning))
-                .color,
-            isNot(FakeThemeControl.instance.theme.colorScheme.primary));
+          tester.widget<InListContentAction>(find.widgetWithText(InListContentAction, l10n.insertAtTheBeginning)).color,
+          isNot(FakeThemeControl.instance.theme.colorScheme.primary),
+        );
 
         // Select insert at beginning
         await tester.tap(find.widgetWithText(InListContentAction, l10n.insertAtTheBeginning));
         await tester.pumpAndSettle();
         expect(
-            tester
-                .widget<InListContentAction>(find.widgetWithText(InListContentAction, l10n.insertAtTheBeginning))
-                .color,
-            FakeThemeControl.instance.theme.colorScheme.primary);
+          tester.widget<InListContentAction>(find.widgetWithText(InListContentAction, l10n.insertAtTheBeginning)).color,
+          FakeThemeControl.instance.theme.colorScheme.primary,
+        );
 
         // Add selected Song 2 to playlist
         await tester.tap(find.ancestor(of: find.text(l10n.done), matching: find.byType(ElevatedButton)));
@@ -224,25 +249,34 @@ void main() {
         expect(find.byIcon(Icons.settings_rounded).hitTestable(), findsOneWidget);
 
         // Select Song 2
-        await tester.tap(find.descendant(
+        await tester.tap(
+          find.descendant(
             of: find.ancestor(of: find.text(song2.title), matching: find.byType(SongTile)),
-            matching: find.byIcon(Icons.add_rounded)));
+            matching: find.byIcon(Icons.add_rounded),
+          ),
+        );
         await tester.pumpAndSettle();
 
         // Open insertion settings
-        await tester.tap(find.descendant(
-          of: find.byType(SelectionActionsBar),
-          matching: find.byIcon(Icons.settings_rounded).hitTestable(),
-        ));
+        await tester.tap(
+          find.descendant(
+            of: find.byType(SelectionActionsBar),
+            matching: find.byIcon(Icons.settings_rounded).hitTestable(),
+          ),
+        );
         await tester.pumpAndSettle();
-        expect(tester.widget<SongTile>(find.widgetWithText(SongTile, song0.title).hitTestable()).backgroundColor,
-            isNot(FakeThemeControl.instance.theme.colorScheme.primary));
+        expect(
+          tester.widget<SongTile>(find.widgetWithText(SongTile, song0.title).hitTestable()).backgroundColor,
+          isNot(FakeThemeControl.instance.theme.colorScheme.primary),
+        );
 
         // Select Song 0
         await tester.tap(find.widgetWithText(SongTile, song0.title).hitTestable());
         await tester.pumpAndSettle();
-        expect(tester.widget<SongTile>(find.widgetWithText(SongTile, song0.title).hitTestable()).backgroundColor,
-            FakeThemeControl.instance.theme.colorScheme.primary);
+        expect(
+          tester.widget<SongTile>(find.widgetWithText(SongTile, song0.title).hitTestable()).backgroundColor,
+          FakeThemeControl.instance.theme.colorScheme.primary,
+        );
 
         // Add selected Song 2 to playlist
         await tester.tap(find.ancestor(of: find.text(l10n.done), matching: find.byType(ElevatedButton)));
@@ -292,8 +326,10 @@ void main() {
           final selectionController = ContentControl.instance.selectionNotifier.value!;
           expect(selectionController.inSelection, true);
           expect(selectionController.data.length, 1);
-          expect(find.descendant(of: find.byType(SelectionCounter), matching: find.text('1')).hitTestable(),
-              findsOneWidget);
+          expect(
+            find.descendant(of: find.byType(SelectionCounter), matching: find.text('1')).hitTestable(),
+            findsOneWidget,
+          );
 
           // Select all
           await tester.tap(find.byType(SelectAllSelectionAction).last);
@@ -302,8 +338,10 @@ void main() {
           final numElements = ContentControl.instance.getContent(contentType).length;
           expect(selectionController.inSelection, true);
           expect(selectionController.data.length, numElements);
-          expect(find.descendant(of: find.byType(SelectionCounter), matching: find.text('$numElements')).hitTestable(),
-              findsOneWidget);
+          expect(
+            find.descendant(of: find.byType(SelectionCounter), matching: find.text('$numElements')).hitTestable(),
+            findsOneWidget,
+          );
 
           // Deselect all
           await tester.tap(find.byType(SelectAllSelectionAction).last);

@@ -12,12 +12,12 @@ import 'package:sweyer/sweyer.dart';
 /// and uses SweyerPlayer for actual playback.
 class PlayerManager implements PlaybackController {
   PlayerManager._()
-      : _player = SweyerPlayer.create(
-          currentSongDuration: () {
-            final song = PlaybackControl.instance.currentSongNullable;
-            return song == null ? Duration.zero : Duration(milliseconds: song.duration);
-          },
-        );
+    : _player = SweyerPlayer.create(
+        currentSongDuration: () {
+          final song = PlaybackControl.instance.currentSongNullable;
+          return song == null ? Duration.zero : Duration(milliseconds: song.duration);
+        },
+      );
 
   static PlayerManager? _instance;
   static PlayerManager get instance {
@@ -100,12 +100,14 @@ class PlayerManager implements PlaybackController {
 
   Future<void> dispose() async {
     _instance = null;
-    await Future.wait([
-      handler?.dispose(),
-      _processingStateSubscription?.cancel(),
-      _positionSubscription?.cancel(),
-      _player.dispose(),
-    ].nonNulls);
+    await Future.wait(
+      [
+        handler?.dispose(),
+        _processingStateSubscription?.cancel(),
+        _positionSubscription?.cancel(),
+        _player.dispose(),
+      ].nonNulls,
+    );
   }
 
   /// Function that fires right after json has fetched and when initial songs fetch has done.
@@ -633,90 +635,92 @@ class AudioHandler extends BaseAudioHandler with SeekHandler, WidgetsBindingObse
     }
     final playing = player.playing;
     final l10n = staticl10n;
-    playbackState.add(playbackState.value.copyWith(
-      controls: [
-        if (player.looping)
-          MediaControl.custom(
-            androidIcon: 'drawable/round_loop_one',
-            label: l10n.loopOn,
-            name: loopOn,
-          )
-        else
-          MediaControl.custom(
-            androidIcon: 'drawable/round_loop',
-            label: l10n.loopOff,
-            name: loopOff,
-          ),
-        MediaControl(
-          androidIcon: 'drawable/round_skip_previous',
-          label: l10n.previous,
-          action: MediaAction.skipToPrevious,
-        ),
-        if (playing)
+    playbackState.add(
+      playbackState.value.copyWith(
+        controls: [
+          if (player.looping)
+            MediaControl.custom(
+              androidIcon: 'drawable/round_loop_one',
+              label: l10n.loopOn,
+              name: loopOn,
+            )
+          else
+            MediaControl.custom(
+              androidIcon: 'drawable/round_loop',
+              label: l10n.loopOff,
+              name: loopOff,
+            ),
           MediaControl(
-            androidIcon: 'drawable/round_pause',
-            label: l10n.pause,
-            action: MediaAction.pause,
-          )
-        else
-          MediaControl(
-            androidIcon: 'drawable/round_play_arrow',
-            label: l10n.play,
-            action: MediaAction.play,
+            androidIcon: 'drawable/round_skip_previous',
+            label: l10n.previous,
+            action: MediaAction.skipToPrevious,
           ),
-        MediaControl(
-          androidIcon: 'drawable/round_skip_next',
-          label: l10n.next,
-          action: MediaAction.skipToNext,
-        ),
-        MediaControl(
-          androidIcon: 'drawable/round_stop',
-          label: l10n.stop,
-          action: MediaAction.stop,
-        ),
-      ],
-      systemActions: const {
-        MediaAction.stop,
-        MediaAction.pause,
-        MediaAction.play,
-        MediaAction.rewind,
-        MediaAction.skipToPrevious,
-        MediaAction.skipToNext,
-        MediaAction.fastForward,
-        // MediaAction.setRating,
-        MediaAction.seek,
-        MediaAction.playPause,
-        MediaAction.playFromMediaId,
-        MediaAction.playFromSearch,
-        MediaAction.skipToQueueItem,
-        // MediaAction.playFromUri,
-        MediaAction.prepare,
-        MediaAction.prepareFromMediaId,
-        MediaAction.prepareFromSearch,
-        // MediaAction.prepareFromUri,
-        MediaAction.setRepeatMode,
-        // MediaAction.unused_1,
-        // MediaAction.unused_2,
-        MediaAction.setShuffleMode,
-        MediaAction.seekBackward,
-        MediaAction.seekForward,
-      },
-      androidCompactActionIndices: const [1, 2, 3],
-      repeatMode: player.looping ? AudioServiceRepeatMode.one : AudioServiceRepeatMode.all,
-      shuffleMode: QueueControl.instance.state.shuffled ? AudioServiceShuffleMode.all : AudioServiceShuffleMode.none,
-      processingState: switch (player.processingState) {
-        // Treat `idle` like `loading` state to avoid making the notification reappear.
-        ProcessingState.idle || ProcessingState.loading => AudioProcessingState.loading,
-        ProcessingState.buffering => AudioProcessingState.buffering,
-        ProcessingState.ready => AudioProcessingState.ready,
-        ProcessingState.completed => AudioProcessingState.completed,
-      },
-      playing: playing,
-      updatePosition: player.position,
-      bufferedPosition: player.bufferedPosition,
-      speed: player.speed,
-      queueIndex: PlaybackControl.instance.currentSongIndex,
-    ));
+          if (playing)
+            MediaControl(
+              androidIcon: 'drawable/round_pause',
+              label: l10n.pause,
+              action: MediaAction.pause,
+            )
+          else
+            MediaControl(
+              androidIcon: 'drawable/round_play_arrow',
+              label: l10n.play,
+              action: MediaAction.play,
+            ),
+          MediaControl(
+            androidIcon: 'drawable/round_skip_next',
+            label: l10n.next,
+            action: MediaAction.skipToNext,
+          ),
+          MediaControl(
+            androidIcon: 'drawable/round_stop',
+            label: l10n.stop,
+            action: MediaAction.stop,
+          ),
+        ],
+        systemActions: const {
+          MediaAction.stop,
+          MediaAction.pause,
+          MediaAction.play,
+          MediaAction.rewind,
+          MediaAction.skipToPrevious,
+          MediaAction.skipToNext,
+          MediaAction.fastForward,
+          // MediaAction.setRating,
+          MediaAction.seek,
+          MediaAction.playPause,
+          MediaAction.playFromMediaId,
+          MediaAction.playFromSearch,
+          MediaAction.skipToQueueItem,
+          // MediaAction.playFromUri,
+          MediaAction.prepare,
+          MediaAction.prepareFromMediaId,
+          MediaAction.prepareFromSearch,
+          // MediaAction.prepareFromUri,
+          MediaAction.setRepeatMode,
+          // MediaAction.unused_1,
+          // MediaAction.unused_2,
+          MediaAction.setShuffleMode,
+          MediaAction.seekBackward,
+          MediaAction.seekForward,
+        },
+        androidCompactActionIndices: const [1, 2, 3],
+        repeatMode: player.looping ? AudioServiceRepeatMode.one : AudioServiceRepeatMode.all,
+        shuffleMode: QueueControl.instance.state.shuffled ? AudioServiceShuffleMode.all : AudioServiceShuffleMode.none,
+        processingState: switch (player.processingState) {
+          // Treat `idle` like `loading` state to avoid making the notification reappear.
+          ProcessingState.idle || ProcessingState.loading => AudioProcessingState.loading,
+          ProcessingState.buffering => AudioProcessingState.buffering,
+          ProcessingState.ready => AudioProcessingState.ready,
+          ProcessingState.completed => AudioProcessingState.completed,
+        },
+        playing: playing,
+        updatePosition: player.position,
+        bufferedPosition: player.bufferedPosition,
+        speed: player.speed,
+        queueIndex: PlaybackControl.instance.currentSongIndex,
+      ),
+    );
   }
 }
 

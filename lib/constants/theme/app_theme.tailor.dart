@@ -51,7 +51,10 @@ mixin _$AppThemeTailorMixin on ThemeExtension<AppTheme> {
     return AppTheme(
       artColorForBlend: Color.lerp(artColorForBlend, other.artColorForBlend, t)!,
       currentIndicatorBackgroundColorWithDefaultArt: Color.lerp(
-          currentIndicatorBackgroundColorWithDefaultArt, other.currentIndicatorBackgroundColorWithDefaultArt, t)!,
+        currentIndicatorBackgroundColorWithDefaultArt,
+        other.currentIndicatorBackgroundColorWithDefaultArt,
+        t,
+      )!,
       sliderInactiveColor: Color.lerp(sliderInactiveColor, other.sliderInactiveColor, t)!,
       appBarBorderColor: Color.lerp(appBarBorderColor, other.appBarBorderColor, t)!,
       drawerMenuItemColor: Color.lerp(drawerMenuItemColor, other.drawerMenuItemColor, t)!,
@@ -69,7 +72,9 @@ mixin _$AppThemeTailorMixin on ThemeExtension<AppTheme> {
             other is AppTheme &&
             const DeepCollectionEquality().equals(artColorForBlend, other.artColorForBlend) &&
             const DeepCollectionEquality().equals(
-                currentIndicatorBackgroundColorWithDefaultArt, other.currentIndicatorBackgroundColorWithDefaultArt) &&
+              currentIndicatorBackgroundColorWithDefaultArt,
+              other.currentIndicatorBackgroundColorWithDefaultArt,
+            ) &&
             const DeepCollectionEquality().equals(sliderInactiveColor, other.sliderInactiveColor) &&
             const DeepCollectionEquality().equals(appBarBorderColor, other.appBarBorderColor) &&
             const DeepCollectionEquality().equals(drawerMenuItemColor, other.drawerMenuItemColor) &&

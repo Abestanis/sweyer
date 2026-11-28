@@ -69,26 +69,30 @@ class ThemeControl {
   /// This is needed to show start up application animation.
   void initSystemUi() {
     // Show purple ui firstly.
-    SystemUiStyleController.instance.setSystemUiOverlay(const SystemUiOverlayStyle(
-      systemNavigationBarColor: Colors.deepPurpleAccent,
-      systemNavigationBarDividerColor: Colors.transparent,
-      systemNavigationBarIconBrightness: Brightness.light,
-      statusBarColor: Colors.deepPurpleAccent,
-      statusBarBrightness: Brightness.light,
-      statusBarIconBrightness: Brightness.light,
-    ));
-    unawaited(Future.delayed(const Duration(milliseconds: 500), () async {
-      if (SystemUiStyleController.instance.lastUi.systemNavigationBarColor !=
-          theme.systemUiThemeExtension.black.systemNavigationBarColor) {
-        final ui = theme.systemUiThemeExtension.grey;
-        await SystemUiStyleController.instance.animateSystemUiOverlay(
-          to: ui,
-          curve: Curves.easeOut,
-          duration: const Duration(milliseconds: 550),
-        );
-      }
-      _ready = true;
-    }));
+    SystemUiStyleController.instance.setSystemUiOverlay(
+      const SystemUiOverlayStyle(
+        systemNavigationBarColor: Colors.deepPurpleAccent,
+        systemNavigationBarDividerColor: Colors.transparent,
+        systemNavigationBarIconBrightness: Brightness.light,
+        statusBarColor: Colors.deepPurpleAccent,
+        statusBarBrightness: Brightness.light,
+        statusBarIconBrightness: Brightness.light,
+      ),
+    );
+    unawaited(
+      Future.delayed(const Duration(milliseconds: 500), () async {
+        if (SystemUiStyleController.instance.lastUi.systemNavigationBarColor !=
+            theme.systemUiThemeExtension.black.systemNavigationBarColor) {
+          final ui = theme.systemUiThemeExtension.grey;
+          await SystemUiStyleController.instance.animateSystemUiOverlay(
+            to: ui,
+            curve: Curves.easeOut,
+            duration: const Duration(milliseconds: 550),
+          );
+        }
+        _ready = true;
+      }),
+    );
   }
 
   @visibleForTesting
@@ -110,13 +114,16 @@ class ThemeControl {
     AppRouter.instance.updateTransitionSettings(themeChanged: true);
 
     themeChanging.add(true);
-    _rebuildOperation = CancelableOperation<void>.fromFuture(
-      Future.delayed(dilate(themeChangeDuration)),
-    ).then((value) async {
-      App.rebuildAllChildren();
-    }).then((value) {
-      themeChanging.add(false);
-    });
+    _rebuildOperation =
+        CancelableOperation<void>.fromFuture(
+              Future.delayed(dilate(themeChangeDuration)),
+            )
+            .then((value) async {
+              App.rebuildAllChildren();
+            })
+            .then((value) {
+              themeChanging.add(false);
+            });
 
     await SystemUiStyleController.instance.animateSystemUiOverlay(
       to: theme.systemUiThemeExtension.black,
@@ -132,13 +139,16 @@ class ThemeControl {
     Settings.primaryColorInt.set(color);
     themeChanging.add(true);
     PlayerManager.instance.updateServiceMediaItem();
-    _rebuildOperation = CancelableOperation<void>.fromFuture(
-      Future.delayed(dilate(primaryColorChangeDuration)),
-    ).then((value) async {
-      App.rebuildAllChildren();
-    }).then((value) {
-      themeChanging.add(false);
-    });
+    _rebuildOperation =
+        CancelableOperation<void>.fromFuture(
+              Future.delayed(dilate(primaryColorChangeDuration)),
+            )
+            .then((value) async {
+              App.rebuildAllChildren();
+            })
+            .then((value) {
+              themeChanging.add(false);
+            });
   }
 
   void _applyPrimaryColor(Color color) {
@@ -174,7 +184,8 @@ class ThemeControl {
         switchTheme: SwitchThemeData(
           thumbColor: WidgetStateProperty.resolveWith((states) => states.contains(WidgetState.selected) ? color : null),
           trackColor: WidgetStateProperty.resolveWith(
-              (states) => states.contains(WidgetState.selected) ? color.withAlpha(0x80) : null),
+            (states) => states.contains(WidgetState.selected) ? color.withAlpha(0x80) : null,
+          ),
         ),
         radioTheme: RadioThemeData(
           fillColor: WidgetStateProperty.resolveWith((states) => states.contains(WidgetState.selected) ? color : null),
@@ -213,7 +224,8 @@ class ThemeControl {
         switchTheme: SwitchThemeData(
           thumbColor: WidgetStateProperty.resolveWith((states) => states.contains(WidgetState.selected) ? color : null),
           trackColor: WidgetStateProperty.resolveWith(
-              (states) => states.contains(WidgetState.selected) ? color.withAlpha(0x80) : null),
+            (states) => states.contains(WidgetState.selected) ? color.withAlpha(0x80) : null,
+          ),
         ),
         radioTheme: RadioThemeData(
           fillColor: WidgetStateProperty.resolveWith((states) => states.contains(WidgetState.selected) ? color : null),

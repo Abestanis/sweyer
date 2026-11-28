@@ -95,7 +95,9 @@ mixin SelectionHandlerMixin<T extends StatefulWidget> on State<T> {
     /// to animate keep closing animation, so it is valid (unless it was
     /// triggered in unmounted state in some other way).
     if (mounted) {
-      setState(() {/* tiles on selection */});
+      setState(() {
+        /* tiles on selection */
+      });
     }
   }
 
@@ -109,7 +111,9 @@ mixin SelectionHandlerMixin<T extends StatefulWidget> on State<T> {
     /// to animate keep closing animation, so it is valid (unless it was
     /// triggered in unmounted state in some other way).
     if (mounted) {
-      setState(() {/* update appbar and tiles on selection status */});
+      setState(() {
+        /* update appbar and tiles on selection status */
+      });
     }
   }
 }
@@ -122,11 +126,11 @@ abstract class SelectableWidget<T> extends StatefulWidget {
   /// Creates a widget, not selectable.
   const SelectableWidget({
     super.key,
-  })  : selectionIndex = null,
-        selected = null,
-        longPressSelectionGestureEnabled = null,
-        handleTapInSelection = null,
-        selectionController = null;
+  }) : selectionIndex = null,
+       selected = null,
+       longPressSelectionGestureEnabled = null,
+       handleTapInSelection = null,
+       selectionController = null;
 
   /// Creates a selectable widget.
   const SelectableWidget.selectable({
@@ -271,11 +275,13 @@ abstract class SelectableState<E, W extends SelectableWidget> extends State<W> w
     return Tween(
       begin: 0.0,
       end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: animation,
-      curve: const Interval(0.0, 0.6, curve: Curves.easeOutCubic),
-      reverseCurve: Curves.easeInCubic,
-    ));
+    ).animate(
+      CurvedAnimation(
+        parent: animation,
+        curve: const Interval(0.0, 0.6, curve: Curves.easeOutCubic),
+        reverseCurve: Curves.easeInCubic,
+      ),
+    );
   }
 
   /// Returns a method that either joins the selection, or closes it, dependent
@@ -285,13 +291,13 @@ abstract class SelectableState<E, W extends SelectableWidget> extends State<W> w
   /// and passing null will disable the long press gesture.
   VoidCallback? get handleLongPress =>
       !selectable || selectionRouteOf(context) || !widget.longPressSelectionGestureEnabled!
-          ? null
-          : () {
-              if (!selectable) {
-                return;
-              }
-              toggleSelection();
-            };
+      ? null
+      : () {
+          if (!selectable) {
+            return;
+          }
+          toggleSelection();
+        };
 
   /// Checks whether widget is selectable and the selection controller
   /// is currently in selection.
@@ -347,8 +353,8 @@ class ContentSelectionController<T extends SelectionEntry> extends SelectionCont
     this.systemUiOverlayStyle,
     this.overlay,
     super.data,
-  })  : ignoreWhen = null,
-        super.alwaysInSelection();
+  }) : ignoreWhen = null,
+       super.alwaysInSelection();
 
   /// Needed to listen listen to a [DismissibleRoute], and as soon as it's
   /// dismissed, the selection will be closed.
@@ -438,7 +444,7 @@ class ContentSelectionController<T extends SelectionEntry> extends SelectionCont
                     selectedTitle: false,
                     counter: counter,
                     closeButton: closeButton,
-                  )
+                  ),
                 ],
                 right: _getActions(contentType, additionalPlayActionsBuilder?.call(context) ?? const [])(),
               );
@@ -542,8 +548,9 @@ class ContentSelectionController<T extends SelectionEntry> extends SelectionCont
   }
 
   static ContentSelectionController<T> _of<T extends SelectionEntry>(BuildContext context) {
-    final widget = context.getElementForInheritedWidgetOfExactType<_ContentSelectionControllerProvider>()!.widget
-        as _ContentSelectionControllerProvider;
+    final widget =
+        context.getElementForInheritedWidgetOfExactType<_ContentSelectionControllerProvider>()!.widget
+            as _ContentSelectionControllerProvider;
     return widget.controller as ContentSelectionController<T>;
   }
 
@@ -599,7 +606,8 @@ class ContentSelectionController<T extends SelectionEntry> extends SelectionCont
         final theme = Theme.of(context);
         await _lastUiSub?.cancel();
         _lastUiSub = null;
-        final to = systemUiOverlayStyle?.call() ??
+        final to =
+            systemUiOverlayStyle?.call() ??
             lastUi.copyWith(
               systemNavigationBarColor: theme.systemUiThemeExtension.grey.systemNavigationBarColor,
             );
@@ -738,14 +746,16 @@ class _SelectionControllerCreatorState<T extends Content> extends State<ContentS
   @override
   void initState() {
     super.initState();
-    initSelectionController(() => ContentSelectionController.create(
-          vsync: AppRouter.instance.navigatorKey.currentState!,
-          context: context,
-          contentType: widget.contentType,
-          closeButton: true,
-          counter: true,
-          ignoreWhen: () => playerRouteController.opened,
-        ));
+    initSelectionController(
+      () => ContentSelectionController.create(
+        vsync: AppRouter.instance.navigatorKey.currentState!,
+        context: context,
+        contentType: widget.contentType,
+        closeButton: true,
+        counter: true,
+        ignoreWhen: () => playerRouteController.opened,
+      ),
+    );
   }
 
   @override
@@ -944,23 +954,25 @@ class SelectionActionsBar extends StatelessWidget {
                       Expanded(
                         child: Material(
                           color: Colors.transparent,
-                          child: HookBuilder(builder: (context) {
-                            final scrollController = useScrollController();
-                            return AppScrollbar(
-                              thumbVisibility: true,
-                              controller: scrollController,
-                              child: ScrollConfiguration(
-                                behavior: const GlowlessScrollBehavior(),
-                                child: ListView.builder(
-                                  controller: scrollController,
-                                  scrollDirection: Axis.horizontal,
-                                  reverse: true,
-                                  itemCount: rightList.length,
-                                  itemBuilder: (context, index) => Center(child: rightList[index]),
+                          child: HookBuilder(
+                            builder: (context) {
+                              final scrollController = useScrollController();
+                              return AppScrollbar(
+                                thumbVisibility: true,
+                                controller: scrollController,
+                                child: ScrollConfiguration(
+                                  behavior: const GlowlessScrollBehavior(),
+                                  child: ListView.builder(
+                                    controller: scrollController,
+                                    scrollDirection: Axis.horizontal,
+                                    reverse: true,
+                                    itemCount: rightList.length,
+                                    itemBuilder: (context, index) => Center(child: rightList[index]),
+                                  ),
                                 ),
-                              ),
-                            );
-                          }),
+                              );
+                            },
+                          ),
                         ),
                       ),
                     ],
@@ -994,14 +1006,17 @@ class EmergeAnimation extends AnimatedWidget {
 
   @override
   Widget build(BuildContext context) {
-    final animation = Tween(
-      begin: begin,
-      end: end,
-    ).animate(CurvedAnimation(
-      parent: listenable,
-      curve: Curves.easeOutCubic,
-      reverseCurve: Curves.easeInCubic,
-    ));
+    final animation =
+        Tween(
+          begin: begin,
+          end: end,
+        ).animate(
+          CurvedAnimation(
+            parent: listenable,
+            curve: Curves.easeOutCubic,
+            reverseCurve: Curves.easeInCubic,
+          ),
+        );
     return ClipRect(
       child: AnimationStrategyBuilder<bool>(
         strategy: const IgnoringStrategy(
@@ -1134,8 +1149,8 @@ class _ActionsSelectionTitle extends StatelessWidget {
           left: selectedTitle
               ? 0.0
               : closeButton
-                  ? 5.0
-                  : 10.0,
+              ? 5.0
+              : 10.0,
         ),
         child: const SelectionCounter(
           textStyle: TextStyle(
@@ -1170,10 +1185,12 @@ class _ActionsSelectionTitle extends StatelessWidget {
                 text: l10n.selected('<counter/>'),
                 style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 17.0),
                 tags: {
-                  'counter': StyledTextWidgetTag(Padding(
-                    padding: const EdgeInsets.only(top: 2, left: 7.0, right: 7.0),
-                    child: counterWidget,
-                  )),
+                  'counter': StyledTextWidgetTag(
+                    Padding(
+                      padding: const EdgeInsets.only(top: 2, left: 7.0, right: 7.0),
+                      child: counterWidget,
+                    ),
+                  ),
                 },
               ),
             ),
@@ -1182,7 +1199,7 @@ class _ActionsSelectionTitle extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(left: counter ? 10.0 : 8.0, bottom: 2.0),
             child: counterWidget,
-          )
+          ),
       ],
     );
   }
@@ -1585,8 +1602,10 @@ class _GoToAlbumSelectionAction extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = getl10n(context);
     final controller = ContentSelectionController._of(context);
-    assert(controller.runtimeType == typeOf<ContentSelectionController<SelectionEntry<Content>>>() ||
-        controller is ContentSelectionController<SelectionEntry<Song>>);
+    assert(
+      controller.runtimeType == typeOf<ContentSelectionController<SelectionEntry<Content>>>() ||
+          controller is ContentSelectionController<SelectionEntry<Song>>,
+    );
     final data = controller.data;
 
     return _ActionBuilder(
@@ -1637,9 +1656,11 @@ class _GoToArtistSelectionAction extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = getl10n(context);
     final controller = ContentSelectionController._of(context);
-    assert(controller.runtimeType == typeOf<ContentSelectionController<SelectionEntry<Content>>>() ||
-        controller is ContentSelectionController<SelectionEntry<Song>> ||
-        controller is ContentSelectionController<SelectionEntry<Album>>);
+    assert(
+      controller.runtimeType == typeOf<ContentSelectionController<SelectionEntry<Content>>>() ||
+          controller is ContentSelectionController<SelectionEntry<Song>> ||
+          controller is ContentSelectionController<SelectionEntry<Album>>,
+    );
     final data = controller.data;
 
     return _ActionBuilder(
@@ -1679,8 +1700,9 @@ class _EditPlaylistSelectionAction extends StatelessWidget {
 
   void _handleTap(ContentSelectionController controller) {
     final playlist = controller.data.first.data as Playlist;
-    HomeRouter.instance
-        .goto(HomeRoutes.playlist.withArguments(PersistentQueueArguments(queue: playlist, editing: true)));
+    HomeRouter.instance.goto(
+      HomeRoutes.playlist.withArguments(PersistentQueueArguments(queue: playlist, editing: true)),
+    );
     controller.close();
   }
 
@@ -1688,8 +1710,10 @@ class _EditPlaylistSelectionAction extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = getl10n(context);
     final controller = ContentSelectionController._of(context);
-    assert(controller.runtimeType == typeOf<ContentSelectionController<SelectionEntry<Content>>>() ||
-        controller is ContentSelectionController<SelectionEntry<Playlist>>);
+    assert(
+      controller.runtimeType == typeOf<ContentSelectionController<SelectionEntry<Content>>>() ||
+          controller is ContentSelectionController<SelectionEntry<Playlist>>,
+    );
     final data = controller.data;
 
     return _ActionBuilder(
@@ -2177,106 +2201,113 @@ class _DeletionArtsPreviewState<T extends Content> extends State<_DeletionArtsPr
       children: [
         AnimatedBuilder(
           animation: controller,
-          builder: (context, child) => LayoutBuilder(builder: (context, constraints) {
-            final double intermediatePreviewsPerRow =
-                math.min(constraints.maxWidth / (itemSize + spacing), maxArts.toDouble());
-            final int previewsPerRow = intermediatePreviewsPerRow.toInt();
-            // The amount of previews to show in "more" grid, so they fill
-            // the entire available space
-            final int gridPreviewsPerRow = intermediatePreviewsPerRow.ceil();
-            final double gridItemSize =
-                (constraints.maxWidth - spacing * (gridPreviewsPerRow - 1)) / gridPreviewsPerRow;
-            final exceeded = widget.list.length > previewsPerRow;
-            final List<T> previews = exceeded
-                ? widget.list.sublist(0, (constraints.maxWidth - correctedMoreTextWidth) ~/ (itemSize + spacing))
-                : widget.list;
-            final length = previews.length + (exceeded ? 1 : 0);
-            final rows = (widget.list.length / gridPreviewsPerRow).ceil();
+          builder: (context, child) => LayoutBuilder(
+            builder: (context, constraints) {
+              final double intermediatePreviewsPerRow = math.min(
+                constraints.maxWidth / (itemSize + spacing),
+                maxArts.toDouble(),
+              );
+              final int previewsPerRow = intermediatePreviewsPerRow.toInt();
+              // The amount of previews to show in "more" grid, so they fill
+              // the entire available space
+              final int gridPreviewsPerRow = intermediatePreviewsPerRow.ceil();
+              final double gridItemSize =
+                  (constraints.maxWidth - spacing * (gridPreviewsPerRow - 1)) / gridPreviewsPerRow;
+              final exceeded = widget.list.length > previewsPerRow;
+              final List<T> previews = exceeded
+                  ? widget.list.sublist(0, (constraints.maxWidth - correctedMoreTextWidth) ~/ (itemSize + spacing))
+                  : widget.list;
+              final length = previews.length + (exceeded ? 1 : 0);
+              final rows = (widget.list.length / gridPreviewsPerRow).ceil();
 
-            final animation = Tween(
-              begin: itemSize,
-              end: math.min(gridItemSize * rows + (rows - 1) * spacing, mediaQuerySize.height / 2),
-            ).animate(CurvedAnimation(
-              curve: Curves.easeOut,
-              reverseCurve: Curves.easeInCubic,
-              parent: controller,
-            ));
+              final animation =
+                  Tween(
+                    begin: itemSize,
+                    end: math.min(gridItemSize * rows + (rows - 1) * spacing, mediaQuerySize.height / 2),
+                  ).animate(
+                    CurvedAnimation(
+                      curve: Curves.easeOut,
+                      reverseCurve: Curves.easeInCubic,
+                      parent: controller,
+                    ),
+                  );
 
-            return GestureDetector(
-              onTap: exceeded ? _handleMoreTap : null,
-              child: SizedBox(
-                height: animation.value,
-                width: constraints.maxWidth,
-                child: ScrollConfiguration(
-                  behavior: const GlowlessScrollBehavior(),
-                  child: AnimatedSwitcher(
-                    layoutBuilder: (Widget? currentChild, List<Widget> previousChildren) {
-                      return Stack(
-                        alignment: Alignment.topCenter,
-                        children: <Widget>[
-                          ...previousChildren,
-                          if (currentChild != null) currentChild,
-                        ],
-                      );
-                    },
-                    duration: animationDuration,
-                    child: !showMore
-                        ? SizedBox(
-                            height: itemSize,
-                            width: constraints.maxWidth,
-                            child: ListView.separated(
-                              itemCount: length,
-                              itemBuilder: (context, index) {
-                                if (!exceeded || index != length - 1) {
-                                  return _buildArt(previews[index], itemSize);
-                                }
-                                return Container(
-                                  width: correctedMoreTextWidth,
-                                  height: itemSize,
-                                  alignment: Alignment.center,
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 10.0,
-                                      horizontal: 10.0,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: theme.colorScheme.onSecondaryContainer,
-                                      borderRadius: const BorderRadius.all(Radius.circular(100.0)),
-                                    ),
-                                    child: Text(
-                                      l10n.andNMore(widget.list.length - previews.length),
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 14.0,
-                                        height: 1,
-                                        fontWeight: FontWeight.w800,
-                                        color: theme.colorScheme.secondaryContainer,
+              return GestureDetector(
+                onTap: exceeded ? _handleMoreTap : null,
+                child: SizedBox(
+                  height: animation.value,
+                  width: constraints.maxWidth,
+                  child: ScrollConfiguration(
+                    behavior: const GlowlessScrollBehavior(),
+                    child: AnimatedSwitcher(
+                      layoutBuilder: (Widget? currentChild, List<Widget> previousChildren) {
+                        return Stack(
+                          alignment: Alignment.topCenter,
+                          children: <Widget>[
+                            ...previousChildren,
+                            if (currentChild != null) currentChild,
+                          ],
+                        );
+                      },
+                      duration: animationDuration,
+                      child: !showMore
+                          ? SizedBox(
+                              height: itemSize,
+                              width: constraints.maxWidth,
+                              child: ListView.separated(
+                                itemCount: length,
+                                itemBuilder: (context, index) {
+                                  if (!exceeded || index != length - 1) {
+                                    return _buildArt(previews[index], itemSize);
+                                  }
+                                  return Container(
+                                    width: correctedMoreTextWidth,
+                                    height: itemSize,
+                                    alignment: Alignment.center,
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 10.0,
+                                        horizontal: 10.0,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: theme.colorScheme.onSecondaryContainer,
+                                        borderRadius: const BorderRadius.all(Radius.circular(100.0)),
+                                      ),
+                                      child: Text(
+                                        l10n.andNMore(widget.list.length - previews.length),
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 14.0,
+                                          height: 1,
+                                          fontWeight: FontWeight.w800,
+                                          color: theme.colorScheme.secondaryContainer,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                );
-                              },
-                              separatorBuilder: (context, index) => const SizedBox(width: spacing),
-                              scrollDirection: Axis.horizontal,
-                            ),
-                          )
-                        : SizedBox(
-                            width: constraints.maxWidth,
-                            child: GridView.builder(
-                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: gridPreviewsPerRow,
-                                crossAxisSpacing: spacing,
-                                mainAxisSpacing: spacing,
+                                  );
+                                },
+                                separatorBuilder: (context, index) => const SizedBox(width: spacing),
+                                scrollDirection: Axis.horizontal,
                               ),
-                              itemBuilder: (context, index) => _buildArt(widget.list[index], gridItemSize),
-                              itemCount: widget.list.length,
+                            )
+                          : SizedBox(
+                              width: constraints.maxWidth,
+                              child: GridView.builder(
+                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: gridPreviewsPerRow,
+                                  crossAxisSpacing: spacing,
+                                  mainAxisSpacing: spacing,
+                                ),
+                                itemBuilder: (context, index) => _buildArt(widget.list[index], gridItemSize),
+                                itemCount: widget.list.length,
+                              ),
                             ),
-                          ),
+                    ),
                   ),
                 ),
-              ),
-            );
-          }),
+              );
+            },
+          ),
         ),
       ],
     );

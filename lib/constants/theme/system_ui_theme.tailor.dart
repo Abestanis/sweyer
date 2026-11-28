@@ -47,8 +47,11 @@ mixin _$SystemUiThemeTailorMixin on ThemeExtension<SystemUiTheme> {
       drawerScreen: t < 0.5 ? drawerScreen : other.drawerScreen,
       bottomSheet: t < 0.5 ? bottomSheet : other.bottomSheet,
       modal: t < 0.5 ? modal : other.modal,
-      modalOverGreySystemNavigationBarColor:
-          Color.lerp(modalOverGreySystemNavigationBarColor, other.modalOverGreySystemNavigationBarColor, t)!,
+      modalOverGreySystemNavigationBarColor: Color.lerp(
+        modalOverGreySystemNavigationBarColor,
+        other.modalOverGreySystemNavigationBarColor,
+        t,
+      )!,
     );
   }
 
@@ -62,8 +65,10 @@ mixin _$SystemUiThemeTailorMixin on ThemeExtension<SystemUiTheme> {
             const DeepCollectionEquality().equals(drawerScreen, other.drawerScreen) &&
             const DeepCollectionEquality().equals(bottomSheet, other.bottomSheet) &&
             const DeepCollectionEquality().equals(modal, other.modal) &&
-            const DeepCollectionEquality()
-                .equals(modalOverGreySystemNavigationBarColor, other.modalOverGreySystemNavigationBarColor) &&
+            const DeepCollectionEquality().equals(
+              modalOverGreySystemNavigationBarColor,
+              other.modalOverGreySystemNavigationBarColor,
+            ) &&
             const DeepCollectionEquality().equals(modalOverGrey, other.modalOverGrey));
   }
 

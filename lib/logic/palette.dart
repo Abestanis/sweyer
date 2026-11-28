@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:palette_generator/palette_generator.dart';
 
 Future<PaletteGenerator> createPalette(EncodedImage image) => PaletteGenerator.fromByteData(
-      image,
-      maximumColorCount: 100,
-    );
+  image,
+  maximumColorCount: 100,
+);
 
 /// A widget that draws the swatches for the [PaletteGenerator] it is given,
 /// and shows the selected target colors.
@@ -73,8 +73,8 @@ class PaletteSwatch extends StatelessWidget {
     super.key,
     PaletteColor? color,
     this.label,
-  })  : paletteColor = color,
-        color = null;
+  }) : paletteColor = color,
+       color = null;
 
   /// The color of the swatch.
   final Color? color;

@@ -95,21 +95,23 @@ class IOSSweyerPlugin extends SweyerPluginPlatform {
   Future<Iterable<Map<String, dynamic>>> retrieveSongs() {
     return _handlePlatformErrors(() async {
       final songs = await _retrieveSongsOnce();
-      return songs.map((song) {
-        return <String, dynamic>{
-          'id': _id(song.songID),
-          'title': song.title,
-          'artist': song.artistName,
-          'album': song.albumTitle.isEmpty ? null : song.albumTitle,
-          'albumId': _optionalId(song.albumID),
-          'artistId': _artistId(song),
-          'genre': song.genre.isEmpty ? null : song.genre,
-          'genreId': _optionalId(song.genreID),
-          'track': song.trackNumber == 0 ? null : song.trackNumber.toString(),
-          'dateAdded': song.dateAdded.millisecondsSinceEpoch ~/ Duration.millisecondsPerSecond,
-          'duration': (song.duration * 1000).round(),
-        };
-      }).toList(growable: false);
+      return songs
+          .map((song) {
+            return <String, dynamic>{
+              'id': _id(song.songID),
+              'title': song.title,
+              'artist': song.artistName,
+              'album': song.albumTitle.isEmpty ? null : song.albumTitle,
+              'albumId': _optionalId(song.albumID),
+              'artistId': _artistId(song),
+              'genre': song.genre.isEmpty ? null : song.genre,
+              'genreId': _optionalId(song.genreID),
+              'track': song.trackNumber == 0 ? null : song.trackNumber.toString(),
+              'dateAdded': song.dateAdded.millisecondsSinceEpoch ~/ Duration.millisecondsPerSecond,
+              'duration': (song.duration * 1000).round(),
+            };
+          })
+          .toList(growable: false);
     });
   }
 

@@ -105,11 +105,12 @@ class _ThemeSettingsRouteState extends State<ThemeSettingsRoute> with SingleTick
                 scrollDirection: Axis.horizontal,
                 itemCount: colors.length,
                 itemBuilder: (context, idx) => ColorItem(
-                    color: colors[idx],
-                    active: colors[idx] == primaryColor,
-                    onTap: () {
-                      _handleColorTap(colors[idx]);
-                    }),
+                  color: colors[idx],
+                  active: colors[idx] == primaryColor,
+                  onTap: () {
+                    _handleColorTap(colors[idx]);
+                  },
+                ),
                 separatorBuilder: (context, idx) => const SizedBox(
                   width: 20.0,
                 ),

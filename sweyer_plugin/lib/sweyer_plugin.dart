@@ -60,8 +60,7 @@ class SweyerPlugin {
     required String uri,
     required Size size,
     required CancellationSignal signal,
-  }) async =>
-      await SweyerPluginPlatform.instance.loadAlbumArt(uri: uri, size: size, cancellationSignalId: signal._id);
+  }) async => await SweyerPluginPlatform.instance.loadAlbumArt(uri: uri, size: size, cancellationSignalId: signal._id);
 
   /// Tries to tell the system to recreate album art by [albumId].
   ///
@@ -79,9 +78,9 @@ class SweyerPlugin {
       (await SweyerPluginPlatform.instance.retrieveSongs()).map(factory).nonNulls;
 
   Future<Map<int, T>> retrieveAlbums<T extends PlatformAlbum>(DataFactory<T> factory) async => Map.fromIterable(
-        (await SweyerPluginPlatform.instance.retrieveAlbums()).map(factory).nonNulls,
-        key: (album) => album.id,
-      );
+    (await SweyerPluginPlatform.instance.retrieveAlbums()).map(factory).nonNulls,
+    key: (album) => album.id,
+  );
 
   Future<Iterable<T>> retrievePlaylists<T extends PlatformPlaylist>(DataFactory<T> factory) async =>
       (await SweyerPluginPlatform.instance.retrievePlaylists()).map(factory).nonNulls;
@@ -109,7 +108,8 @@ class SweyerPlugin {
   /// Throws:
   ///  * [SweyerPluginChannelException.intentSender]
   Future<bool> deleteSongs(Set<PlatformSong> songs) => SweyerPluginPlatform.instance.deleteSongs(
-      songs.map((song) => {'id': song.sourceId, 'filesystemPath': song.filesystemPath}).toList(growable: false));
+    songs.map((song) => {'id': song.sourceId, 'filesystemPath': song.filesystemPath}).toList(growable: false),
+  );
 
   Future<void> createPlaylist(String name) => SweyerPluginPlatform.instance.createPlaylist(name);
 

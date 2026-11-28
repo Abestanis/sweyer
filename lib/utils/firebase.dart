@@ -11,25 +11,23 @@ Future<void> reportErrorToFirebase(
   StackTrace? stack, {
   dynamic reason,
   Iterable<Object> information = const [],
-}) =>
-    _getCrashlytics().recordError(
-      exception,
-      stack,
-      reason: reason,
-      fatal: false,
-      printDetails: true,
-    );
+}) => _getCrashlytics().recordError(
+  exception,
+  stack,
+  reason: reason,
+  fatal: false,
+  printDetails: true,
+);
 
 Future<void> reportFatalErrorToFirebase(
   dynamic exception,
   StackTrace? stack, {
   dynamic reason,
   Iterable<Object> information = const [],
-}) =>
-    _getCrashlytics().recordError(
-      exception,
-      stack,
-      reason: reason,
-      fatal: true,
-      printDetails: true,
-    );
+}) => _getCrashlytics().recordError(
+  exception,
+  stack,
+  reason: reason,
+  fatal: true,
+  printDetails: true,
+);

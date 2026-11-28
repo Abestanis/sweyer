@@ -66,12 +66,14 @@ class _ArtistRouteState extends State<ArtistRoute> with TickerProviderStateMixin
     );
     scrollController.addListener(_handleScroll);
 
-    initSelectionController(() => ContentSelectionController.create(
-          vsync: AppRouter.instance.navigatorKey.currentState!,
-          context: context,
-          closeButton: true,
-          ignoreWhen: () => playerRouteController.opened,
-        ));
+    initSelectionController(
+      () => ContentSelectionController.create(
+        vsync: AppRouter.instance.navigatorKey.currentState!,
+        context: context,
+        closeButton: true,
+        ignoreWhen: () => playerRouteController.opened,
+      ),
+    );
 
     _contentChangeSubscription = ContentControl.instance.onContentChange.listen(_handleContentChange);
   }
@@ -157,7 +159,7 @@ class _ArtistRouteState extends State<ArtistRoute> with TickerProviderStateMixin
                           gradient: LinearGradient(
                             colors: [
                               theme.colorScheme.secondaryContainer.withValues(alpha: 0.0),
-                              theme.colorScheme.secondaryContainer
+                              theme.colorScheme.secondaryContainer,
                             ],
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
@@ -265,7 +267,8 @@ class _ArtistRouteState extends State<ArtistRoute> with TickerProviderStateMixin
         builder: (context, constraints) {
           /// The height to add at the end of the scroll view to make the top info part of the route
           /// always be fully scrollable, even if there's not enough content for that.
-          var additionalHeight = constraints.maxHeight - //
+          var additionalHeight =
+              constraints.maxHeight - //
               _fullAppBarHeight - //
               kSongTileHeight(context) * math.min(songs.length, 5) - //
               _sectionTitleHeight;
@@ -335,8 +338,10 @@ class _ArtistRouteState extends State<ArtistRoute> with TickerProviderStateMixin
                                       return PersistentQueueTile<Album>.selectable(
                                         queue: albums[index],
                                         selectionIndex: index,
-                                        selected: selectionController.data
-                                                .firstWhereOrNull((el) => el.data == albums[index]) !=
+                                        selected:
+                                            selectionController.data.firstWhereOrNull(
+                                              (el) => el.data == albums[index],
+                                            ) !=
                                             null,
                                         selectionController: selectionController,
                                         grid: true,

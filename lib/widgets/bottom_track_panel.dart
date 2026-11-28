@@ -105,7 +105,7 @@ class TrackPanel extends StatelessWidget {
                               iconSize: 19.0,
                             ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),

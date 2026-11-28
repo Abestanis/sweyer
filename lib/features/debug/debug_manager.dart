@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sweyer/sweyer.dart';
 
-final debugManagerProvider = Provider(
-  (ref) => DebugManager(),
-);
+final debugManagerProvider = Provider((ref) => DebugManager());
 
 class DebugManager {
   OverlayEntry? _entry;

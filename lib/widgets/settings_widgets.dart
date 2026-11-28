@@ -58,7 +58,7 @@ class SettingItem extends StatelessWidget {
               ),
             ),
           //******** Content ********
-          content
+          content,
         ],
       ),
     );

@@ -96,10 +96,10 @@ class SongsDatabase {
   /// Named with [_tableName].
   /// Introduced in version `1`.
   Future<Table<SqlSong>> get table async => Table(
-        name: _tableName,
-        database: await _database,
-        factory: (data) => SqlSong.fromMap(data),
-      );
+    name: _tableName,
+    database: await _database,
+    factory: (data) => SqlSong.fromMap(data),
+  );
 }
 
 class Table<T extends SqlSong> {
@@ -160,11 +160,11 @@ class SqlSong {
     required this.id,
     required this.origin,
   }) : assert(() {
-          if (origin is Album) {
-            return true;
-          }
-          throw UnimplementedError();
-        }());
+         if (origin is Album) {
+           return true;
+         }
+         throw UnimplementedError();
+       }());
 
   factory SqlSong.fromSong(Song song) {
     return SqlSong(

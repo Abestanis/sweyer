@@ -85,14 +85,17 @@ class _SeekbarState extends State<Seekbar> with SingleTickerProviderStateMixin {
       vsync: this,
       duration: const Duration(milliseconds: 200),
     );
-    thumbSizeAnimation = Tween(
-      begin: 7.0,
-      end: 9.0,
-    ).animate(CurvedAnimation(
-      curve: Curves.easeOutCubic,
-      reverseCurve: Curves.easeInCubic,
-      parent: animationController,
-    ));
+    thumbSizeAnimation =
+        Tween(
+          begin: 7.0,
+          end: 9.0,
+        ).animate(
+          CurvedAnimation(
+            curve: Curves.easeOutCubic,
+            reverseCurve: Curves.easeInCubic,
+            parent: animationController,
+          ),
+        );
   }
 
   @override

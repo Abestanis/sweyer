@@ -145,9 +145,15 @@ void main() {
 
       // Drag on the scrollbar should show a label until the drag is finished
       await tester.fling(
-          find.byType(ContentListView), const Offset(0, -100), 1.0); // Fling to make the scrollbar visible
-      await tester.timedDragFrom(tester.getTopRight(find.byType(ContentListView)) + const Offset(-2, 10),
-          const Offset(-100, -100), Durations.medium2);
+        find.byType(ContentListView),
+        const Offset(0, -100),
+        1.0,
+      ); // Fling to make the scrollbar visible
+      await tester.timedDragFrom(
+        tester.getTopRight(find.byType(ContentListView)) + const Offset(-2, 10),
+        const Offset(-100, -100),
+        Durations.medium2,
+      );
       expect(find.byType(NFScrollLabel), findsOneWidget);
       await tester.pumpAndSettle();
       expect(find.byType(NFScrollLabel), findsNothing);
@@ -216,8 +222,10 @@ void main() {
       expect(find.text(l10n.nothingHere), findsOneWidget);
 
       // Add favourites
-      await FakeFavoritesControl.instance
-          .setFavorite(contentTuple: ContentTuple(songs: [favoriteSong1, favoriteSong2]), value: true);
+      await FakeFavoritesControl.instance.setFavorite(
+        contentTuple: ContentTuple(songs: [favoriteSong1, favoriteSong2]),
+        value: true,
+      );
       await tester.pumpAndSettle();
       tester.expectSongTiles([favoriteSong1, favoriteSong2]);
 
@@ -239,7 +247,7 @@ void main() {
         notFavoriteAlbum1Song1,
         notFavoriteAlbum1Song2,
         favoriteAlbum2Song3,
-        favoriteAlbum2Song4
+        favoriteAlbum2Song4,
       ];
       FakeSweyerPluginPlatform.instance.albums = [notFavoriteAlbum1, favoriteAlbum2];
     });
@@ -258,8 +266,10 @@ void main() {
       expect(find.text(l10n.nothingHere), findsOneWidget);
 
       // Add favourites
-      await FakeFavoritesControl.instance
-          .setFavorite(contentTuple: ContentTuple(albums: [favoriteAlbum2]), value: true);
+      await FakeFavoritesControl.instance.setFavorite(
+        contentTuple: ContentTuple(albums: [favoriteAlbum2]),
+        value: true,
+      );
       await tester.pumpAndSettle();
       expect(
         tester.widgetList<ContentTile>(find.byType(ContentTile)).map((album) => album.content as Album).toList(),
@@ -277,15 +287,17 @@ void main() {
     final notFavoritePlaylist1Song2 = songWith(id: 1);
     final favoritePlaylist2Song3 = songWith(id: 2);
     final favoritePlaylist2Song4 = songWith(id: 3);
-    final notFavoritePlaylist1 =
-        playlistWith(id: 0, songIds: [notFavoritePlaylist1Song1.id, notFavoritePlaylist1Song2.id]);
+    final notFavoritePlaylist1 = playlistWith(
+      id: 0,
+      songIds: [notFavoritePlaylist1Song1.id, notFavoritePlaylist1Song2.id],
+    );
     final favoritePlaylist2 = playlistWith(id: 1, songIds: [favoritePlaylist2Song3.id, favoritePlaylist2Song4.id]);
     registerAppSetup(() {
       FakeSweyerPluginPlatform.instance.songs = [
         notFavoritePlaylist1Song1,
         notFavoritePlaylist1Song2,
         favoritePlaylist2Song3,
-        favoritePlaylist2Song4
+        favoritePlaylist2Song4,
       ];
       FakeSweyerPluginPlatform.instance.playlists = [notFavoritePlaylist1, favoritePlaylist2];
     });
@@ -307,8 +319,10 @@ void main() {
       expect(find.text(l10n.nothingHere), findsOneWidget);
 
       // Add favourites
-      await FakeFavoritesControl.instance
-          .setFavorite(contentTuple: ContentTuple(playlists: [favoritePlaylist2]), value: true);
+      await FakeFavoritesControl.instance.setFavorite(
+        contentTuple: ContentTuple(playlists: [favoritePlaylist2]),
+        value: true,
+      );
       await tester.pumpAndSettle();
       expect(
         tester
@@ -336,7 +350,7 @@ void main() {
         notFavoriteArtist1Song1,
         notFavoriteArtist1Song2,
         favoriteArtist2Song3,
-        favoriteArtist2Song4
+        favoriteArtist2Song4,
       ];
       FakeSweyerPluginPlatform.instance.artists = [notFavoriteArtist1, favoriteArtist2];
     });
@@ -355,8 +369,10 @@ void main() {
       expect(find.text(l10n.nothingHere), findsOneWidget);
 
       // Add favourites
-      await FakeFavoritesControl.instance
-          .setFavorite(contentTuple: ContentTuple(artists: [favoriteArtist2]), value: true);
+      await FakeFavoritesControl.instance.setFavorite(
+        contentTuple: ContentTuple(artists: [favoriteArtist2]),
+        value: true,
+      );
       await tester.pumpAndSettle();
       expect(
         tester.widgetList<ContentTile>(find.byType(ContentTile)).map((album) => album.content as Artist).toList(),

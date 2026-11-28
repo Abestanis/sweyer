@@ -94,8 +94,8 @@ class AppButton extends StatefulWidget {
     this.loading = false,
     this.verticalPadding = 0.0,
     this.horizontalPadding = kHorizontalPadding,
-  })  : type = AppButtonType.elevated,
-        popResult = _emptyPopResult;
+  }) : type = AppButtonType.elevated,
+       popResult = _emptyPopResult;
 
   const AppButton.flat({
     super.key,
@@ -111,8 +111,8 @@ class AppButton extends StatefulWidget {
     this.loading = false,
     this.verticalPadding = 0.0,
     this.horizontalPadding = kHorizontalPadding,
-  })  : type = AppButtonType.flat,
-        popResult = _emptyPopResult;
+  }) : type = AppButtonType.flat,
+       popResult = _emptyPopResult;
 
   /// Will automatically pop using its context, [onPressed] still will be called.
   const AppButton.pop({
@@ -193,9 +193,9 @@ class _AppButtonState extends State<AppButton> with SingleTickerProviderStateMix
         };
 
   EdgeInsets get padding => EdgeInsets.symmetric(
-        vertical: widget.verticalPadding,
-        horizontal: widget.horizontalPadding,
-      );
+    vertical: widget.verticalPadding,
+    horizontal: widget.horizontalPadding,
+  );
 
   @override
   void didUpdateWidget(covariant AppButton oldWidget) {
@@ -217,22 +217,28 @@ class _AppButtonState extends State<AppButton> with SingleTickerProviderStateMix
   void didChangeDependencies() {
     super.didChangeDependencies();
     final theme = Theme.of(context);
-    colorAnimation = ColorTween(
-      begin: theme.colorScheme.onSurface.withValues(alpha: 0.12),
-      end: widget.color ?? defaultColor,
-    ).animate(CurvedAnimation(
-      parent: controller,
-      curve: Curves.easeOut,
-      reverseCurve: Curves.easeIn,
-    ));
-    textColorAnimation = ColorTween(
-      begin: theme.colorScheme.onSurface.withValues(alpha: 0.38),
-      end: widget.textColor ?? defaultTextColor,
-    ).animate(CurvedAnimation(
-      parent: controller,
-      curve: Curves.easeOut,
-      reverseCurve: Curves.easeIn,
-    ));
+    colorAnimation =
+        ColorTween(
+          begin: theme.colorScheme.onSurface.withValues(alpha: 0.12),
+          end: widget.color ?? defaultColor,
+        ).animate(
+          CurvedAnimation(
+            parent: controller,
+            curve: Curves.easeOut,
+            reverseCurve: Curves.easeIn,
+          ),
+        );
+    textColorAnimation =
+        ColorTween(
+          begin: theme.colorScheme.onSurface.withValues(alpha: 0.38),
+          end: widget.textColor ?? defaultTextColor,
+        ).animate(
+          CurvedAnimation(
+            parent: controller,
+            curve: Curves.easeOut,
+            reverseCurve: Curves.easeIn,
+          ),
+        );
   }
 
   Widget _buildText() {
@@ -272,21 +278,21 @@ class _AppButtonState extends State<AppButton> with SingleTickerProviderStateMix
             ),
           )
         : widget.icon == null
-            ? _buildText()
-            : Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  widget.icon!,
-                  const SizedBox(width: 6.0),
-                  Flexible(
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 1.0),
-                      child: _buildText(),
-                    ),
-                  ),
-                  const SizedBox(width: 8.0),
-                ],
-              );
+        ? _buildText()
+        : Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              widget.icon!,
+              const SizedBox(width: 6.0),
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 1.0),
+                  child: _buildText(),
+                ),
+              ),
+              const SizedBox(width: 8.0),
+            ],
+          );
   }
 
   Widget _buildElevated() {
@@ -294,24 +300,31 @@ class _AppButtonState extends State<AppButton> with SingleTickerProviderStateMix
     return ElevatedButton(
       child: _buildChild(),
       onPressed: onPressed,
-      style: const ElevatedButton(child: null, onPressed: null).defaultStyleOf(context).copyWith(
+      style: const ElevatedButton(child: null, onPressed: null)
+          .defaultStyleOf(context)
+          .copyWith(
             animationDuration: Duration.zero,
             backgroundColor: WidgetStateProperty.all(colorAnimation.value),
             padding: WidgetStateProperty.all(padding),
-            shape: WidgetStateProperty.all(RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(widget.borderRadius),
-            )),
+            shape: WidgetStateProperty.all(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(widget.borderRadius),
+              ),
+            ),
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             foregroundColor: WidgetStateProperty.all(textColorAnimation.value),
-            overlayColor:
-                WidgetStateProperty.all(widget.splashColor ?? theme.appThemeExtension.glowSplashColorOnContrast),
+            overlayColor: WidgetStateProperty.all(
+              widget.splashColor ?? theme.appThemeExtension.glowSplashColorOnContrast,
+            ),
             splashFactory: NFListTileInkRipple.splashFactory,
             shadowColor: WidgetStateProperty.all(Colors.transparent),
-            textStyle: WidgetStateProperty.all(TextStyle(
-              fontFamily: theme.textTheme.displayLarge!.fontFamily,
-              fontWeight: widget.fontWeight,
-              fontSize: widget.fontSize,
-            )),
+            textStyle: WidgetStateProperty.all(
+              TextStyle(
+                fontFamily: theme.textTheme.displayLarge!.fontFamily,
+                fontWeight: widget.fontWeight,
+                fontSize: widget.fontSize,
+              ),
+            ),
           ),
     );
   }
@@ -321,23 +334,30 @@ class _AppButtonState extends State<AppButton> with SingleTickerProviderStateMix
     return TextButton(
       child: _buildChild(),
       onPressed: onPressed,
-      style: const TextButton(child: SizedBox.shrink(), onPressed: null).defaultStyleOf(context).copyWith(
+      style: const TextButton(child: SizedBox.shrink(), onPressed: null)
+          .defaultStyleOf(context)
+          .copyWith(
             animationDuration: Duration.zero,
             padding: WidgetStateProperty.all(padding),
-            shape: WidgetStateProperty.all(RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(widget.borderRadius),
-            )),
+            shape: WidgetStateProperty.all(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(widget.borderRadius),
+              ),
+            ),
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             foregroundColor: WidgetStateProperty.all(textColorAnimation.value),
-            overlayColor:
-                WidgetStateProperty.all(widget.splashColor ?? theme.appThemeExtension.glowSplashColorOnContrast),
+            overlayColor: WidgetStateProperty.all(
+              widget.splashColor ?? theme.appThemeExtension.glowSplashColorOnContrast,
+            ),
             splashFactory: NFListTileInkRipple.splashFactory,
             shadowColor: WidgetStateProperty.all(Colors.transparent),
-            textStyle: WidgetStateProperty.all(TextStyle(
-              fontFamily: theme.textTheme.displayLarge!.fontFamily,
-              fontWeight: widget.fontWeight,
-              fontSize: widget.fontSize,
-            )),
+            textStyle: WidgetStateProperty.all(
+              TextStyle(
+                fontFamily: theme.textTheme.displayLarge!.fontFamily,
+                fontWeight: widget.fontWeight,
+                fontSize: widget.fontSize,
+              ),
+            ),
           ),
     );
   }

@@ -306,8 +306,9 @@ class ContentArtLoadBuilder extends StatelessWidget {
           case PlayerInterfaceColorStyle.artColor:
             return Consumer(
               builder: (context, ref, child) {
-                final playerInterfaceColorStyleArtColorBuilder =
-                    ref.watch(playerInterfaceColorStyleArtColorBuilderProvider);
+                final playerInterfaceColorStyleArtColorBuilder = ref.watch(
+                  playerInterfaceColorStyleArtColorBuilderProvider,
+                );
                 return builder(playerInterfaceColorStyleArtColorBuilder.buildOnLoad(context));
               },
             );

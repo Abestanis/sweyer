@@ -12,8 +12,9 @@ import '../test.dart';
 
 void main() {
   group('permissions screen', () {
-    testWidgets('shows if no permissions were granted and pressing the button requests permissions',
-        (WidgetTester tester) async {
+    testWidgets('shows if no permissions were granted and pressing the button requests permissions', (
+      WidgetTester tester,
+    ) async {
       late PermissionsChannelObserver permissionsObserver;
       registerAppSetup(() {
         permissionsObserver = PermissionsChannelObserver(tester.binding.defaultBinaryMessenger);
@@ -21,16 +22,20 @@ void main() {
         permissionsObserver.setPermission(Permission.audio, PermissionStatus.denied);
       });
       await tester.runAppTest(() async {
-        expect(permissionsObserver.checkedPermissions, [Permission.storage],
-            reason: 'Should always check the storage and audio permission on startup');
+        expect(permissionsObserver.checkedPermissions, [
+          Permission.storage,
+        ], reason: 'Should always check the storage and audio permission on startup');
         expect(find.byType(Home), findsNothing, reason: 'Permissions are not granted yet');
         final permissionGrantCompleter = Completer<PermissionStatus>();
         permissionsObserver.setPermissionResolvable(Permission.storage, () => permissionGrantCompleter.future);
         await tester.tap(find.text(l10n.grant));
         expect(permissionsObserver.requestedPermissions, [Permission.storage, Permission.audio]);
         await tester.pump();
-        expect(find.byType(CircularProgressIndicator), findsOneWidget,
-            reason: 'Indicate while waiting for the permission to be granted');
+        expect(
+          find.byType(CircularProgressIndicator),
+          findsOneWidget,
+          reason: 'Indicate while waiting for the permission to be granted',
+        );
         permissionGrantCompleter.complete(PermissionStatus.granted);
         // Granting permissions calls `ContentControl.init`, which triggers a bunch of stream callbacks.
         // To make sure all callbacks get executed, `runAsync` is used.
@@ -98,7 +103,7 @@ void main() {
         expect(toastObserver.toastMessagesLog, [
           l10n.allowAccessToExternalStorageManually,
           l10n.openAppSettingsError,
-          l10n.allowAccessToExternalStorageManually
+          l10n.allowAccessToExternalStorageManually,
         ]);
       });
     });
@@ -119,8 +124,11 @@ void main() {
           await tester.tap(find.text(l10n.grant));
           expect(permissionsObserver.requestedPermissions, [Permission.mediaLibrary]);
           await tester.pump();
-          expect(find.byType(CircularProgressIndicator), findsOneWidget,
-              reason: 'Indicate while waiting for the permission to be granted');
+          expect(
+            find.byType(CircularProgressIndicator),
+            findsOneWidget,
+            reason: 'Indicate while waiting for the permission to be granted',
+          );
           permissionGrantCompleter.complete(PermissionStatus.granted);
           await tester.runAsync(tester.pumpAndSettle);
           expect(find.byType(Home), findsOneWidget);
@@ -131,8 +139,9 @@ void main() {
     });
   });
 
-  testWidgets('searching screen - shows when permissions are granted and searching for tracks',
-      (WidgetTester tester) async {
+  testWidgets('searching screen - shows when permissions are granted and searching for tracks', (
+    WidgetTester tester,
+  ) async {
     late PermissionsChannelObserver permissionsObserver;
     final songsCompleter = Completer<Iterable<Map<String, dynamic>>>();
     registerAppSetup(() {
@@ -196,8 +205,9 @@ void main() {
     });
   });
 
-  testWidgets('home screen - shows when permissions are granted and not searching for tracks',
-      (WidgetTester tester) async {
+  testWidgets('home screen - shows when permissions are granted and not searching for tracks', (
+    WidgetTester tester,
+  ) async {
     late AppWidgetChannelObserver appWidgetChannelObserver;
     registerAppSetup(() {
       appWidgetChannelObserver = AppWidgetChannelObserver(tester.binding.defaultBinaryMessenger);
@@ -217,8 +227,9 @@ void main() {
     });
   });
 
-  testWidgets('no songs screen - shows when the library is empty and pressing the button performs refetching',
-      (WidgetTester tester) async {
+  testWidgets('no songs screen - shows when the library is empty and pressing the button performs refetching', (
+    WidgetTester tester,
+  ) async {
     registerAppSetup(() {
       FakeSweyerPluginPlatform.instance.songs = [];
     });
@@ -246,8 +257,10 @@ void main() {
       expect(systemObserver.closeRequests, 0, reason: 'The app must not close after showing the toast');
       await tester.binding.delayed(Config.backPressCloseTimeout + const Duration(milliseconds: 1));
       await tester.binding.runAsync(BackButtonInterceptor.popRoute);
-      expect(toastObserver.toastMessagesLog, [l10n.pressOnceAgainToExit, l10n.pressOnceAgainToExit],
-          reason: 'The previous message timed out');
+      expect(toastObserver.toastMessagesLog, [
+        l10n.pressOnceAgainToExit,
+        l10n.pressOnceAgainToExit,
+      ], reason: 'The previous message timed out');
       expect(systemObserver.closeRequests, 0, reason: 'The app must not close after showing the toast');
       await tester.binding.delayed(Config.backPressCloseTimeout - const Duration(milliseconds: 1));
       await BackButtonInterceptor.popRoute();
@@ -271,8 +284,9 @@ void main() {
     testWidgets('for the normal text scale', (WidgetTester tester) async {
       await tester.runAppTest(() async {
         final tabBarTop = tester.getBottomLeft(find.byType(TabBar)).dy;
-        final trackPanelTop =
-            tester.getTopLeft(find.descendant(of: find.byType(PlayerRoute), matching: find.byType(TrackPanel))).dy;
+        final trackPanelTop = tester
+            .getTopLeft(find.descendant(of: find.byType(PlayerRoute), matching: find.byType(TrackPanel)))
+            .dy;
         expect(tabBarTop, trackPanelTop);
       });
     });
@@ -281,8 +295,9 @@ void main() {
       tester.binding.platformDispatcher.textScaleFactorTestValue = 1.2; // 2.5;
       await tester.runAppTest(() async {
         final tabBarTop = tester.getBottomLeft(find.byType(TabBar)).dy;
-        final trackPanelTop =
-            tester.getTopLeft(find.descendant(of: find.byType(PlayerRoute), matching: find.byType(TrackPanel))).dy;
+        final trackPanelTop = tester
+            .getTopLeft(find.descendant(of: find.byType(PlayerRoute), matching: find.byType(TrackPanel)))
+            .dy;
         expect(tabBarTop, trackPanelTop);
       });
     });
@@ -290,18 +305,21 @@ void main() {
       tester.binding.platformDispatcher.textScaleFactorTestValue = 0.5;
       await tester.runAppTest(() async {
         final tabBarTop = tester.getBottomLeft(find.byType(TabBar)).dy;
-        final trackPanelTop =
-            tester.getTopLeft(find.descendant(of: find.byType(PlayerRoute), matching: find.byType(TrackPanel))).dy;
+        final trackPanelTop = tester
+            .getTopLeft(find.descendant(of: find.byType(PlayerRoute), matching: find.byType(TrackPanel)))
+            .dy;
         expect(tabBarTop, trackPanelTop);
       });
     });
   });
 
-  testWidgets('Allows changing settings when uninitialized and no permissions were granted',
-      (WidgetTester tester) async {
+  testWidgets('Allows changing settings when uninitialized and no permissions were granted', (
+    WidgetTester tester,
+  ) async {
     registerAppSetup(() {
-      PermissionsChannelObserver permissionsObserver =
-          PermissionsChannelObserver(tester.binding.defaultBinaryMessenger);
+      PermissionsChannelObserver permissionsObserver = PermissionsChannelObserver(
+        tester.binding.defaultBinaryMessenger,
+      );
       permissionsObserver.setPermission(Permission.storage, PermissionStatus.denied);
       permissionsObserver.setPermission(Permission.audio, PermissionStatus.denied);
     });

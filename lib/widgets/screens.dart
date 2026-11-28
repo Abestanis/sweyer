@@ -35,7 +35,7 @@ class CenterContentScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 15.0),
                 child: widget,
-              )
+              ),
             ],
           ),
           Positioned(

@@ -45,6 +45,9 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
+# Widget Preview related
+.widget_preview/
+
 # gen_l10n untranslated messages output, see l10n.yaml
 untranslated-messages.txt
 lib/localization/generated

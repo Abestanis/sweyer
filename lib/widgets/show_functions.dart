@@ -40,10 +40,14 @@ class ShowFunctions extends NFShowFunctions {
     String query = '',
     bool openKeyboard = true,
   }) {
-    HomeRouter.of(context).goto(HomeRoutes.search.withArguments(SearchArguments(
-      query: query,
-      openKeyboard: openKeyboard,
-    )));
+    HomeRouter.of(context).goto(
+      HomeRoutes.search.withArguments(
+        SearchArguments(
+          query: query,
+          openKeyboard: openKeyboard,
+        ),
+      ),
+    );
   }
 
   /// Shows a dialog to create a playlist.

@@ -7,8 +7,8 @@ class SharedAxisTabController extends ChangeNotifier {
   SharedAxisTabController({
     required this.length,
     int initialIndex = 0,
-  })  : _index = initialIndex,
-        _prevIndex = initialIndex;
+  }) : _index = initialIndex,
+       _prevIndex = initialIndex;
 
   /// The total number of tabs.
   final int length;
@@ -122,23 +122,24 @@ class _SharedAxisTabViewState extends State<SharedAxisTabView> {
           duration: const Duration(milliseconds: 200),
           reverse: controller.prevIndex > controller.index,
           children: widget.children,
-          transitionBuilder: (
-            Widget child,
-            Animation<double> animation,
-            Animation<double> secondaryAnimation,
-          ) {
-            return SharedAxisTransition(
-              transitionType: SharedAxisTransitionType.horizontal,
-              animation: animation,
-              secondaryAnimation: secondaryAnimation,
-              fillColor: Colors.transparent,
-              child: AnimatedBuilder(
-                animation: animation,
-                child: child,
-                builder: (context, child) => widget.tabBuilder(context, animation, secondaryAnimation, child!),
-              ),
-            );
-          },
+          transitionBuilder:
+              (
+                Widget child,
+                Animation<double> animation,
+                Animation<double> secondaryAnimation,
+              ) {
+                return SharedAxisTransition(
+                  transitionType: SharedAxisTransitionType.horizontal,
+                  animation: animation,
+                  secondaryAnimation: secondaryAnimation,
+                  fillColor: Colors.transparent,
+                  child: AnimatedBuilder(
+                    animation: animation,
+                    child: child,
+                    builder: (context, child) => widget.tabBuilder(context, animation, secondaryAnimation, child!),
+                  ),
+                );
+              },
         ),
       ),
     );

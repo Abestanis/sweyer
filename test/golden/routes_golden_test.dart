@@ -7,17 +7,22 @@ import '../test.dart';
 void main() {
   group('home_route', () {
     late PermissionsChannelObserver permissionsObserver;
-    testAppGoldens('permissions_screen', setUp: () {
-      registerAppSetup(() {
-        permissionsObserver =
-            PermissionsChannelObserver(TestWidgetsFlutterBinding.ensureInitialized().defaultBinaryMessenger);
-        permissionsObserver.setPermission(Permission.storage, PermissionStatus.denied);
-        permissionsObserver.setPermission(Permission.audio, PermissionStatus.denied);
-      });
-    }, (WidgetTester tester) async {
-      await tester.tap(find.text(l10n.grant));
-      await tester.pumpAndSettle();
-    });
+    testAppGoldens(
+      'permissions_screen',
+      setUp: () {
+        registerAppSetup(() {
+          permissionsObserver = PermissionsChannelObserver(
+            TestWidgetsFlutterBinding.ensureInitialized().defaultBinaryMessenger,
+          );
+          permissionsObserver.setPermission(Permission.storage, PermissionStatus.denied);
+          permissionsObserver.setPermission(Permission.audio, PermissionStatus.denied);
+        });
+      },
+      (WidgetTester tester) async {
+        await tester.tap(find.text(l10n.grant));
+        await tester.pumpAndSettle();
+      },
+    );
 
     testAppGoldens(
       'searching_screen',
@@ -38,22 +43,30 @@ void main() {
       customGoldenPump: (WidgetTester tester) => tester.pump(const Duration(milliseconds: 400)),
     );
 
-    testAppGoldens('no_songs_screen', setUp: () {
-      registerAppSetup(() {
-        FakeSweyerPluginPlatform.instance.songs = [];
-      });
-    }, (WidgetTester tester) async {
-      await tester.pumpAndSettle();
-    });
+    testAppGoldens(
+      'no_songs_screen',
+      setUp: () {
+        registerAppSetup(() {
+          FakeSweyerPluginPlatform.instance.songs = [];
+        });
+      },
+      (WidgetTester tester) async {
+        await tester.pumpAndSettle();
+      },
+    );
 
-    testAppGoldens('init_error_screen', setUp: () {
-      registerAppSetup(() {
-        CrashlyticsObserver(throwFatalErrors: false);
-        FakeSweyerPluginPlatform.instance.songsFactory = () => throw TypeError();
-      });
-    }, (WidgetTester tester) async {
-      await tester.pumpAndSettle();
-    });
+    testAppGoldens(
+      'init_error_screen',
+      setUp: () {
+        registerAppSetup(() {
+          CrashlyticsObserver(throwFatalErrors: false);
+          FakeSweyerPluginPlatform.instance.songsFactory = () => throw TypeError();
+        });
+      },
+      (WidgetTester tester) async {
+        await tester.pumpAndSettle();
+      },
+    );
   });
 
   group('tabs_route', () {
@@ -85,12 +98,14 @@ void main() {
     });
 
     testAppGoldens('sort_feature_dialog', (WidgetTester tester) async {
-      await tester.tap(find.text(
-        l10n.sortFeature(
-          ContentType.song,
-          ContentControl.instance.state.sorts.get(ContentType.song).feature,
+      await tester.tap(
+        find.text(
+          l10n.sortFeature(
+            ContentType.song,
+            ContentControl.instance.state.sorts.get(ContentType.song).feature,
+          ),
         ),
-      ));
+      );
       await tester.pumpAndSettle();
     });
 
@@ -100,58 +115,77 @@ void main() {
       await tester.pumpAndSettle();
     });
 
-    testAppGoldens('selection_deletion_dialog_songs_tab', setUp: () {
-      registerAppSetup(() {
-        final fake = FakeDeviceInfoControl();
-        DeviceInfoControl.instance = fake;
-        fake.androidSdkInt = 29;
-        FakeSweyerPluginPlatform.instance.songs = List.unmodifiable(List.generate(10, (index) => songWith(id: index)));
-      });
-    }, (WidgetTester tester) async {
-      await tester.pumpAndSettle();
-      await tester.longPress(find.byType(SongTile).first);
-      await tester.pumpAndSettle();
-      await tester.tap(find.byType(SelectAllSelectionAction).last);
-      await tester.tap(find.byType(DeleteSongsAppBarAction).last);
-      await tester.pumpAndSettle();
-    });
+    testAppGoldens(
+      'selection_deletion_dialog_songs_tab',
+      setUp: () {
+        registerAppSetup(() {
+          final fake = FakeDeviceInfoControl();
+          DeviceInfoControl.instance = fake;
+          fake.androidSdkInt = 29;
+          FakeSweyerPluginPlatform.instance.songs = List.unmodifiable(
+            List.generate(10, (index) => songWith(id: index)),
+          );
+        });
+      },
+      (WidgetTester tester) async {
+        await tester.pumpAndSettle();
+        await tester.longPress(find.byType(SongTile).first);
+        await tester.pumpAndSettle();
+        await tester.tap(find.byType(SelectAllSelectionAction).last);
+        await tester.tap(find.byType(DeleteSongsAppBarAction).last);
+        await tester.pumpAndSettle();
+      },
+    );
 
-    testAppGoldens('scroll_labels', setUp: () {
-      registerAppSetup(() {
-        FakeSweyerPluginPlatform.instance.songs =
-            List.generate(26, (index) => songWith(id: index, title: String.fromCharCode('A'.codeUnitAt(0) + index)));
-      });
-    }, (WidgetTester tester) async {
-      ContentControl.instance.sort(contentType: ContentType.song, sort: const SongSort(feature: SongSortFeature.title));
-      await tester.pumpAndSettle();
+    testAppGoldens(
+      'scroll_labels',
+      setUp: () {
+        registerAppSetup(() {
+          FakeSweyerPluginPlatform.instance.songs = List.generate(
+            26,
+            (index) => songWith(id: index, title: String.fromCharCode('A'.codeUnitAt(0) + index)),
+          );
+        });
+      },
+      (WidgetTester tester) async {
+        ContentControl.instance.sort(
+          contentType: ContentType.song,
+          sort: const SongSort(feature: SongSortFeature.title),
+        );
+        await tester.pumpAndSettle();
 
-      final listRect = tester.getRect(find.byType(ContentListView).hitTestable());
-      final gesture = await tester.startGesture(Offset(listRect.right - 20, listRect.bottom - 20));
-      for (int i = 0; i < 10; i++) {
-        await tester.pump(const Duration(milliseconds: 50));
-        await gesture.moveBy(const Offset(0, -20));
-      }
-      await tester.pumpAndSettle();
-      // Do not end the gesture, otherwise the labels will disappear
-    });
+        final listRect = tester.getRect(find.byType(ContentListView).hitTestable());
+        final gesture = await tester.startGesture(Offset(listRect.right - 20, listRect.bottom - 20));
+        for (int i = 0; i < 10; i++) {
+          await tester.pump(const Duration(milliseconds: 50));
+          await gesture.moveBy(const Offset(0, -20));
+        }
+        await tester.pumpAndSettle();
+        // Do not end the gesture, otherwise the labels will disappear
+      },
+    );
   });
 
   group('persistent_queue_route', () {
-    testAppGoldens('album_route', setUp: () {
-      registerAppSetup(() {
-        FakeSweyerPluginPlatform.instance.songs = [
-          songWith(id: 0, track: null, title: 'Null Song 1'),
-          songWith(id: 5, track: null, title: 'Null Song 2'),
-          songWith(id: 3, track: '1', title: 'First Song'),
-          songWith(id: 2, track: '2', title: 'Second Song'),
-          songWith(id: 4, track: '3', title: 'Third Song'),
-          songWith(id: 1, track: '4', title: 'Fourth Song'),
-        ];
-      });
-    }, (WidgetTester tester) async {
-      HomeRouter.instance.goto(HomeRoutes.factory.content(albumWith()));
-      await tester.pumpAndSettle();
-    });
+    testAppGoldens(
+      'album_route',
+      setUp: () {
+        registerAppSetup(() {
+          FakeSweyerPluginPlatform.instance.songs = [
+            songWith(id: 0, track: null, title: 'Null Song 1'),
+            songWith(id: 5, track: null, title: 'Null Song 2'),
+            songWith(id: 3, track: '1', title: 'First Song'),
+            songWith(id: 2, track: '2', title: 'Second Song'),
+            songWith(id: 4, track: '3', title: 'Third Song'),
+            songWith(id: 1, track: '4', title: 'Fourth Song'),
+          ];
+        });
+      },
+      (WidgetTester tester) async {
+        HomeRouter.instance.goto(HomeRoutes.factory.content(albumWith()));
+        await tester.pumpAndSettle();
+      },
+    );
 
     testAppGoldens('playlist_route', (WidgetTester tester) async {
       HomeRouter.instance.goto(HomeRoutes.factory.content(playlistWith()));
@@ -172,10 +206,12 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.byIcon(Icons.add_rounded).first);
       await tester.pumpAndSettle();
-      await tester.tap(find.descendant(
-        of: find.byType(SelectionActionsBar),
-        matching: find.byIcon(Icons.settings_rounded),
-      ));
+      await tester.tap(
+        find.descendant(
+          of: find.byType(SelectionActionsBar),
+          matching: find.byIcon(Icons.settings_rounded),
+        ),
+      );
       await tester.pumpAndSettle();
     });
   });
@@ -217,10 +253,12 @@ void main() {
 
     testAppGoldens('queue_route_selection', (WidgetTester tester) async {
       await tester.openPlayerQueueScreen();
-      await tester.longPress(find.descendant(
-        of: find.byType(PlayerRoute),
-        matching: find.byType(SongTile),
-      ));
+      await tester.longPress(
+        find.descendant(
+          of: find.byType(PlayerRoute),
+          matching: find.byType(SongTile),
+        ),
+      );
     }, playerInterfaceColorStylesToTest: PlayerInterfaceColorStyle.values.toSet());
   });
 
@@ -282,37 +320,44 @@ void main() {
 
     final localFavoriteAndMediaStoreSong = songWith(id: 1, isFavoriteInMediaStore: true);
     final localFavoriteButNotInMediaStoreSong = songWith(id: 2, title: 'Local only favorite');
-    final mediaStoreFavoriteButNotLocalSong =
-        songWith(id: 3, isFavoriteInMediaStore: true, title: 'MediaStore only favorite');
-    testAppGoldens('general_settings_favorite_conflict_dialog', setUp: () {
-      registerAppSetup(() {
-        FakeSweyerPluginPlatform.instance.songs = [
-          songWith(),
-          localFavoriteAndMediaStoreSong,
-          localFavoriteButNotInMediaStoreSong,
-          mediaStoreFavoriteButNotLocalSong,
-        ];
-      });
-    }, (WidgetTester tester) async {
-      await Settings.useMediaStoreForFavoriteSongs.set(false);
-      await tester.pumpAndSettle(); // Wait for the listener in FavoriteControl to execute
-      await FakeFavoritesControl.instance.setFavorite(
-        contentTuple: ContentTuple(songs: [localFavoriteAndMediaStoreSong, localFavoriteButNotInMediaStoreSong]),
-        value: true,
-      );
-      await FakeFavoritesControl.instance.setFavorite(
-        contentTuple: ContentTuple(songs: [mediaStoreFavoriteButNotLocalSong]),
-        value: false,
-      );
-      await tester.tap(find.byType(AnimatedMenuCloseButton));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text(l10n.settings));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text(l10n.general));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text(l10n.useMediaStoreForFavoriteSongsSetting));
-      await tester.pumpAndSettle();
-    });
+    final mediaStoreFavoriteButNotLocalSong = songWith(
+      id: 3,
+      isFavoriteInMediaStore: true,
+      title: 'MediaStore only favorite',
+    );
+    testAppGoldens(
+      'general_settings_favorite_conflict_dialog',
+      setUp: () {
+        registerAppSetup(() {
+          FakeSweyerPluginPlatform.instance.songs = [
+            songWith(),
+            localFavoriteAndMediaStoreSong,
+            localFavoriteButNotInMediaStoreSong,
+            mediaStoreFavoriteButNotLocalSong,
+          ];
+        });
+      },
+      (WidgetTester tester) async {
+        await Settings.useMediaStoreForFavoriteSongs.set(false);
+        await tester.pumpAndSettle(); // Wait for the listener in FavoriteControl to execute
+        await FakeFavoritesControl.instance.setFavorite(
+          contentTuple: ContentTuple(songs: [localFavoriteAndMediaStoreSong, localFavoriteButNotInMediaStoreSong]),
+          value: true,
+        );
+        await FakeFavoritesControl.instance.setFavorite(
+          contentTuple: ContentTuple(songs: [mediaStoreFavoriteButNotLocalSong]),
+          value: false,
+        );
+        await tester.tap(find.byType(AnimatedMenuCloseButton));
+        await tester.pumpAndSettle();
+        await tester.tap(find.text(l10n.settings));
+        await tester.pumpAndSettle();
+        await tester.tap(find.text(l10n.general));
+        await tester.pumpAndSettle();
+        await tester.tap(find.text(l10n.useMediaStoreForFavoriteSongsSetting));
+        await tester.pumpAndSettle();
+      },
+    );
 
     testAppGoldens('theme_settings_route', (WidgetTester tester) async {
       await tester.tap(find.byType(AnimatedMenuCloseButton));

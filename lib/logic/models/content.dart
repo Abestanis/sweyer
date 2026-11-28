@@ -135,10 +135,10 @@ class SongOriginType {
   static const artist = SongOriginType._('artist');
 
   static List<SongOriginType> get values => const [
-        album,
-        playlist,
-        artist,
-      ];
+    album,
+    playlist,
+    artist,
+  ];
 }
 
 /// Model used to serialize song origin.
@@ -167,9 +167,9 @@ class SongOriginEntry {
   }
 
   Map<String, dynamic> toMap() => {
-        'origin_type': type._value,
-        'origin_id': id,
-      };
+    'origin_type': type._value,
+    'origin_id': id,
+  };
 
   @override
   int get hashCode => Object.hash(type, id);
@@ -221,9 +221,9 @@ class IdMapKey {
   }
 
   Map<String, dynamic> toMap() => {
-        'id': id,
-        if (originEntry != null) 'origin': originEntry!.toMap(),
-      };
+    'id': id,
+    if (originEntry != null) 'origin': originEntry!.toMap(),
+  };
 
   @override
   int get hashCode => Object.hash(id, originEntry);

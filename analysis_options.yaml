@@ -9,6 +9,15 @@
 # packages, and plugins designed to encourage good coding practices.
 include: package:flutter_lints/flutter.yaml
 
+analyzer:
+  exclude:
+    - build/**
+    - android/**
+    - ios/**
+  errors:
+    exhaustive_cases: error
+    missing_enum_constant_in_switch: error
+
 linter:
   rules:
     avoid_print: false
@@ -19,10 +28,6 @@ linter:
     exhaustive_cases: true
     unawaited_futures: true
 
-analyzer:
-  errors:
-    exhaustive_cases: error
-    missing_enum_constant_in_switch: error
-
 formatter:
   page_width: 120
+  trailing_commas: preserve

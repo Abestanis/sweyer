@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:audio_service/audio_service.dart';
 
 import 'package:sweyer/logic/player/player_manager.dart' as sweyer_player_manager;
+
 import '../../test.dart';
 
 void main() {
@@ -35,11 +36,15 @@ void main() {
           playbackState.controls.map((control) => control.toString()),
           [
             MediaControl.custom(
-                androidIcon: 'drawable/round_loop',
-                label: l10n.loopOff,
-                name: sweyer_player_manager.AudioHandler.loopOff),
+              androidIcon: 'drawable/round_loop',
+              label: l10n.loopOff,
+              name: sweyer_player_manager.AudioHandler.loopOff,
+            ),
             MediaControl(
-                androidIcon: 'drawable/round_skip_previous', label: l10n.previous, action: MediaAction.skipToPrevious),
+              androidIcon: 'drawable/round_skip_previous',
+              label: l10n.previous,
+              action: MediaAction.skipToPrevious,
+            ),
             MediaControl(androidIcon: 'drawable/round_pause', label: l10n.pause, action: MediaAction.pause),
             MediaControl(androidIcon: 'drawable/round_skip_next', label: l10n.next, action: MediaAction.skipToNext),
             MediaControl(androidIcon: 'drawable/round_stop', label: l10n.stop, action: MediaAction.stop),
@@ -62,11 +67,15 @@ void main() {
           playbackState.controls.map((control) => control.toString()),
           [
             MediaControl.custom(
-                androidIcon: 'drawable/round_loop',
-                label: l10n.loopOff,
-                name: sweyer_player_manager.AudioHandler.loopOff),
+              androidIcon: 'drawable/round_loop',
+              label: l10n.loopOff,
+              name: sweyer_player_manager.AudioHandler.loopOff,
+            ),
             MediaControl(
-                androidIcon: 'drawable/round_skip_previous', label: l10n.previous, action: MediaAction.skipToPrevious),
+              androidIcon: 'drawable/round_skip_previous',
+              label: l10n.previous,
+              action: MediaAction.skipToPrevious,
+            ),
             MediaControl(androidIcon: 'drawable/round_play_arrow', label: l10n.play, action: MediaAction.play),
             MediaControl(androidIcon: 'drawable/round_skip_next', label: l10n.next, action: MediaAction.skipToNext),
             MediaControl(androidIcon: 'drawable/round_stop', label: l10n.stop, action: MediaAction.stop),
@@ -88,11 +97,15 @@ void main() {
           playbackState.controls.map((control) => control.toString()),
           [
             MediaControl.custom(
-                androidIcon: 'drawable/round_loop',
-                label: l10n.loopOff,
-                name: sweyer_player_manager.AudioHandler.loopOff),
+              androidIcon: 'drawable/round_loop',
+              label: l10n.loopOff,
+              name: sweyer_player_manager.AudioHandler.loopOff,
+            ),
             MediaControl(
-                androidIcon: 'drawable/round_skip_previous', label: l10n.previous, action: MediaAction.skipToPrevious),
+              androidIcon: 'drawable/round_skip_previous',
+              label: l10n.previous,
+              action: MediaAction.skipToPrevious,
+            ),
             MediaControl(androidIcon: 'drawable/round_play_arrow', label: l10n.play, action: MediaAction.play),
             MediaControl(androidIcon: 'drawable/round_skip_next', label: l10n.next, action: MediaAction.skipToNext),
             MediaControl(androidIcon: 'drawable/round_stop', label: l10n.stop, action: MediaAction.stop),

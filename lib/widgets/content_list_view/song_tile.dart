@@ -73,7 +73,7 @@ enum SongTileVariant {
   albumArt,
 
   /// Will draw [SongNumber] in the tile leading.
-  number
+  number,
 }
 
 /// Supposed to draw a [Song.track] number, or '-' symbol if it's null.
@@ -163,9 +163,11 @@ class SongTile extends SelectableWidget<SelectionEntry> {
     this.clickBehavior = kSongTileClickBehavior,
     this.horizontalPadding = kSongTileHorizontalPadding,
     this.backgroundColor = Colors.transparent,
-  })  : assert(selectionController is SelectionController<SelectionEntry<Content>> ||
-            selectionController is SelectionController<SelectionEntry<Song>>),
-        super.selectable();
+  }) : assert(
+         selectionController is SelectionController<SelectionEntry<Content>> ||
+             selectionController is SelectionController<SelectionEntry<Song>>,
+       ),
+       super.selectable();
 
   final Song song;
 
@@ -213,10 +215,10 @@ class _SongTileState extends SelectableState<SelectionEntry<Song>, SongTile> wit
 
   @override
   SelectionEntry<Song> toSelectionEntry() => SelectionEntry<Song>.fromContent(
-        content: widget.song,
-        index: widget.selectionIndex!,
-        context: context,
-      );
+    content: widget.song,
+    index: widget.selectionIndex!,
+    context: context,
+  );
 
   @override
   bool? get widgetSelected =>

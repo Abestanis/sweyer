@@ -21,8 +21,9 @@ class AppRadioListTile<T> extends StatelessWidget {
         child: Row(
           children: [
             Radio<T>(
-              activeColor:
-                  ThemeControl.instance.isDark ? theme.colorScheme.onSecondaryContainer : theme.colorScheme.primary,
+              activeColor: ThemeControl.instance.isDark
+                  ? theme.colorScheme.onSecondaryContainer
+                  : theme.colorScheme.primary,
               value: value,
               splashRadius: 0.0,
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,

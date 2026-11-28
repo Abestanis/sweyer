@@ -31,12 +31,11 @@ double kPersistentQueueGridTileHeight(
   ContentType contentType,
   BuildContext context, [
   double gridArtSize = _gridArtSize,
-]) =>
-    _calculatePersistentQueueGridTileHeight(
-      contentType,
-      context,
-      gridArtSize,
-    );
+]) => _calculatePersistentQueueGridTileHeight(
+  contentType,
+  context,
+  gridArtSize,
+);
 
 double _calculatePersistentQueueTileHeight(ContentType contentType, BuildContext context) {
   final textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
@@ -86,8 +85,7 @@ final _calculatePersistentQueueGridTileHeightMemo = imemo4plus1(
     double? a3,
     double? a4,
     (ContentType, BuildContext) a5,
-  ) =>
-      gridArtSize + _kPersistentQueueTileTextHeight(a5.$1, a5.$2) + _tileVerticalPadding * 2,
+  ) => gridArtSize + _kPersistentQueueTileTextHeight(a5.$1, a5.$2) + _tileVerticalPadding * 2,
 );
 
 /// The height of the title and subtitle part of the [PersistentQueueTile].
@@ -113,9 +111,9 @@ class PersistentQueueTile<T extends PersistentQueue> extends SelectableWidget<Se
     this.gridCurrentIndicatorScale = _gridCurrentIndicatorScale,
     double? horizontalPadding,
     this.backgroundColor = Colors.transparent,
-  })  : assert(!grid || !small),
-        horizontalPadding =
-            horizontalPadding ?? (small ? kSongTileHorizontalPadding : kPersistentQueueTileHorizontalPadding);
+  }) : assert(!grid || !small),
+       horizontalPadding =
+           horizontalPadding ?? (small ? kSongTileHorizontalPadding : kPersistentQueueTileHorizontalPadding);
 
   const PersistentQueueTile.selectable({
     super.key,
@@ -136,12 +134,14 @@ class PersistentQueueTile<T extends PersistentQueue> extends SelectableWidget<Se
     this.gridCurrentIndicatorScale = _gridCurrentIndicatorScale,
     double? horizontalPadding,
     this.backgroundColor = Colors.transparent,
-  })  : assert(selectionController is SelectionController<SelectionEntry<Content>> ||
-            selectionController is SelectionController<SelectionEntry<T>>),
-        assert(!grid || !small),
-        horizontalPadding =
-            horizontalPadding ?? (small ? kSongTileHorizontalPadding : kPersistentQueueTileHorizontalPadding),
-        super.selectable();
+  }) : assert(
+         selectionController is SelectionController<SelectionEntry<Content>> ||
+             selectionController is SelectionController<SelectionEntry<T>>,
+       ),
+       assert(!grid || !small),
+       horizontalPadding =
+           horizontalPadding ?? (small ? kSongTileHorizontalPadding : kPersistentQueueTileHorizontalPadding),
+       super.selectable();
 
   final T queue;
 
@@ -187,13 +187,14 @@ class PersistentQueueTile<T extends PersistentQueue> extends SelectableWidget<Se
 }
 
 class _PersistentQueueTileState<T extends PersistentQueue>
-    extends SelectableState<SelectionEntry<T>, PersistentQueueTile<T>> with ContentTileComponentsMixin {
+    extends SelectableState<SelectionEntry<T>, PersistentQueueTile<T>>
+    with ContentTileComponentsMixin {
   @override
   SelectionEntry<T> toSelectionEntry() => SelectionEntry<T>.fromContent(
-        content: widget.queue,
-        index: widget.selectionIndex!,
-        context: context,
-      );
+    content: widget.queue,
+    index: widget.selectionIndex!,
+    context: context,
+  );
 
   void _handleTap() {
     super.handleTap(() {
@@ -220,17 +221,21 @@ class _PersistentQueueTileState<T extends PersistentQueue>
     ];
     final queue = widget.queue;
     if (queue is Album) {
-      children.add(ArtistWidget(
-        artist: queue.artist,
-        trailingText: queue.year?.toString(),
-        textStyle: _subtitleTheme(widget.queue.type, theme),
-      ));
+      children.add(
+        ArtistWidget(
+          artist: queue.artist,
+          trailingText: queue.year?.toString(),
+          textStyle: _subtitleTheme(widget.queue.type, theme),
+        ),
+      );
     } else if (queue is Playlist) {
       final l10n = getl10n(context);
-      children.add(Text(
-        l10n.contentsPlural(ContentType.song, queue.length),
-        style: _subtitleTheme(widget.queue.type, theme),
-      ));
+      children.add(
+        Text(
+          l10n.contentsPlural(ContentType.song, queue.length),
+          style: _subtitleTheme(widget.queue.type, theme),
+        ),
+      );
     }
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -309,8 +314,9 @@ class _PersistentQueueTileState<T extends PersistentQueue>
       );
     }
 
-    final onTap =
-        widget.enableDefaultOnTap || selectable && widget.selectionController!.inSelection ? _handleTap : widget.onTap;
+    final onTap = widget.enableDefaultOnTap || selectable && widget.selectionController!.inSelection
+        ? _handleTap
+        : widget.onTap;
 
     if (widget.grid) {
       return Stack(
@@ -407,10 +413,12 @@ class _BoxyDelegate extends BoxyDelegate {
     final tileSize = tile.layout(constraints);
 
     final ink = inflate(builder(), id: #ink);
-    ink.layout(constraints.tighten(
-      width: tileSize.width,
-      height: tileSize.height,
-    ));
+    ink.layout(
+      constraints.tighten(
+        width: tileSize.width,
+        height: tileSize.height,
+      ),
+    );
 
     return Size(
       tileSize.width,

@@ -565,10 +565,11 @@ class ContentControl extends Control {
         sorts.set(castedSort, key: contentType);
         repository.albumSort.set(castedSort);
         final comparator = castedSort.comparator;
-        state.albums = Map.fromEntries(state.albums.entries.toList()
-          ..sort((a, b) {
+        state.albums = Map.fromEntries(
+          state.albums.entries.toList()..sort((a, b) {
             return comparator(a.value, b.value);
-          }));
+          }),
+        );
         break;
       case ContentType.playlist:
         final castedSort = sort as PlaylistSort;
@@ -1122,9 +1123,10 @@ class ContentUtils {
       final map = idMap;
       final newId = -(map.length + 1);
       map[IdMapKey(
-        id: newId,
-        originEntry: song.origin?.toSongOriginEntry(),
-      )] = song.sourceId;
+            id: newId,
+            originEntry: song.origin?.toSongOriginEntry(),
+          )] =
+          song.sourceId;
       song.id = newId;
       return true;
     }

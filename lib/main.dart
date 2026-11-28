@@ -11,6 +11,7 @@ import 'package:sweyer/constants.dart' as constants;
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+
 import 'firebase_options.dart';
 
 /// Builds up the error report message from the exception and stacktrace.
@@ -55,16 +56,20 @@ class _WidgetsBindingObserver extends WidgetsBindingObserver {
       /// [SystemUiOverlayStyle.statusBarBrightness] is only honored on iOS,
       /// so I can safely use that here.
       final lastUi = SystemUiStyleController.instance.lastUi;
-      SystemUiStyleController.instance.setSystemUiOverlay(SystemUiStyleController.instance.lastUi.copyWith(
-        statusBarBrightness: lastUi.statusBarBrightness == null || lastUi.statusBarBrightness == Brightness.dark
-            ? Brightness.light
-            : Brightness.dark,
-      ));
+      SystemUiStyleController.instance.setSystemUiOverlay(
+        SystemUiStyleController.instance.lastUi.copyWith(
+          statusBarBrightness: lastUi.statusBarBrightness == null || lastUi.statusBarBrightness == Brightness.dark
+              ? Brightness.light
+              : Brightness.dark,
+        ),
+      );
 
       /// Defensive programming if I some time later decide to add iOS support.
-      SystemUiStyleController.instance.setSystemUiOverlay(SystemUiStyleController.instance.lastUi.copyWith(
-        statusBarBrightness: lastUi.statusBarBrightness == Brightness.dark ? Brightness.light : Brightness.dark,
-      ));
+      SystemUiStyleController.instance.setSystemUiOverlay(
+        SystemUiStyleController.instance.lastUi.copyWith(
+          statusBarBrightness: lastUi.statusBarBrightness == Brightness.dark ? Brightness.light : Brightness.dark,
+        ),
+      );
     }
   }
 }
@@ -89,10 +94,12 @@ Future<void> main() async {
     await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
   }
 
-  Isolate.current.addErrorListener(RawReceivePort((pair) async {
-    final List<dynamic> errorAndStacktrace = pair;
-    await reportError(errorAndStacktrace.first, errorAndStacktrace.last);
-  }).sendPort);
+  Isolate.current.addErrorListener(
+    RawReceivePort((pair) async {
+      final List<dynamic> errorAndStacktrace = pair;
+      await reportError(errorAndStacktrace.first, errorAndStacktrace.last);
+    }).sendPort,
+  );
   FlutterError.onError = reportFlutterError;
   PlatformDispatcher.instance.onError = (error, stack) {
     reportError(error, stack);
@@ -182,32 +189,34 @@ class _AppState extends State<App> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return MediaQueryWrapper(
-      child: Consumer(builder: (context, ref, child) {
-        final materialAppSwitchesState = ref.watch(materialAppSwitchesStateHolderProvider.select((value) => value));
-        return StreamBuilder(
-          stream: ThemeControl.instance.themeChanging,
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            final theme = ThemeControl.instance.theme;
-            return NFTheme(
-              data: App.nfThemeData,
-              child: MaterialApp.router(
-                showPerformanceOverlay: materialAppSwitchesState.showPerformanceOverlay,
-                checkerboardRasterCacheImages: materialAppSwitchesState.checkerboardRasterCacheImages,
-                showSemanticsDebugger: materialAppSwitchesState.showSemanticsDebugger,
-                debugShowCheckedModeBanner: widget.debugShowCheckedModeBanner,
-                title: constants.Config.applicationTitle,
-                theme: theme,
-                color: theme.colorScheme.primary,
-                supportedLocales: constants.Config.supportedLocales,
-                scrollBehavior: _ScrollBehavior(),
-                localizationsDelegates: AppLocalizations.localizationsDelegates,
-                routerDelegate: AppRouter.instance,
-                routeInformationParser: AppRouteInformationParser(),
-              ),
-            );
-          },
-        );
-      }),
+      child: Consumer(
+        builder: (context, ref, child) {
+          final materialAppSwitchesState = ref.watch(materialAppSwitchesStateHolderProvider.select((value) => value));
+          return StreamBuilder(
+            stream: ThemeControl.instance.themeChanging,
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              final theme = ThemeControl.instance.theme;
+              return NFTheme(
+                data: App.nfThemeData,
+                child: MaterialApp.router(
+                  showPerformanceOverlay: materialAppSwitchesState.showPerformanceOverlay,
+                  checkerboardRasterCacheImages: materialAppSwitchesState.checkerboardRasterCacheImages,
+                  showSemanticsDebugger: materialAppSwitchesState.showSemanticsDebugger,
+                  debugShowCheckedModeBanner: widget.debugShowCheckedModeBanner,
+                  title: constants.Config.applicationTitle,
+                  theme: theme,
+                  color: theme.colorScheme.primary,
+                  supportedLocales: constants.Config.supportedLocales,
+                  scrollBehavior: _ScrollBehavior(),
+                  localizationsDelegates: AppLocalizations.localizationsDelegates,
+                  routerDelegate: AppRouter.instance,
+                  routeInformationParser: AppRouteInformationParser(),
+                ),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }

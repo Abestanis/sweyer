@@ -16,10 +16,10 @@ class _TabsScrollPhysics extends AlwaysScrollableScrollPhysics {
 
   @override
   SpringDescription get spring => const SpringDescription(
-        mass: 1,
-        stiffness: 1601.2499609375,
-        damping: 80,
-      );
+    mass: 1,
+    stiffness: 1601.2499609375,
+    damping: 80,
+  );
 }
 
 class TabsRoute extends StatefulWidget {
@@ -59,12 +59,14 @@ class TabsRouteState extends State<TabsRoute> with TickerProviderStateMixin, Sel
       return true;
     }());
 
-    initSelectionController(() => ContentSelectionController.create(
-          vsync: this,
-          context: context,
-          ignoreWhen: () =>
-              playerRouteController.opened || HomeRouter.instance.currentRoute.hasDifferentLocation(HomeRoutes.tabs),
-        ));
+    initSelectionController(
+      () => ContentSelectionController.create(
+        vsync: this,
+        context: context,
+        ignoreWhen: () =>
+            playerRouteController.opened || HomeRouter.instance.currentRoute.hasDifferentLocation(HomeRoutes.tabs),
+      ),
+    );
 
     tabController = TabController(
       vsync: this,
@@ -260,26 +262,28 @@ class TabsRouteState extends State<TabsRoute> with TickerProviderStateMixin, Sel
                 child: Stack(
                   children: [
                     StreamBuilder(
-                        stream: PlaybackControl.instance.onSongChange,
-                        builder: (context, snapshot) => StreamBuilder(
-                            stream: ContentControl.instance.onContentChange,
-                            builder: (context, snapshot) => ScrollConfiguration(
-                                  behavior: const GlowlessScrollBehavior(),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(bottom: tabBarHeight),
-                                    child: TabBarView(
-                                      controller: tabController,
-                                      physics: const _TabsScrollPhysics(),
-                                      children: [
-                                        for (final contentType in ContentType.values)
-                                          _ContentTab(
-                                            contentType: contentType,
-                                            selectionController: selectionController,
-                                          ),
-                                      ],
-                                    ),
+                      stream: PlaybackControl.instance.onSongChange,
+                      builder: (context, snapshot) => StreamBuilder(
+                        stream: ContentControl.instance.onContentChange,
+                        builder: (context, snapshot) => ScrollConfiguration(
+                          behavior: const GlowlessScrollBehavior(),
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: tabBarHeight),
+                            child: TabBarView(
+                              controller: tabController,
+                              physics: const _TabsScrollPhysics(),
+                              children: [
+                                for (final contentType in ContentType.values)
+                                  _ContentTab(
+                                    contentType: contentType,
+                                    selectionController: selectionController,
                                   ),
-                                ))),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                     Positioned(
                       bottom: 0.0,
                       left: 0.0,
@@ -505,8 +509,9 @@ class _ContentTabState extends State<_ContentTab>
                                                       );
                                                       break;
                                                     case ContentType.album:
-                                                      final shuffleResult =
-                                                          ContentUtils.shuffleSongOrigins(list as List<Album>);
+                                                      final shuffleResult = ContentUtils.shuffleSongOrigins(
+                                                        list as List<Album>,
+                                                      );
                                                       QueueControl.instance.setQueue(
                                                         type: showOnlyFavorites
                                                             ? QueueType.favouriteAlbums
@@ -517,8 +522,9 @@ class _ContentTabState extends State<_ContentTab>
                                                       );
                                                       break;
                                                     case ContentType.playlist:
-                                                      final shuffleResult =
-                                                          ContentUtils.shuffleSongOrigins(list as List<Playlist>);
+                                                      final shuffleResult = ContentUtils.shuffleSongOrigins(
+                                                        list as List<Playlist>,
+                                                      );
                                                       QueueControl.instance.setQueue(
                                                         type: showOnlyFavorites
                                                             ? QueueType.favouritePlaylists
@@ -529,8 +535,9 @@ class _ContentTabState extends State<_ContentTab>
                                                       );
                                                       break;
                                                     case ContentType.artist:
-                                                      final shuffleResult =
-                                                          ContentUtils.shuffleSongOrigins(list as List<Artist>);
+                                                      final shuffleResult = ContentUtils.shuffleSongOrigins(
+                                                        list as List<Artist>,
+                                                      );
                                                       QueueControl.instance.setQueue(
                                                         type: showOnlyFavorites
                                                             ? QueueType.favouriteArtists
@@ -541,8 +548,9 @@ class _ContentTabState extends State<_ContentTab>
                                                       );
                                                       break;
                                                   }
-                                                  PlayerManager.instance
-                                                      .setSong(QueueControl.instance.state.current.songs[0]);
+                                                  PlayerManager.instance.setSong(
+                                                    QueueControl.instance.state.current.songs[0],
+                                                  );
                                                   PlayerManager.instance.play();
                                                   playerRouteController.open();
                                                 },
@@ -588,8 +596,9 @@ class _ContentTabState extends State<_ContentTab>
                                                       );
                                                       break;
                                                   }
-                                                  PlayerManager.instance
-                                                      .setSong(QueueControl.instance.state.current.songs[0]);
+                                                  PlayerManager.instance.setSong(
+                                                    QueueControl.instance.state.current.songs[0],
+                                                  );
                                                   PlayerManager.instance.play();
                                                   playerRouteController.open();
                                                 },
@@ -664,7 +673,8 @@ class TabCollapse extends StatelessWidget {
                 // Create a space while animating in-between icon and label, but don't keep it,
                 // otherwise symmetry is ruined.
                 SizedBox(
-                  width: 4 *
+                  width:
+                      4 *
                       TweenSequence([
                         TweenSequenceItem(
                           tween: Tween(begin: 0.0, end: 1.0),

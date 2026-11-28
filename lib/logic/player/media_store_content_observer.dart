@@ -69,11 +69,13 @@ class MediaStoreContentObserver extends ContentObserver {
         if (capturedNumber != null) {
           final id = int.tryParse(capturedNumber);
           if (id != null) {
-            _changeSubject.add(MediaStoreContentChangeEvent(
-              id: id,
-              flags: flags,
-              contentType: contentType,
-            ));
+            _changeSubject.add(
+              MediaStoreContentChangeEvent(
+                id: id,
+                flags: flags,
+                contentType: contentType,
+              ),
+            );
           }
         }
       }

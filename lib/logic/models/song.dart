@@ -80,10 +80,10 @@ class Song extends Content implements PlatformSong {
   /// Returns source song ID.
   @override
   int get sourceId => ContentUtils.getSourceId(
-        id,
-        origin: origin,
-        idMap: idMap,
-      );
+    id,
+    origin: origin,
+    idMap: idMap,
+  );
 
   /// Returns the song artist.
   Artist getArtist() => ContentControl.instance.state.artists.firstWhere((el) => el.id == artistId);
@@ -166,22 +166,22 @@ class Song extends Content implements PlatformSong {
 
   @override
   Map<String, dynamic> toMap() => <String, dynamic>{
-        'id': id,
-        'album': album,
-        'albumId': albumId,
-        'artist': artist,
-        'artistId': artistId,
-        'genre': genre,
-        'genreId': genreId,
-        'title': title,
-        'track': track,
-        'dateAdded': dateAdded,
-        'dateModified': dateModified,
-        'duration': duration,
-        'size': size,
-        'filesystemPath': filesystemPath,
-        'isFavoriteInMediaStore': isFavoriteInMediaStore,
-      };
+    'id': id,
+    'album': album,
+    'albumId': albumId,
+    'artist': artist,
+    'artistId': artistId,
+    'genre': genre,
+    'genreId': genreId,
+    'title': title,
+    'track': track,
+    'dateAdded': dateAdded,
+    'dateModified': dateModified,
+    'duration': duration,
+    'size': size,
+    'filesystemPath': filesystemPath,
+    'isFavoriteInMediaStore': isFavoriteInMediaStore,
+  };
 
   /// Try to parse the numeric album track from the text [position].
   int? _parseTrackPosition(String? position) {
@@ -264,8 +264,9 @@ class _SongCopyWith extends SongCopyWith {
       duration: duration == _undefined ? value.duration : duration as int,
       size: size == _undefined ? value.size : size as int?,
       filesystemPath: filesystemPath == _undefined ? value.filesystemPath : filesystemPath as String?,
-      isFavoriteInMediaStore:
-          isFavoriteInMediaStore == _undefined ? value.isFavoriteInMediaStore : isFavoriteInMediaStore as bool,
+      isFavoriteInMediaStore: isFavoriteInMediaStore == _undefined
+          ? value.isFavoriteInMediaStore
+          : isFavoriteInMediaStore as bool,
       duplicationIndex: duplicationIndex == _undefined ? value.duplicationIndex : duplicationIndex as int?,
       origin: origin == _undefined ? value.origin : origin as SongOrigin?,
     );

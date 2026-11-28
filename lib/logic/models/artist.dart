@@ -92,11 +92,11 @@ class Artist extends SongOrigin implements PlatformArtist {
 
   @override
   Map<String, dynamic> toMap() => {
-        'id': id,
-        'artist': artist,
-        'numberOfAlbums': numberOfAlbums,
-        'numberOfTracks': numberOfTracks,
-      };
+    'id': id,
+    'artist': artist,
+    'numberOfAlbums': numberOfAlbums,
+    'numberOfTracks': numberOfTracks,
+  };
 }
 
 /// The `copyWith` function type for [Artist].

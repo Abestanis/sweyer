@@ -218,7 +218,9 @@ class _QueueTabState extends State<_QueueTab> with SelectionHandlerMixin {
 
     _queueChangeSubscription = QueueControl.instance.onQueueChanged.listen((event) async {
       if (ContentControl.instance.state.allSongs.isNotEmpty) {
-        setState(() {/* update ui list as data list may have changed */});
+        setState(() {
+          /* update ui list as data list may have changed */
+        });
         if (!opened) {
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
             // Jump when track list changes (e.g. shuffle happened)
@@ -338,10 +340,10 @@ class _QueueTabState extends State<_QueueTab> with SelectionHandlerMixin {
 
   /// The style that should be used for the queue description text in the app bar.
   TextStyle get _queueDescriptionStyle => Theme.of(context).textTheme.titleSmall!.copyWith(
-        fontSize: 14.0,
-        height: 1.0,
-        fontWeight: FontWeight.w700,
-      );
+    fontSize: 14.0,
+    height: 1.0,
+    fontWeight: FontWeight.w700,
+  );
 
   Text _buildTitleText(AppLocalizations l10n) {
     final InlineSpan text;
@@ -521,8 +523,9 @@ class _QueueTabState extends State<_QueueTab> with SelectionHandlerMixin {
     final origin = QueueControl.instance.state.origin;
     final mediaQuery = MediaQuery.of(context);
     final textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
-    final appBarHeight =
-        textScaleFactor <= 1.0 ? baseAppBarHeight : baseAppBarHeight / 2 + baseAppBarHeight / 2 * textScaleFactor;
+    final appBarHeight = textScaleFactor <= 1.0
+        ? baseAppBarHeight
+        : baseAppBarHeight / 2 + baseAppBarHeight / 2 * textScaleFactor;
     final topScreenPadding = mediaQuery.padding.top;
     final appBarHeightWithPadding = appBarHeight + topScreenPadding;
     final fadeAnimation = CurvedAnimation(
@@ -670,7 +673,7 @@ class _QueueTabState extends State<_QueueTab> with SelectionHandlerMixin {
                           children: [
                             _SaveQueueAsPlaylistAction(),
                           ],
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -701,8 +704,9 @@ class _QueueTabState extends State<_QueueTab> with SelectionHandlerMixin {
                     top: 4.0,
                     bottom: value == null ? 0.0 : kSongTileHeight(context) + 4.0,
                   ),
-                  songTileVariant:
-                      QueueControl.instance.state.origin is Album ? SongTileVariant.number : SongTileVariant.albumArt,
+                  songTileVariant: QueueControl.instance.state.origin is Album
+                      ? SongTileVariant.number
+                      : SongTileVariant.albumArt,
                   songTileClickBehavior: SongTileClickBehavior.playPause,
                   currentTest: (index) => index == currentSongIndex,
                   alwaysShowScrollbar: true,
@@ -982,7 +986,9 @@ class _TrackShowcaseState extends State<TrackShowcase> with TickerProviderStateM
         // Don't wait for the animation to complete before updating the Ui
         unawaited(controller.forward());
       }
-      setState(() {/* update track in ui */});
+      setState(() {
+        /* update track in ui */
+      });
     });
   }
 
@@ -1002,22 +1008,28 @@ class _TrackShowcaseState extends State<TrackShowcase> with TickerProviderStateM
   }
 
   Widget _fade(Widget child) {
-    final fadeAnimation = Tween(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      curve: const Interval(0.4, 1.0, curve: Curves.easeOut),
-      reverseCurve: const Interval(0.4, 1.0, curve: Curves.easeIn),
-      parent: fadeController,
-    ));
-    final scaleAnimation = Tween(
-      begin: 1.06,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      curve: const Interval(0.5, 1.0, curve: Curves.easeOutCubic),
-      reverseCurve: const Interval(0.5, 1.0, curve: Curves.easeInCubic),
-      parent: fadeController,
-    ));
+    final fadeAnimation =
+        Tween(
+          begin: 0.0,
+          end: 1.0,
+        ).animate(
+          CurvedAnimation(
+            curve: const Interval(0.4, 1.0, curve: Curves.easeOut),
+            reverseCurve: const Interval(0.4, 1.0, curve: Curves.easeIn),
+            parent: fadeController,
+          ),
+        );
+    final scaleAnimation =
+        Tween(
+          begin: 1.06,
+          end: 1.0,
+        ).animate(
+          CurvedAnimation(
+            curve: const Interval(0.5, 1.0, curve: Curves.easeOutCubic),
+            reverseCurve: const Interval(0.5, 1.0, curve: Curves.easeInCubic),
+            parent: fadeController,
+          ),
+        );
     return FadeTransition(
       opacity: fadeAnimation,
       child: ScaleTransition(
@@ -1029,14 +1041,17 @@ class _TrackShowcaseState extends State<TrackShowcase> with TickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    final animation = Tween(
-      begin: 1.0,
-      end: 0.91,
-    ).animate(CurvedAnimation(
-      curve: Curves.easeOut,
-      reverseCurve: Curves.easeIn,
-      parent: controller,
-    ));
+    final animation =
+        Tween(
+          begin: 1.0,
+          end: 0.91,
+        ).animate(
+          CurvedAnimation(
+            curve: Curves.easeOut,
+            reverseCurve: Curves.easeIn,
+            parent: controller,
+          ),
+        );
     final currentSong = PlaybackControl.instance.currentSong;
     final textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
     return Column(
@@ -1088,15 +1103,17 @@ class _TrackShowcaseState extends State<TrackShowcase> with TickerProviderStateM
                     controller.status == AnimationStatus.dismissed ||
                     useFade) {
                   art = newArt;
-                  _insertArtOverlay(ContentArtLoadBuilder(
-                    builder: (onLoad) => ContentArt.playerRoute(
-                      key: ValueKey(currentSong),
-                      size: constraints.maxWidth,
-                      loadAnimationDuration: Duration.zero,
-                      source: ContentArtSource.song(currentSong),
-                      onLoad: onLoad,
+                  _insertArtOverlay(
+                    ContentArtLoadBuilder(
+                      builder: (onLoad) => ContentArt.playerRoute(
+                        key: ValueKey(currentSong),
+                        size: constraints.maxWidth,
+                        loadAnimationDuration: Duration.zero,
+                        source: ContentArtSource.song(currentSong),
+                        onLoad: onLoad,
+                      ),
                     ),
-                  ));
+                  );
                 }
 
                 return ScaleTransition(
@@ -1148,37 +1165,41 @@ class _SaveQueueAsPlaylistActionState extends State<_SaveQueueAsPlaylistAction> 
       } finally {
         if (success) {
           final key = GlobalKey<NFSnackbarEntryState>();
-          NFSnackbarController.showSnackbar(NFSnackbarEntry(
-            globalKey: key,
-            important: true,
-            child: NFSnackbar(
-              leading: Icon(Icons.done_rounded, color: theme.colorScheme.onPrimary),
-              padding: const EdgeInsets.only(
-                left: 16.0,
-                right: 16.0,
-                top: 0.0,
-                bottom: 0.0,
-              ),
-              title: Text(l10n.saved, style: TextStyle(fontSize: 15.0, color: theme.colorScheme.onPrimary)),
-              trailing: AppButton(
-                text: l10n.view,
-                horizontalPadding: 20.0,
-                onPressed: () {
-                  key.currentState!.close();
-                  HomeRouter.instance.goto(HomeRoutes.factory.content(playlist));
-                },
+          NFSnackbarController.showSnackbar(
+            NFSnackbarEntry(
+              globalKey: key,
+              important: true,
+              child: NFSnackbar(
+                leading: Icon(Icons.done_rounded, color: theme.colorScheme.onPrimary),
+                padding: const EdgeInsets.only(
+                  left: 16.0,
+                  right: 16.0,
+                  top: 0.0,
+                  bottom: 0.0,
+                ),
+                title: Text(l10n.saved, style: TextStyle(fontSize: 15.0, color: theme.colorScheme.onPrimary)),
+                trailing: AppButton(
+                  text: l10n.view,
+                  horizontalPadding: 20.0,
+                  onPressed: () {
+                    key.currentState!.close();
+                    HomeRouter.instance.goto(HomeRoutes.factory.content(playlist));
+                  },
+                ),
               ),
             ),
-          ));
+          );
         } else {
-          NFSnackbarController.showSnackbar(NFSnackbarEntry(
-            important: true,
-            child: NFSnackbar(
-              leading: Icon(Icons.error_outline_rounded, color: theme.colorScheme.onError),
-              title: Text(l10n.oopsErrorOccurred, style: TextStyle(fontSize: 15.0, color: theme.colorScheme.onError)),
-              color: theme.colorScheme.error,
+          NFSnackbarController.showSnackbar(
+            NFSnackbarEntry(
+              important: true,
+              child: NFSnackbar(
+                leading: Icon(Icons.error_outline_rounded, color: theme.colorScheme.onError),
+                title: Text(l10n.oopsErrorOccurred, style: TextStyle(fontSize: 15.0, color: theme.colorScheme.onError)),
+                color: theme.colorScheme.error,
+              ),
             ),
-          ));
+          );
         }
       }
     }

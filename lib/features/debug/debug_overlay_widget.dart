@@ -46,7 +46,7 @@ class DebugOverlayWidget extends ConsumerWidget {
                         const DebugTextScaleFactorSlider(),
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

@@ -125,8 +125,9 @@ extension AppInitExtension on TestWidgetsFlutterBinding {
     PackageInfoPlatform.instance = MethodChannelPackageInfo();
     PlayerInterfaceColorStyleControl.instance = PlayerInterfaceColorStyleControl();
     await FakeFirebaseApp.install();
-    defaultBinaryMessenger.setMockMethodCallHandler(const MethodChannel('dev.fluttercommunity.plus/package_info'),
-        (MethodCall methodCall) async {
+    defaultBinaryMessenger.setMockMethodCallHandler(const MethodChannel('dev.fluttercommunity.plus/package_info'), (
+      MethodCall methodCall,
+    ) async {
       return {
         'appName': constants.Config.applicationTitle,
         'packageName': 'com.nt4f04und.sweyer',
@@ -134,24 +135,30 @@ extension AppInitExtension on TestWidgetsFlutterBinding {
         'buildNumber': '0',
       };
     });
-    defaultBinaryMessenger.setMockMethodCallHandler(const MethodChannel('com.ryanheise.audio_service.client.methods'),
-        (MethodCall methodCall) async {
+    defaultBinaryMessenger.setMockMethodCallHandler(const MethodChannel('com.ryanheise.audio_service.client.methods'), (
+      MethodCall methodCall,
+    ) async {
       return {};
     });
-    defaultBinaryMessenger.setMockMethodCallHandler(const MethodChannel('com.ryanheise.audio_service.handler.methods'),
-        (MethodCall methodCall) async {
-      return {};
-    });
-    defaultBinaryMessenger.setMockMethodCallHandler(const MethodChannel('com.ryanheise.audio_session'),
-        (MethodCall methodCall) async {
+    defaultBinaryMessenger.setMockMethodCallHandler(
+      const MethodChannel('com.ryanheise.audio_service.handler.methods'),
+      (MethodCall methodCall) async {
+        return {};
+      },
+    );
+    defaultBinaryMessenger.setMockMethodCallHandler(const MethodChannel('com.ryanheise.audio_session'), (
+      MethodCall methodCall,
+    ) async {
       return null;
     });
-    defaultBinaryMessenger.setMockMethodCallHandler(AndroidContentResolver.methodChannel,
-        (MethodCall methodCall) async {
+    defaultBinaryMessenger.setMockMethodCallHandler(AndroidContentResolver.methodChannel, (
+      MethodCall methodCall,
+    ) async {
       return null;
     });
-    defaultBinaryMessenger.setMockMethodCallHandler(const MethodChannel('plugins.flutter.io/path_provider'),
-        (MethodCall methodCall) async {
+    defaultBinaryMessenger.setMockMethodCallHandler(const MethodChannel('plugins.flutter.io/path_provider'), (
+      MethodCall methodCall,
+    ) async {
       if (methodCall.method == 'getTemporaryDirectory' || methodCall.method == 'getApplicationSupportDirectory') {
         Directory('./temp').createSync();
         return './temp';
@@ -160,8 +167,9 @@ extension AppInitExtension on TestWidgetsFlutterBinding {
     });
     sqfliteFfiInit();
     databaseFactoryOrNull = databaseFactoryFfiNoIsolate;
-    defaultBinaryMessenger.setMockMethodCallHandler(const MethodChannel('com.tekartik.sqflite'),
-        (MethodCall methodCall) async {
+    defaultBinaryMessenger.setMockMethodCallHandler(const MethodChannel('com.tekartik.sqflite'), (
+      MethodCall methodCall,
+    ) async {
       if (methodCall.method == 'getDatabasesPath') {
         Directory('./temp').createSync();
         return './temp';
@@ -224,21 +232,23 @@ extension AppInitExtension on TestWidgetsFlutterBinding {
 
   Future<void> _runWithRealAndFakeEventLoops(Future<void> Function() body) async {
     var completed = false;
-    await runAsync(() => Future.wait([
-          Future(() async {
-            try {
-              await body();
-            } finally {
-              completed = true;
-            }
-          }),
-          Future(() async {
-            do {
-              // Pump the fake async event queue.
-              await pump(Duration.zero);
-            } while (!completed);
-          }),
-        ]));
+    await runAsync(
+      () => Future.wait([
+        Future(() async {
+          try {
+            await body();
+          } finally {
+            completed = true;
+          }
+        }),
+        Future(() async {
+          do {
+            // Pump the fake async event queue.
+            await pump(Duration.zero);
+          } while (!completed);
+        }),
+      ]),
+    );
   }
 
   /// Flush real async events from streams and other sources
@@ -308,13 +318,16 @@ extension WidgetTesterExtension on WidgetTester {
       try {
         // App only supports vertical orientation, so switch tests to use it.
         await binding.setSurfaceSize(kScreenSize);
-        await pumpWidget(ProviderScope(
-          overrides: [
-            playerInterfaceColorStyleArtColorBuilderProvider
-                .overrideWithValue(FakePlayerInterfaceColorStyleArtColorBuilder())
-          ],
-          child: const App(debugShowCheckedModeBanner: false),
-        ));
+        await pumpWidget(
+          ProviderScope(
+            overrides: [
+              playerInterfaceColorStyleArtColorBuilderProvider.overrideWithValue(
+                FakePlayerInterfaceColorStyleArtColorBuilder(),
+              ),
+            ],
+            child: const App(debugShowCheckedModeBanner: false),
+          ),
+        );
         await pump();
         await callback();
         await goldenCaptureCallback?.call();
@@ -406,7 +419,8 @@ void testAppGoldens(
 }) {
   assert(playerInterfaceColorStylesToTest.isNotEmpty);
   for (final lightTheme in [false, true]) {
-    final nonDefaultPlayerInterfaceColorStyle = playerInterfaceColorStylesToTest.length > 1 ||
+    final nonDefaultPlayerInterfaceColorStyle =
+        playerInterfaceColorStylesToTest.length > 1 ||
         !playerInterfaceColorStylesToTest.contains(_defaultPlayerInterfaceColorStyle);
 
     for (final playerInterfaceColorStyle in playerInterfaceColorStylesToTest) {
@@ -461,12 +475,12 @@ class FakeLicenseEntry extends LicenseEntry {
 
   @override
   Iterable<LicenseParagraph> get paragraphs => const [
-        LicenseParagraph('test paragraph 1', 0),
-        LicenseParagraph('test paragraph 2', 0),
-        LicenseParagraph('test paragraph 3', 0),
-        LicenseParagraph('test paragraph 4', 0),
-        LicenseParagraph('test paragraph 5', 0),
-      ];
+    LicenseParagraph('test paragraph 1', 0),
+    LicenseParagraph('test paragraph 2', 0),
+    LicenseParagraph('test paragraph 3', 0),
+    LicenseParagraph('test paragraph 4', 0),
+    LicenseParagraph('test paragraph 5', 0),
+  ];
 }
 
 class FakeSystemUiStyleController implements SystemUiStyleController {

@@ -148,9 +148,9 @@ class PersistentQueueArguments<T extends PersistentQueue> extends Equatable {
     required this.queue,
     this.editing = false,
   }) : assert(
-          !editing || queue is Playlist,
-          "The `editing` is only valid with playlists",
-        );
+         !editing || queue is Playlist,
+         "The `editing` is only valid with playlists",
+       );
 
   /// The queue to be opened.
   final T queue;
@@ -329,8 +329,8 @@ class AppRouter extends RouterDelegate<AppRoutes<Object?>>
   );
 
   static Widget get _dismissBarrier => Container(
-        color: ThemeControl.instance.isDark ? Colors.black54 : Colors.black26,
-      );
+    color: ThemeControl.instance.isDark ? Colors.black54 : Colors.black26,
+  );
 
   bool _mainScreenShown = false;
 
@@ -347,8 +347,9 @@ class AppRouter extends RouterDelegate<AppRoutes<Object?>>
     transitionSettings.greyDismissible.uiStyle = staticTheme.systemUiThemeExtension.grey;
     transitionSettings.greyDismissible.dismissBarrier = dismissBarrier;
     transitionSettings.dismissible.dismissBarrier = dismissBarrier;
-    transitionSettings.initial.uiStyle =
-        _mainScreenShown ? staticTheme.systemUiThemeExtension.grey : staticTheme.systemUiThemeExtension.black;
+    transitionSettings.initial.uiStyle = _mainScreenShown
+        ? staticTheme.systemUiThemeExtension.grey
+        : staticTheme.systemUiThemeExtension.black;
     transitionSettings.theme.dismissBarrier = dismissBarrier;
     if (themeChanged) {
       _setState?.call();
@@ -379,43 +380,55 @@ class AppRouter extends RouterDelegate<AppRoutes<Object?>>
         for (int i = 0; i < _routes.length; i++) {
           final route = _routes[i];
           if (route.hasSameLocation(AppRoutes.settings)) {
-            pages.add(StackFadePage(
-              key: AppRoutes.settings.uniqueKey,
-              child: const SettingsRoute(),
-              transitionSettings: transitionSettings.dismissible,
-            ));
-          } else if (route.hasSameLocation(AppRoutes.generalSettings)) {
-            pages.add(StackFadePage(
-              key: AppRoutes.generalSettings.uniqueKey,
-              child: const GeneralSettingsRoute(),
-              transitionSettings: transitionSettings.theme,
-            ));
-          } else if (route.hasSameLocation(AppRoutes.themeSettings)) {
-            pages.add(StackFadePage(
-              key: AppRoutes.themeSettings.uniqueKey,
-              child: const ThemeSettingsRoute(),
-              transitionSettings: transitionSettings.theme,
-            ));
-          } else if (route.hasSameLocation(AppRoutes.licenses)) {
-            pages.add(StackFadePage(
-              key: AppRoutes.licenses.uniqueKey,
-              child: const LicensePage(),
-              transitionSettings: transitionSettings.dismissible,
-            ));
-          } else if (route.hasSameLocation(AppRoutes.dev)) {
-            pages.add(StackFadePage(
-              key: AppRoutes.dev.uniqueKey,
-              child: const DevRoute(),
-              transitionSettings: transitionSettings.dismissible,
-            ));
-          } else if (route.hasSameLocation(AppRoutes.selection)) {
-            pages.add(StackFadePage(
-              key: AppRoutes.selection.uniqueKey,
-              child: SelectionRoute(
-                selectionArguments: (route as AppRoutes<SelectionArguments>).arguments!,
+            pages.add(
+              StackFadePage(
+                key: AppRoutes.settings.uniqueKey,
+                child: const SettingsRoute(),
+                transitionSettings: transitionSettings.dismissible,
               ),
-              transitionSettings: transitionSettings.greyDismissible,
-            ));
+            );
+          } else if (route.hasSameLocation(AppRoutes.generalSettings)) {
+            pages.add(
+              StackFadePage(
+                key: AppRoutes.generalSettings.uniqueKey,
+                child: const GeneralSettingsRoute(),
+                transitionSettings: transitionSettings.theme,
+              ),
+            );
+          } else if (route.hasSameLocation(AppRoutes.themeSettings)) {
+            pages.add(
+              StackFadePage(
+                key: AppRoutes.themeSettings.uniqueKey,
+                child: const ThemeSettingsRoute(),
+                transitionSettings: transitionSettings.theme,
+              ),
+            );
+          } else if (route.hasSameLocation(AppRoutes.licenses)) {
+            pages.add(
+              StackFadePage(
+                key: AppRoutes.licenses.uniqueKey,
+                child: const LicensePage(),
+                transitionSettings: transitionSettings.dismissible,
+              ),
+            );
+          } else if (route.hasSameLocation(AppRoutes.dev)) {
+            pages.add(
+              StackFadePage(
+                key: AppRoutes.dev.uniqueKey,
+                child: const DevRoute(),
+                transitionSettings: transitionSettings.dismissible,
+              ),
+            );
+          } else if (route.hasSameLocation(AppRoutes.selection)) {
+            pages.add(
+              StackFadePage(
+                key: AppRoutes.selection.uniqueKey,
+                child: SelectionRoute(
+                  selectionArguments: (route as AppRoutes<SelectionArguments>).arguments!,
+                ),
+                transitionSettings: transitionSettings.greyDismissible,
+              ),
+            );
           }
         }
         return Navigator(
@@ -547,12 +560,11 @@ class HomeRouter extends RouterDelegate<HomeRoutes<Object?>>
     LocalKey key,
     StackFadeRouteTransitionSettings transitionSettings,
     Widget child,
-  ) =>
-      StackFadePage(
-        key: key,
-        transitionSettings: transitionSettings,
-        child: child,
-      );
+  ) => StackFadePage(
+    key: key,
+    transitionSettings: transitionSettings,
+    child: child,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -566,36 +578,44 @@ class HomeRouter extends RouterDelegate<HomeRoutes<Object?>>
 
       final route = _routes[i];
       if (route.hasSameLocation(HomeRoutes.tabs)) {
-        pages.add(_buildPage(
-          context,
-          HomeRoutes.tabs.uniqueKey,
-          transitionSettings.grey,
-          TabsRoute(key: tabsRouteKey),
-        ));
+        pages.add(
+          _buildPage(
+            context,
+            HomeRoutes.tabs.uniqueKey,
+            transitionSettings.grey,
+            TabsRoute(key: tabsRouteKey),
+          ),
+        );
       } else if (route.hasSameLocation(HomeRoutes.album)) {
         final arguments = route.arguments! as PersistentQueueArguments<Album>;
-        pages.add(_buildPage(
-          context,
-          buildContentKey(HomeRoutes.album, arguments.queue),
-          transitionSettings.greyDismissible,
-          PersistentQueueRoute(arguments: arguments),
-        ));
+        pages.add(
+          _buildPage(
+            context,
+            buildContentKey(HomeRoutes.album, arguments.queue),
+            transitionSettings.greyDismissible,
+            PersistentQueueRoute(arguments: arguments),
+          ),
+        );
       } else if (route.hasSameLocation(HomeRoutes.playlist)) {
         final arguments = route.arguments! as PersistentQueueArguments<Playlist>;
-        pages.add(_buildPage(
-          context,
-          buildContentKey(route, arguments.queue),
-          transitionSettings.greyDismissible,
-          PersistentQueueRoute(arguments: arguments),
-        ));
+        pages.add(
+          _buildPage(
+            context,
+            buildContentKey(route, arguments.queue),
+            transitionSettings.greyDismissible,
+            PersistentQueueRoute(arguments: arguments),
+          ),
+        );
       } else if (route.hasSameLocation(HomeRoutes.artist)) {
         final arguments = route.arguments! as Artist;
-        pages.add(_buildPage(
-          context,
-          buildContentKey(route, arguments),
-          transitionSettings.greyDismissible,
-          ArtistRoute(artist: arguments),
-        ));
+        pages.add(
+          _buildPage(
+            context,
+            buildContentKey(route, arguments),
+            transitionSettings.greyDismissible,
+            ArtistRoute(artist: arguments),
+          ),
+        );
       } else if (route.hasSameLocation(HomeRoutes.artistContent)) {
         final arguments = route.arguments! as ArtistContentArguments;
         final ArtistContentRoute actualRoute;
@@ -606,19 +626,23 @@ class HomeRouter extends RouterDelegate<HomeRoutes<Object?>>
         } else {
           throw ArgumentError();
         }
-        pages.add(_buildPage(
-          context,
-          ValueKey('${HomeRoutes.artistContent.location}/${arguments.artist.id}_$i'),
-          transitionSettings.greyDismissible,
-          actualRoute,
-        ));
+        pages.add(
+          _buildPage(
+            context,
+            ValueKey('${HomeRoutes.artistContent.location}/${arguments.artist.id}_$i'),
+            transitionSettings.greyDismissible,
+            actualRoute,
+          ),
+        );
       } else if (route.hasSameLocation(HomeRoutes.search)) {
         final arguments = route.arguments! as SearchArguments;
-        pages.add(SearchPage(
-          key: ValueKey('${HomeRoutes.search.location}/$i'),
-          child: SearchRoute(delegate: arguments._delegate),
-          transitionSettings: transitionSettings.grey,
-        ));
+        pages.add(
+          SearchPage(
+            key: ValueKey('${HomeRoutes.search.location}/$i'),
+            child: SearchRoute(delegate: arguments._delegate),
+            transitionSettings: transitionSettings.grey,
+          ),
+        );
       } else {
         throw UnimplementedError();
       }

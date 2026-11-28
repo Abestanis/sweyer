@@ -19,9 +19,9 @@ class LabelledSlider extends StatelessWidget {
     this.minLabel,
     this.maxLabel,
     this.themeData = const SliderThemeData(),
-  })  : assert(min <= max),
-        assert(value >= min && value <= max),
-        assert(divisions == null || divisions > 0);
+  }) : assert(min <= max),
+       assert(value >= min && value <= max),
+       assert(divisions == null || divisions > 0);
 
   /// See [Slider.value]
   final double value;

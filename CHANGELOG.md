@@ -2,7 +2,7 @@
 [@ernince]: https://github.com/ernince
 
 ## Unreleased
-* Update to Flutter 3.35.7
+* Update to Flutter 3.50.1
 * Now requires Android 7.0 or newer
 
 * Fix track favourite filter not applying to queue
@@ -22,7 +22,7 @@
 
 ## 1.0.12
 
-* Update targetSdkVersion to 34 to match new [Google Play store API level requirements](https://support.google.com/googleplay/android-developer/answer/11926878?hl=en) @nt4f04und
+* Update targetSdkVersion to 34 to match new [Google Play Store API level requirements](https://support.google.com/googleplay/android-developer/answer/11926878?hl=en) @nt4f04und
 
 ## 1.0.11
 
@@ -91,7 +91,7 @@ All the work related to this version can be found in this [project](https://gith
 
 ### Not important for users:
   - [Add bug and feature request templates to issues](https://github.com/nt4f04uNd/sweyer/pull/39) **([@Abestanis])**
-  - [Add readme Google Play store badge](https://github.com/nt4f04uNd/sweyer/pull/64) **([@Abestanis])**
+  - [Add readme Google Play Store badge](https://github.com/nt4f04uNd/sweyer/pull/64) **([@Abestanis])**
   - [Unit and golden tests](https://github.com/nt4f04uNd/sweyer/pull/21) **(@nt4f04und, [@Abestanis])**
   - [Refactor the content type system](https://github.com/nt4f04uNd/sweyer/pull/70) **([@Abestanis])**
   - [Flutter 3 migration](https://github.com/nt4f04uNd/sweyer/pull/61) **(@nt4f04und)**
@@ -106,7 +106,7 @@ All the work related to this version can be found in this [project](https://gith
 
 ## 1.0.7
 
-- Fix bug that localization didn't fallback to English as a default language
+- Fix bug that localization didn't fall back to English as a default language
 
 ## 1.0.6
 

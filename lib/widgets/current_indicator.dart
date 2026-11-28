@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math' as math;
+
 import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 
@@ -82,8 +83,8 @@ class _Value {
     this.height, [
     int? milliseconds,
     Curve? curve,
-  ])  : _milliseconds = milliseconds,
-        _curve = curve;
+  ]) : _milliseconds = milliseconds,
+       _curve = curve;
 
   final double height;
   final int? _milliseconds;

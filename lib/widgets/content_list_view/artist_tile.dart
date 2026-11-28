@@ -64,10 +64,12 @@ class ArtistTile extends SelectableWidget<SelectionEntry> {
     this.enableDefaultOnTap = true,
     double? horizontalPadding,
     this.backgroundColor = Colors.transparent,
-  })  : assert(selectionController is SelectionController<SelectionEntry<Content>> ||
-            selectionController is SelectionController<SelectionEntry<Artist>>),
-        horizontalPadding = horizontalPadding ?? _horizontalPadding,
-        super.selectable();
+  }) : assert(
+         selectionController is SelectionController<SelectionEntry<Content>> ||
+             selectionController is SelectionController<SelectionEntry<Artist>>,
+       ),
+       horizontalPadding = horizontalPadding ?? _horizontalPadding,
+       super.selectable();
 
   final Artist artist;
 
@@ -98,10 +100,10 @@ class ArtistTile extends SelectableWidget<SelectionEntry> {
 class _ArtistTileState extends SelectableState<SelectionEntry<Artist>, ArtistTile> with ContentTileComponentsMixin {
   @override
   SelectionEntry<Artist> toSelectionEntry() => SelectionEntry<Artist>.fromContent(
-        content: widget.artist,
-        index: widget.selectionIndex!,
-        context: context,
-      );
+    content: widget.artist,
+    index: widget.selectionIndex!,
+    context: context,
+  );
 
   void _handleTap() {
     super.handleTap(() {
@@ -169,7 +171,7 @@ class _ArtistTileState extends SelectableState<SelectionEntry<Artist>, ArtistTil
                   if (widget.trailing != null) widget.trailing!,
                   if (selectionRoute) buildAddToSelection(),
                 ],
-              )
+              ),
             ],
           ),
         ),

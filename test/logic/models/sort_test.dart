@@ -621,8 +621,9 @@ void main() {
       for (final MapEntry(key: feature, value: expectedContentList) in featureTestCases.entries) {
         test('Sorts albums by ${feature.name} ${sortOrder.name}', () async {
           expect(
-            (albums.toList()..sort(AlbumSort(feature: feature, order: sortOrder).comparator))
-                .map((album) => album.toMap()),
+            (albums.toList()..sort(AlbumSort(feature: feature, order: sortOrder).comparator)).map(
+              (album) => album.toMap(),
+            ),
             expectedContentList.map((album) => album.toMap()),
           );
         });
@@ -756,8 +757,9 @@ void main() {
       for (final MapEntry(key: feature, value: expectedContentList) in featureTestCases.entries) {
         test('Sorts playlists by ${feature.name} ${sortOrder.name}', () async {
           expect(
-            (playlists.toList()..sort(PlaylistSort(feature: feature, order: sortOrder).comparator))
-                .map((playlist) => playlist.toMap()),
+            (playlists.toList()..sort(PlaylistSort(feature: feature, order: sortOrder).comparator)).map(
+              (playlist) => playlist.toMap(),
+            ),
             expectedContentList.map((playlist) => playlist.toMap()),
           );
         });
@@ -884,8 +886,9 @@ void main() {
       for (final MapEntry(key: feature, value: expectedContentList) in featureTestCases.entries) {
         test('Sorts artists by ${feature.name} ${sortOrder.name}', () async {
           expect(
-            (artists.toList()..sort(ArtistSort(feature: feature, order: sortOrder).comparator))
-                .map((artist) => artist.toMap()),
+            (artists.toList()..sort(ArtistSort(feature: feature, order: sortOrder).comparator)).map(
+              (artist) => artist.toMap(),
+            ),
             expectedContentList.map((artist) => artist.toMap()),
           );
         });

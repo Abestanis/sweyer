@@ -24,10 +24,14 @@ void main() {
     registerPostAppSetup((binding) async {
       await Settings.useMediaStoreForFavoriteSongs.set(false);
       await binding.pump(const Duration(seconds: 1)); // Wait for the listener in FavoriteControl to execute
-      await FakeFavoritesControl.instance
-          .setFavorite(contentTuple: ContentTuple(songs: [favoriteSong1, favoriteSong2, favoriteSong3]), value: true);
       await FakeFavoritesControl.instance.setFavorite(
-          contentTuple: ContentTuple(songs: [notFavoriteSong1, notFavoriteSong2, notFavoriteSong3]), value: false);
+        contentTuple: ContentTuple(songs: [favoriteSong1, favoriteSong2, favoriteSong3]),
+        value: true,
+      );
+      await FakeFavoritesControl.instance.setFavorite(
+        contentTuple: ContentTuple(songs: [notFavoriteSong1, notFavoriteSong2, notFavoriteSong3]),
+        value: false,
+      );
     });
   });
 
@@ -82,8 +86,9 @@ void main() {
       });
     });
 
-    testWidgets("When switching to MediaStore, doesn't show resolve conflict dialog with no conflicts",
-        (WidgetTester tester) async {
+    testWidgets("When switching to MediaStore, doesn't show resolve conflict dialog with no conflicts", (
+      WidgetTester tester,
+    ) async {
       await tester.runAppTest(() async {
         await Settings.useMediaStoreForFavoriteSongs.set(true);
         await tester.pumpAndSettle();
@@ -93,8 +98,10 @@ void main() {
 
     testWidgets('Allows to cancel when resolving conflicts', (WidgetTester tester) async {
       await tester.runAppTest(() async {
-        await FakeFavoritesControl.instance
-            .setFavorite(contentTuple: ContentTuple(songs: [notFavoriteSong1]), value: true);
+        await FakeFavoritesControl.instance.setFavorite(
+          contentTuple: ContentTuple(songs: [notFavoriteSong1]),
+          value: true,
+        );
         await Settings.useMediaStoreForFavoriteSongs.set(true);
         await tester.pumpAndSettle();
         expect(find.text(l10n.resolveConflict), findsOneWidget);

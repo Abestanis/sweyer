@@ -105,8 +105,8 @@ class MockAudioPlayer extends AudioPlayerPlatform {
   final TestWidgetsFlutterBinding binding;
 
   MockAudioPlayer(InitRequest request, this.binding)
-      : audioLoadConfiguration = request.audioLoadConfiguration,
-        super(request.id);
+    : audioLoadConfiguration = request.audioLoadConfiguration,
+      super(request.id);
 
   @override
   Stream<PlayerDataMessage> get playerDataMessageStream => StreamController<PlayerDataMessage>().stream;
@@ -204,7 +204,8 @@ class MockAudioPlayer extends AudioPlayerPlatform {
 
   @override
   Future<SetAutomaticallyWaitsToMinimizeStallingResponse> setAutomaticallyWaitsToMinimizeStalling(
-      SetAutomaticallyWaitsToMinimizeStallingRequest request) async {
+    SetAutomaticallyWaitsToMinimizeStallingRequest request,
+  ) async {
     return SetAutomaticallyWaitsToMinimizeStallingResponse();
   }
 
@@ -277,29 +278,31 @@ class MockAudioPlayer extends AudioPlayerPlatform {
       // Not sure why this cast is necessary...
       url = (_audioSource! as UriAudioSourceMessage).uri.toString();
     }
-    eventController.add(PlaybackEventMessage(
-      processingState: _processingState,
-      updatePosition: _updatePosition,
-      updateTime: _updateTime,
-      bufferedPosition: _position,
-      icyMetadata: IcyMetadataMessage(
-        headers: IcyHeadersMessage(
-          url: url,
-          genre: 'Genre',
-          metadataInterval: 3,
-          bitrate: 100,
-          isPublic: true,
-          name: 'name',
+    eventController.add(
+      PlaybackEventMessage(
+        processingState: _processingState,
+        updatePosition: _updatePosition,
+        updateTime: _updateTime,
+        bufferedPosition: _position,
+        icyMetadata: IcyMetadataMessage(
+          headers: IcyHeadersMessage(
+            url: url,
+            genre: 'Genre',
+            metadataInterval: 3,
+            bitrate: 100,
+            isPublic: true,
+            name: 'name',
+          ),
+          info: IcyInfoMessage(
+            title: 'title',
+            url: url,
+          ),
         ),
-        info: IcyInfoMessage(
-          title: 'title',
-          url: url,
-        ),
+        duration: _duration,
+        currentIndex: _index,
+        androidAudioSessionId: null,
       ),
-      duration: _duration,
-      currentIndex: _index,
-      androidAudioSessionId: null,
-    ));
+    );
   }
 
   Duration get _position {
@@ -320,8 +323,9 @@ class MockAudioPlayer extends AudioPlayerPlatform {
 
   @override
   Future<SetCanUseNetworkResourcesForLiveStreamingWhilePausedResponse>
-      setCanUseNetworkResourcesForLiveStreamingWhilePaused(
-          SetCanUseNetworkResourcesForLiveStreamingWhilePausedRequest request) async {
+  setCanUseNetworkResourcesForLiveStreamingWhilePaused(
+    SetCanUseNetworkResourcesForLiveStreamingWhilePausedRequest request,
+  ) async {
     return SetCanUseNetworkResourcesForLiveStreamingWhilePausedResponse();
   }
 
@@ -337,13 +341,15 @@ class MockAudioPlayer extends AudioPlayerPlatform {
 
   @override
   Future<AndroidLoudnessEnhancerSetTargetGainResponse> androidLoudnessEnhancerSetTargetGain(
-      AndroidLoudnessEnhancerSetTargetGainRequest request) async {
+    AndroidLoudnessEnhancerSetTargetGainRequest request,
+  ) async {
     return AndroidLoudnessEnhancerSetTargetGainResponse();
   }
 
   @override
   Future<AndroidEqualizerGetParametersResponse> androidEqualizerGetParameters(
-      AndroidEqualizerGetParametersRequest request) async {
+    AndroidEqualizerGetParametersRequest request,
+  ) async {
     return AndroidEqualizerGetParametersResponse(
       parameters: AndroidEqualizerParametersMessage(
         minDecibels: 0.0,
@@ -364,7 +370,8 @@ class MockAudioPlayer extends AudioPlayerPlatform {
 
   @override
   Future<AndroidEqualizerBandSetGainResponse> androidEqualizerBandSetGain(
-      AndroidEqualizerBandSetGainRequest request) async {
+    AndroidEqualizerBandSetGainRequest request,
+  ) async {
     return AndroidEqualizerBandSetGainResponse();
   }
 

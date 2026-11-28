@@ -28,10 +28,10 @@ class ListHeader extends StatelessWidget {
     final theme = Theme.of(context);
     return DefaultTextStyle(
       style: DefaultTextStyle.of(context).style.copyWith(
-            fontSize: 16.0,
-            color: theme.hintColor,
-            fontWeight: FontWeight.w700,
-          ),
+        fontSize: 16.0,
+        color: theme.hintColor,
+        fontWeight: FontWeight.w700,
+      ),
       child: Container(
         color: color,
         padding: margin,
@@ -79,10 +79,10 @@ class ContentListHeader<T extends Content> extends StatelessWidget {
     super.key,
     required this.contentType,
     required this.count,
-  })  : _onlyCount = true,
-        selectionController = null,
-        leading = null,
-        trailing = null;
+  }) : _onlyCount = true,
+       selectionController = null,
+       leading = null,
+       trailing = null;
 
   final ContentType<T> contentType;
 
@@ -197,7 +197,7 @@ class ContentListHeader<T extends Content> extends StatelessWidget {
                       ),
                     ),
                   ),
-                  if (leading != null) leading!
+                  if (leading != null) leading!,
                 ],
               ),
             ),

@@ -125,13 +125,13 @@ class Playlist extends PersistentQueue with DuplicatingSongOriginMixin implement
 
   @override
   Map<String, dynamic> toMap() => {
-        'id': id,
-        'filesystemPath': filesystemPath,
-        'dateAdded': dateAdded,
-        'dateModified': dateModified,
-        'name': name,
-        'songIds': songIds,
-      };
+    'id': id,
+    'filesystemPath': filesystemPath,
+    'dateAdded': dateAdded,
+    'dateModified': dateModified,
+    'name': name,
+    'songIds': songIds,
+  };
 }
 
 /// The `copyWith` function type for [Playlist].

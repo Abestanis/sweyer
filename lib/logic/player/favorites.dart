@@ -77,21 +77,26 @@ class FavoritesControl with Control {
     final previousFavorites = _favoriteSetsMap.get(ContentType.song);
     final newFavoritesFromMediaStore = favoritesInMediaStore
         .difference(previousFavorites)
-        .map((id) =>
-            ContentControl.instance.getContent(ContentType.song).firstWhereOrNull((song) => song.sourceId == id))
+        .map(
+          (id) => ContentControl.instance.getContent(ContentType.song).firstWhereOrNull((song) => song.sourceId == id),
+        )
         .whereType<Song>() // Filter unknown songs
         .toSet();
     final newFavoritesFromLocalStore = previousFavorites
         .difference(favoritesInMediaStore)
-        .map((id) =>
-            ContentControl.instance.getContent(ContentType.song).firstWhereOrNull((song) => song.sourceId == id))
+        .map(
+          (id) => ContentControl.instance.getContent(ContentType.song).firstWhereOrNull((song) => song.sourceId == id),
+        )
         .whereType<Song>() // Filter unknown songs
         .toSet();
     if (newFavoritesFromMediaStore.isNotEmpty || newFavoritesFromLocalStore.isNotEmpty) {
       final context = AppRouter.instance.navigatorKey.currentContext;
       if (context != null) {
-        final chosenFavorites =
-            await _showFavoriteConflictDialog(context, newFavoritesFromLocalStore, newFavoritesFromMediaStore);
+        final chosenFavorites = await _showFavoriteConflictDialog(
+          context,
+          newFavoritesFromLocalStore,
+          newFavoritesFromMediaStore,
+        );
         if (chosenFavorites == null) {
           await Settings.useMediaStoreForFavoriteSongs.set(false);
           return false;
@@ -115,11 +120,15 @@ class FavoritesControl with Control {
   /// The [favorites] will be marked as favorites in the beginning, the [unfavored] will not.
   /// Returns the set of songs that the user has chosen as favorites.
   Future<Set<Song>?> _showFavoriteConflictDialog(
-      BuildContext context, Iterable<Song> favorites, Iterable<Song> unfavored) async {
+    BuildContext context,
+    Iterable<Song> favorites,
+    Iterable<Song> unfavored,
+  ) async {
     final l10n = getl10n(context);
     final theme = Theme.of(context);
     Set<Song> chosenFavorites = favorites.toSet();
-    final didChoose = await ShowFunctions.instance.showDialog<bool>(
+    final didChoose =
+        await ShowFunctions.instance.showDialog<bool>(
           context,
           ui: theme.systemUiThemeExtension.modalOverGrey,
           title: Text(l10n.resolveConflict),
@@ -129,30 +138,35 @@ class FavoritesControl with Control {
             text: l10n.accept,
             popResult: true,
           ),
-          content: StatefulBuilder(builder: (context, setState) {
-            void toggleSong(Song song) => setState(() {
-                  chosenFavorites.contains(song) ? chosenFavorites.remove(song) : chosenFavorites.add(song);
-                });
-            return SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Text(l10n.conflictExplanation),
-                  ),
-                  for (final song in favorites.followedBy(unfavored))
-                    SongTile(
-                      song: song,
-                      enableDefaultOnTap: false,
-                      onTap: () => toggleSong(song),
-                      showFavoriteIndicator: false,
-                      trailing: HeartButton(active: chosenFavorites.contains(song), onPressed: () => toggleSong(song)),
+          content: StatefulBuilder(
+            builder: (context, setState) {
+              void toggleSong(Song song) => setState(() {
+                chosenFavorites.contains(song) ? chosenFavorites.remove(song) : chosenFavorites.add(song);
+              });
+              return SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text(l10n.conflictExplanation),
                     ),
-                ],
-              ),
-            );
-          }),
+                    for (final song in favorites.followedBy(unfavored))
+                      SongTile(
+                        song: song,
+                        enableDefaultOnTap: false,
+                        onTap: () => toggleSong(song),
+                        showFavoriteIndicator: false,
+                        trailing: HeartButton(
+                          active: chosenFavorites.contains(song),
+                          onPressed: () => toggleSong(song),
+                        ),
+                      ),
+                  ],
+                ),
+              );
+            },
+          ),
         ) ??
         false;
     return didChoose ? chosenFavorites : null;

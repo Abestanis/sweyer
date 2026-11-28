@@ -79,8 +79,8 @@ class _Results {
 
 class _SearchStateDelegate {
   _SearchStateDelegate(this.selectionController, this.searchDelegate)
-      : scrollController = ScrollController(),
-        singleListScrollController = ScrollController() {
+    : scrollController = ScrollController(),
+      singleListScrollController = ScrollController() {
     /// Initialize [prevQuery] and [trimmedQuery] values.
     onQueryChange();
   }
@@ -211,15 +211,17 @@ class _SearchStateDelegate {
     RenderObject? targetRenderObject;
     ScrollableState? scrollable = Scrollable.maybeOf(context);
     while (scrollable != null) {
-      futures.add(_ensureVisible(
-        scrollable.position,
-        context.findRenderObject()!,
-        alignment: alignment,
-        duration: duration,
-        curve: curve,
-        alignmentPolicy: alignmentPolicy,
-        targetRenderObject: targetRenderObject,
-      ));
+      futures.add(
+        _ensureVisible(
+          scrollable.position,
+          context.findRenderObject()!,
+          alignment: alignment,
+          duration: duration,
+          curve: curve,
+          alignmentPolicy: alignmentPolicy,
+          targetRenderObject: targetRenderObject,
+        ),
+      );
 
       targetRenderObject = targetRenderObject ?? context.findRenderObject();
       context = scrollable.context;
@@ -345,7 +347,11 @@ class SearchPageRoute extends RouteTransition<SearchPage> {
 
   @override
   Widget buildAnimation(
-      BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) {
     return FadeTransition(
       opacity: CurvedAnimation(
         parent: animation,
@@ -379,13 +385,15 @@ class _SearchRouteState extends State<SearchRoute> with SelectionHandlerMixin {
   void initState() {
     super.initState();
 
-    initSelectionController(() => ContentSelectionController.create(
-          vsync: AppRouter.instance.navigatorKey.currentState!,
-          context: context,
-          closeButton: true,
-          ignoreWhen: () =>
-              playerRouteController.opened || HomeRouter.instance.currentRoute.hasDifferentLocation(HomeRoutes.search),
-        ));
+    initSelectionController(
+      () => ContentSelectionController.create(
+        vsync: AppRouter.instance.navigatorKey.currentState!,
+        context: context,
+        closeButton: true,
+        ignoreWhen: () =>
+            playerRouteController.opened || HomeRouter.instance.currentRoute.hasDifferentLocation(HomeRoutes.search),
+      ),
+    );
 
     stateDelegate = _SearchStateDelegate(selectionController, widget.delegate);
     widget.delegate._setStateNotifier.addListener(_handleSetState);
@@ -526,10 +534,12 @@ class _SearchRouteState extends State<SearchRoute> with SelectionHandlerMixin {
           if (contentTypeEntries.length > 1) {
             for (int i = 0; i < contentTypeEntries.length; i++) {
               children.add(const SizedBox(width: 8.0));
-              children.add(_ContentChip(
-                delegate: stateDelegate,
-                contentType: contentTypeEntries[i].key,
-              ));
+              children.add(
+                _ContentChip(
+                  delegate: stateDelegate,
+                  contentType: contentTypeEntries[i].key,
+                ),
+              );
             }
           }
           return Column(
@@ -562,8 +572,9 @@ class _SearchRouteState extends State<SearchRoute> with SelectionHandlerMixin {
           );
         },
         child: ValueListenableBuilder<bool>(
-            valueListenable: stateDelegate.bodyScrolledNotifier,
-            builder: (context, scrolled, child) => AppBarBorder(shown: scrolled)),
+          valueListenable: stateDelegate.bodyScrolledNotifier,
+          builder: (context, scrolled, child) => AppBarBorder(shown: scrolled),
+        ),
       ),
     );
   }
@@ -780,11 +791,13 @@ class _DelegateBuilderState extends State<_DelegateBuilder> {
                         }
 
                         ContentItemTest getSelectedTest(List<Content> filteredList, Map<Content, int> listIndexMap) {
-                          return (index) => delegate.selectionController.data.contains(SelectionEntry.fromContent(
-                                content: filteredList[index],
-                                index: listIndexMap[filteredList[index]]!,
-                                context: context,
-                              ));
+                          return (index) => delegate.selectionController.data.contains(
+                            SelectionEntry.fromContent(
+                              content: filteredList[index],
+                              index: listIndexMap[filteredList[index]]!,
+                              context: context,
+                            ),
+                          );
                         }
 
                         final Widget child;
@@ -822,28 +835,32 @@ class _DelegateBuilderState extends State<_DelegateBuilder> {
                             final filteredList = showOnlyFavorites ? ContentUtils.filterFavorite(list).toList() : list;
                             if (filteredList.isEmpty) {
                               emptyCount += 1;
-                              children.add(ContentSection.custom(
-                                contentType: entry.key,
-                                list: filteredList,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(l10n.searchNothingFound),
+                              children.add(
+                                ContentSection.custom(
+                                  contentType: entry.key,
+                                  list: filteredList,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                                    child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(l10n.searchNothingFound),
+                                    ),
                                   ),
+                                  onHeaderTap: () => delegate.contentType = entry.key,
                                 ),
-                                onHeaderTap: () => delegate.contentType = entry.key,
-                              ));
+                              );
                             } else {
-                              children.add(ContentSection(
-                                contentType: entry.key,
-                                list: filteredList,
-                                onHeaderTap: () => delegate.contentType = entry.key,
-                                selectionController: delegate.selectionController,
-                                contentTileTapHandler: () => delegate.handleContentTap(entry.key),
-                                selectedTest: getSelectedTest(filteredList, listIndexMap),
-                                selectionIndexMapper: getSelectionIndexMapper(filteredList, listIndexMap),
-                              ));
+                              children.add(
+                                ContentSection(
+                                  contentType: entry.key,
+                                  list: filteredList,
+                                  onHeaderTap: () => delegate.contentType = entry.key,
+                                  selectionController: delegate.selectionController,
+                                  contentTileTapHandler: () => delegate.handleContentTap(entry.key),
+                                  selectedTest: getSelectedTest(filteredList, listIndexMap),
+                                  selectionIndexMapper: getSelectionIndexMapper(filteredList, listIndexMap),
+                                ),
+                              );
                             }
                           }
                           if (emptyCount == contentTypeEntries.length) {
@@ -909,8 +926,8 @@ class _ContentChip extends StatefulWidget {
 
   const _ContentChip.favorites({
     required this.delegate,
-  })  : favoritesChip = true,
-        contentType = null;
+  }) : favoritesChip = true,
+       contentType = null;
 
   final _SearchStateDelegate delegate;
   final ContentType? contentType;

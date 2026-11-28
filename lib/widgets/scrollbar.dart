@@ -48,18 +48,20 @@ class AppScrollbar extends StatefulWidget {
               final l10n = getl10n(context);
               final item =
                   list[(controller.position.pixels / kSongTileHeight(context) - 1).clamp(0.0, list.length - 1).round()];
-              return NFScrollLabel(text: () {
-                switch (contentType as ContentType) {
-                  case ContentType.song:
-                    return (item as Song).title[0].toUpperCase();
-                  case ContentType.album:
-                    return (item as Album).album[0].toUpperCase();
-                  case ContentType.playlist:
-                    return (item as Playlist).name[0].toUpperCase();
-                  case ContentType.artist:
-                    return ContentUtils.localizedArtist((item as Artist).artist, l10n)[0].toUpperCase();
-                }
-              }());
+              return NFScrollLabel(
+                text: () {
+                  switch (contentType as ContentType) {
+                    case ContentType.song:
+                      return (item as Song).title[0].toUpperCase();
+                    case ContentType.album:
+                      return (item as Album).album[0].toUpperCase();
+                    case ContentType.playlist:
+                      return (item as Playlist).name[0].toUpperCase();
+                    case ContentType.artist:
+                      return ContentUtils.localizedArtist((item as Artist).artist, l10n)[0].toUpperCase();
+                  }
+                }(),
+              );
             },
       controller: controller,
       thumbVisibility: thumbVisibility,
@@ -101,7 +103,8 @@ class _AppScrollbarState extends State<AppScrollbar> {
 
   void maybeShowLabels(Offset? dragPosition) {
     final windowSize = context.size;
-    final shouldShowScrollLabels = windowSize != null &&
+    final shouldShowScrollLabels =
+        windowSize != null &&
         dragPosition != null &&
         (Directionality.of(context) == TextDirection.rtl
             ? (dragPosition.dx < scrollLabelDragAreaWidth && dragPosition.dx >= 0)
@@ -127,10 +130,11 @@ class _AppScrollbarState extends State<AppScrollbar> {
     final highlightColor = theme.highlightColor;
     return Theme(
       data: theme.copyWith(
-          highlightColor: ThemeControl.instance.isDark ? const Color(0x40CCCCCC) : const Color(0x66BCBCBC),
-          scrollbarTheme: widget.hoverThickness == null
-              ? theme.scrollbarTheme
-              : theme.scrollbarTheme.copyWith(thickness: WidgetStateProperty.all(widget.hoverThickness))),
+        highlightColor: ThemeControl.instance.isDark ? const Color(0x40CCCCCC) : const Color(0x66BCBCBC),
+        scrollbarTheme: widget.hoverThickness == null
+            ? theme.scrollbarTheme
+            : theme.scrollbarTheme.copyWith(thickness: WidgetStateProperty.all(widget.hoverThickness)),
+      ),
       child: MediaQuery.removePadding(
         context: context,
         removeTop: true,

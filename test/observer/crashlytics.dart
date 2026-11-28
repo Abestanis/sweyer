@@ -50,8 +50,14 @@ class CrashlyticsObserver implements FirebaseCrashlytics {
   Map<dynamic, dynamic> get pluginConstants => FirebaseCrashlytics.instance.pluginConstants;
 
   @override
-  Future<void> recordError(exception, StackTrace? stack,
-      {reason, Iterable<Object> information = const [], bool? printDetails, bool fatal = false}) async {
+  Future<void> recordError(
+    exception,
+    StackTrace? stack, {
+    reason,
+    Iterable<Object> information = const [],
+    bool? printDetails,
+    bool fatal = false,
+  }) async {
     if (fatal) {
       _fatalErrorCount++;
       if (throwFatalErrors) {

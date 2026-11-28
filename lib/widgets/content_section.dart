@@ -27,11 +27,11 @@ class ContentSection<T extends Content> extends StatelessWidget {
     required this.list,
     required this.child,
     this.onHeaderTap,
-  })  : selectionController = null,
-        contentTileTapHandler = null,
-        selectedTest = null,
-        selectionIndexMapper = null,
-        maxPreviewCount = 0;
+  }) : selectionController = null,
+       contentTileTapHandler = null,
+       selectedTest = null,
+       selectionIndexMapper = null,
+       maxPreviewCount = 0;
 
   final ContentType<T> contentType;
   final List<T> list;
@@ -74,12 +74,14 @@ class ContentSection<T extends Content> extends StatelessWidget {
           selectionIndex: selectionIndexMapper != null ? selectionIndexMapper!(index) : index,
           selected: selectedTest != null
               ? selectedTest!(index)
-              : selectionController?.data.contains(SelectionEntry<T>.fromContent(
-                    content: item,
-                    index: index,
-                    context: context,
-                  )) ??
-                  false,
+              : selectionController?.data.contains(
+                      SelectionEntry<T>.fromContent(
+                        content: item,
+                        index: index,
+                        context: context,
+                      ),
+                    ) ??
+                    false,
           selectionController: selectionController,
           onTap: () => contentTileTapHandler?.call(),
           horizontalPadding: 12.0,
@@ -127,7 +129,7 @@ class ContentSection<T extends Content> extends StatelessWidget {
             children: [
               for (int index = 0; index < math.min(maxPreviewCount, count); index++) builder!(index),
             ],
-          )
+          ),
       ],
     );
   }

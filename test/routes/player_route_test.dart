@@ -63,10 +63,12 @@ void main() {
         await tester.tap(find.byIcon(Icons.chevron_right_rounded));
         await tester.pumpAndSettle();
         expect(find.byType(SearchRoute), findsOneWidget);
-        final queryTextField = tester.widget<TextField>(find.descendant(
-          of: find.byType(SearchRoute),
-          matching: find.byType(TextField),
-        ));
+        final queryTextField = tester.widget<TextField>(
+          find.descendant(
+            of: find.byType(SearchRoute),
+            matching: find.byType(TextField),
+          ),
+        );
         expect(queryTextField.controller!.text, query);
         expect(queryTextField.focusNode!.hasFocus, false);
       });
@@ -149,10 +151,16 @@ void main() {
 
       await tester.runAsync(() => tester.tap(find.byIcon(Icons.skip_previous_rounded)));
       expect(PlaybackControl.instance.currentSong, songs.last);
-      expect(appWidgetChannelObserver.saveWidgetDataLog,
-          [("song", songs.first.contentUri), ("playing", false), ("song", songs.last.contentUri), ("playing", false)]);
-      expect(appWidgetChannelObserver.updateWidgetRequests,
-          [AppWidgetControl.appWidgetName, AppWidgetControl.appWidgetName]);
+      expect(appWidgetChannelObserver.saveWidgetDataLog, [
+        ("song", songs.first.contentUri),
+        ("playing", false),
+        ("song", songs.last.contentUri),
+        ("playing", false),
+      ]);
+      expect(appWidgetChannelObserver.updateWidgetRequests, [
+        AppWidgetControl.appWidgetName,
+        AppWidgetControl.appWidgetName,
+      ]);
     });
   });
 
@@ -183,10 +191,16 @@ void main() {
 
       await tester.runAsync(() => tester.tap(find.byIcon(Icons.skip_next_rounded)));
       expect(PlaybackControl.instance.currentSong, songs.first);
-      expect(appWidgetChannelObserver.saveWidgetDataLog,
-          [("song", songs.last.contentUri), ("playing", false), ("song", songs.first.contentUri), ("playing", false)]);
-      expect(appWidgetChannelObserver.updateWidgetRequests,
-          [AppWidgetControl.appWidgetName, AppWidgetControl.appWidgetName]);
+      expect(appWidgetChannelObserver.saveWidgetDataLog, [
+        ("song", songs.last.contentUri),
+        ("playing", false),
+        ("song", songs.first.contentUri),
+        ("playing", false),
+      ]);
+      expect(appWidgetChannelObserver.updateWidgetRequests, [
+        AppWidgetControl.appWidgetName,
+        AppWidgetControl.appWidgetName,
+      ]);
     });
   });
 
@@ -219,10 +233,16 @@ void main() {
       await tester.runAsync(() => tester.tap(button));
       expect(PlayerManager.instance.playing, false);
       expect(PlayerManager.handler!.running, true, reason: 'Handler should only stop when stopped, not when paused');
-      expect(appWidgetChannelObserver.saveWidgetDataLog,
-          [("song", songWith().contentUri), ("playing", true), ("song", songWith().contentUri), ("playing", false)]);
-      expect(appWidgetChannelObserver.updateWidgetRequests,
-          [AppWidgetControl.appWidgetName, AppWidgetControl.appWidgetName]);
+      expect(appWidgetChannelObserver.saveWidgetDataLog, [
+        ("song", songWith().contentUri),
+        ("playing", true),
+        ("song", songWith().contentUri),
+        ("playing", false),
+      ]);
+      expect(appWidgetChannelObserver.updateWidgetRequests, [
+        AppWidgetControl.appWidgetName,
+        AppWidgetControl.appWidgetName,
+      ]);
 
       await tester.pumpAndSettle();
     });

@@ -3,8 +3,8 @@ import 'package:sweyer/sweyer.dart';
 
 final materialAppSwitchesStateHolderProvider =
     StateNotifierProvider<MaterialAppSwitchesStateHolder, MaterialAppSwitchesState>(
-  (ref) => MaterialAppSwitchesStateHolder(),
-);
+      (ref) => MaterialAppSwitchesStateHolder(),
+    );
 
 class MaterialAppSwitchesStateHolder extends StateNotifier<MaterialAppSwitchesState> {
   MaterialAppSwitchesStateHolder() : super(const MaterialAppSwitchesState());

@@ -80,17 +80,19 @@ class _ArtistContentRouteState<T extends Content> extends State<ArtistContentRou
                 ),
                 builder2: SelectionAppBar.defaultSelectionActionsBuilder,
                 child1: const SizedBox.shrink(),
-                child2: Row(children: [
-                  SelectAllSelectionAction<T>(
-                    controller: selectionController,
-                    entryFactory: (content, index) => SelectionEntry<T>.fromContent(
-                      content: content,
-                      index: index,
-                      context: context,
+                child2: Row(
+                  children: [
+                    SelectAllSelectionAction<T>(
+                      controller: selectionController,
+                      entryFactory: (content, index) => SelectionEntry<T>.fromContent(
+                        content: content,
+                        index: index,
+                        context: context,
+                      ),
+                      getAll: () => list,
                     ),
-                    getAll: () => list,
-                  ),
-                ]),
+                  ],
+                ),
               ),
             ),
           ],

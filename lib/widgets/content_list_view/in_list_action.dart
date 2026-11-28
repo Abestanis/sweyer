@@ -45,14 +45,17 @@ class _InListContentActionState extends State<InListContentAction> with SingleTi
     vsync: this,
     duration: const Duration(milliseconds: 240),
   );
-  late final fadeAnimation = Tween(
-    begin: 0.2,
-    end: 1.0,
-  ).animate(CurvedAnimation(
-    parent: controller,
-    curve: Curves.easeOutCubic,
-    reverseCurve: Curves.easeInCubic,
-  ));
+  late final fadeAnimation =
+      Tween(
+        begin: 0.2,
+        end: 1.0,
+      ).animate(
+        CurvedAnimation(
+          parent: controller,
+          curve: Curves.easeOutCubic,
+          reverseCurve: Curves.easeInCubic,
+        ),
+      );
 
   Color? previousColor;
 

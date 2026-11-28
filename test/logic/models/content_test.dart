@@ -178,7 +178,7 @@ void main() {
             'id': 13,
             'songIds': [-1], // Invalid song id.
           }),
-          playlistWith(id: 13, songIds: [-1])
+          playlistWith(id: 13, songIds: [-1]),
         ),
       ];
       late CrashlyticsObserver crashlyticsObserver;
@@ -191,7 +191,9 @@ void main() {
           ContentControl.instance.state.playlists
               .sorted((item1, item2) => item1.id.compareTo(item2.id))
               .map((playlist) => playlist.toMap()),
-          validPlaylists.sorted((item1, item2) => item1.$2.id.compareTo(item2.$2.id)).map(
+          validPlaylists
+              .sorted((item1, item2) => item1.$2.id.compareTo(item2.$2.id))
+              .map(
                 (element) => element.$2.toMap(),
               ),
           reason: "Should be able to correctly parse all valid playlists",
@@ -227,7 +229,7 @@ void main() {
         (validSong.copyWith({'id': 22, 'dateModified': null}), songWith(id: 22, dateModified: songWith().dateAdded)),
         (
           validSong.copyWith({'id': 23}).copyWithout(['dateModified']),
-          songWith(id: 23, dateModified: songWith().dateAdded)
+          songWith(id: 23, dateModified: songWith().dateAdded),
         ),
         (validSong.copyWith({'id': 24, 'duration': -1}), songWith(id: 24, duration: -1)),
         (validSong.copyWith({'id': 25, 'size': -1}), songWith(id: 25, size: -1)),
@@ -238,11 +240,11 @@ void main() {
         (validSong.copyWith({'id': 30}).copyWithout(['filesystemPath']), songWith(id: 30, filesystemPath: null)),
         (
           validSong.copyWith({'id': 31, 'isFavoriteInMediaStore': null}),
-          songWith(id: 31, isFavoriteInMediaStore: false)
+          songWith(id: 31, isFavoriteInMediaStore: false),
         ),
         (
           validSong.copyWith({'id': 32}).copyWithout(['isFavoriteInMediaStore']),
-          songWith(id: 32, isFavoriteInMediaStore: false)
+          songWith(id: 32, isFavoriteInMediaStore: false),
         ),
       ];
       late CrashlyticsObserver crashlyticsObserver;

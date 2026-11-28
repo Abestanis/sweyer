@@ -68,13 +68,15 @@ class _PersistentQueueRouteState extends State<PersistentQueueRoute> with Select
     );
     scrollController.addListener(_handleScroll);
 
-    initSelectionController(() => ContentSelectionController.create(
-          vsync: AppRouter.instance.navigatorKey.currentState!,
-          context: context,
-          contentType: ContentType.song,
-          closeButton: true,
-          ignoreWhen: () => playerRouteController.opened,
-        ));
+    initSelectionController(
+      () => ContentSelectionController.create(
+        vsync: AppRouter.instance.navigatorKey.currentState!,
+        context: context,
+        contentType: ContentType.song,
+        closeButton: true,
+        ignoreWhen: () => playerRouteController.opened,
+      ),
+    );
 
     playerRouteController.addListener(_handlePlayerRouteController);
     _contentChangeSubscription = ContentControl.instance.onContentChange.listen(_handleContentChange);
@@ -159,102 +161,109 @@ class _PersistentQueueRouteState extends State<PersistentQueueRoute> with Select
     // With null it will be considered as "insert to the start"
     Song? selectedSong = songs.lastOrNull;
     bool tapped = false;
-    AppRouter.instance.goto(AppRoutes.selection.withArguments(SelectionArguments(
-      title: (context) => getl10n(context).addToPlaylist,
-      settingsPageBuilder: (context) {
-        final l10n = getl10n(context);
-        return Scaffold(
-          appBar: AppBar(
-            title: AppBarTitleMarquee(
-              text: l10n.trackAfterWhichToInsert,
-              fontSize: 20.0,
-            ),
-            leading: const NFBackButton(),
-          ),
-          body: StreamBuilder(
-            stream: ContentControl.instance.onContentChange,
-            builder: (context, snapshot) {
-              final theme = Theme.of(context);
-              final selectedTileColor = theme.colorScheme.primary;
-              final selectedSplashColor = theme.appThemeExtension.glowSplashColorOnContrast;
-              late StateSetter setListState;
-              if (!tapped || selectedSong != null && !songs.contains(selectedSong)) {
-                // Set last song on start and when the songs update and selected song was deleted
-                selectedSong = songs.lastOrNull;
-              }
-              return StreamBuilder(
-                stream: PlaybackControl.instance.onSongChange,
-                builder: (context, snapshot) => StatefulBuilder(builder: (context, setState) {
-                  setListState = setState;
-                  return ContentListView(
-                    contentType: ContentType.song,
-                    list: songs,
-                    enableDefaultOnTap: false,
-                    leading: InListContentAction.song(
-                      color: selectedSong == null ? selectedTileColor : null,
-                      iconColor: selectedSong == null ? theme.colorScheme.onPrimary : null,
-                      textColor: selectedSong == null ? theme.colorScheme.onPrimary : null,
-                      splashColor: selectedSong == null ? selectedSplashColor : null,
-                      icon: SweyerIcons.play_next,
-                      text: l10n.insertAtTheBeginning,
-                      onTap: () {
-                        setListState(() {
-                          tapped = true;
-                          selectedSong = null;
-                        });
+    AppRouter.instance.goto(
+      AppRoutes.selection.withArguments(
+        SelectionArguments(
+          title: (context) => getl10n(context).addToPlaylist,
+          settingsPageBuilder: (context) {
+            final l10n = getl10n(context);
+            return Scaffold(
+              appBar: AppBar(
+                title: AppBarTitleMarquee(
+                  text: l10n.trackAfterWhichToInsert,
+                  fontSize: 20.0,
+                ),
+                leading: const NFBackButton(),
+              ),
+              body: StreamBuilder(
+                stream: ContentControl.instance.onContentChange,
+                builder: (context, snapshot) {
+                  final theme = Theme.of(context);
+                  final selectedTileColor = theme.colorScheme.primary;
+                  final selectedSplashColor = theme.appThemeExtension.glowSplashColorOnContrast;
+                  late StateSetter setListState;
+                  if (!tapped || selectedSong != null && !songs.contains(selectedSong)) {
+                    // Set last song on start and when the songs update and selected song was deleted
+                    selectedSong = songs.lastOrNull;
+                  }
+                  return StreamBuilder(
+                    stream: PlaybackControl.instance.onSongChange,
+                    builder: (context, snapshot) => StatefulBuilder(
+                      builder: (context, setState) {
+                        setListState = setState;
+                        return ContentListView(
+                          contentType: ContentType.song,
+                          list: songs,
+                          enableDefaultOnTap: false,
+                          leading: InListContentAction.song(
+                            color: selectedSong == null ? selectedTileColor : null,
+                            iconColor: selectedSong == null ? theme.colorScheme.onPrimary : null,
+                            textColor: selectedSong == null ? theme.colorScheme.onPrimary : null,
+                            splashColor: selectedSong == null ? selectedSplashColor : null,
+                            icon: SweyerIcons.play_next,
+                            text: l10n.insertAtTheBeginning,
+                            onTap: () {
+                              setListState(() {
+                                tapped = true;
+                                selectedSong = null;
+                              });
+                            },
+                          ),
+                          backgroundColorBuilder: (index) {
+                            if (selectedSong == songs[index]) {
+                              return selectedTileColor;
+                            }
+                            return Colors.transparent;
+                          },
+                          itemBuilder: (context, index, child) {
+                            final selected = selectedSong == songs[index];
+                            return Theme(
+                              data: theme.copyWith(
+                                splashColor: selected ? selectedSplashColor : theme.splashColor,
+                                textTheme: theme.textTheme.copyWith(
+                                  // Title
+                                  titleLarge: theme.textTheme.titleLarge?.copyWith(
+                                    color: selected ? theme.colorScheme.onPrimary : null,
+                                  ),
+                                  // Subtitle
+                                  titleSmall: theme.textTheme.titleSmall?.copyWith(
+                                    color: selected ? theme.colorScheme.onPrimary : null,
+                                  ),
+                                ),
+                              ),
+                              child: child,
+                            );
+                          },
+                          onItemTap: (index) {
+                            setListState(() {
+                              tapped = true;
+                              selectedSong = songs[index];
+                            });
+                          },
+                        );
                       },
                     ),
-                    backgroundColorBuilder: (index) {
-                      if (selectedSong == songs[index]) {
-                        return selectedTileColor;
-                      }
-                      return Colors.transparent;
-                    },
-                    itemBuilder: (context, index, child) {
-                      final selected = selectedSong == songs[index];
-                      return Theme(
-                        data: theme.copyWith(
-                            splashColor: selected ? selectedSplashColor : theme.splashColor,
-                            textTheme: theme.textTheme.copyWith(
-                              // Title
-                              titleLarge: theme.textTheme.titleLarge?.copyWith(
-                                color: selected ? theme.colorScheme.onPrimary : null,
-                              ),
-                              // Subtitle
-                              titleSmall: theme.textTheme.titleSmall?.copyWith(
-                                color: selected ? theme.colorScheme.onPrimary : null,
-                              ),
-                            )),
-                        child: child,
-                      );
-                    },
-                    onItemTap: (index) {
-                      setListState(() {
-                        tapped = true;
-                        selectedSong = songs[index];
-                      });
-                    },
                   );
-                }),
-              );
-            },
-          ),
-        );
-      },
-      onSubmit: (entries) {
-        int index;
-        if (selectedSong == null) {
-          index = 0;
-        } else {
-          index = songs.indexOf(selectedSong!) + 1;
-        }
-        ContentControl.instance.insertSongsInPlaylist(
-          index: index,
-          songs: ContentUtils.flatten(ContentUtils.selectionPackAndSort(entries).merged),
-          playlist: playlist,
-        );
-      },
-    )));
+                },
+              ),
+            );
+          },
+          onSubmit: (entries) {
+            int index;
+            if (selectedSong == null) {
+              index = 0;
+            } else {
+              index = songs.indexOf(selectedSong!) + 1;
+            }
+            ContentControl.instance.insertSongsInPlaylist(
+              index: index,
+              songs: ContentUtils.flatten(ContentUtils.selectionPackAndSort(entries).merged),
+              playlist: playlist,
+            );
+          },
+        ),
+      ),
+    );
   }
 
   bool editing = false;
@@ -591,7 +600,8 @@ class _PersistentQueueRouteState extends State<PersistentQueueRoute> with Select
 
             /// The height to add at the end of the scroll view to make the top info part of the route
             /// always be fully scrollable, even if there's not enough items for that.
-            final additionalHeight = constraints.maxHeight -
+            final additionalHeight =
+                constraints.maxHeight -
                 _appBarHeight - //
                 AppBarBorder.height - //
                 mediaQuery.padding.top - //
@@ -644,22 +654,24 @@ class _PersistentQueueRouteState extends State<PersistentQueueRoute> with Select
                               ),
                               builder2: SelectionAppBar.defaultSelectionActionsBuilder,
                               child1: const SizedBox.shrink(),
-                              child2: Row(children: [
-                                if (isPlaylist && !selectionRoute)
-                                  RemoveFromPlaylistSelectionAction(
-                                    playlist: playlist,
+                              child2: Row(
+                                children: [
+                                  if (isPlaylist && !selectionRoute)
+                                    RemoveFromPlaylistSelectionAction(
+                                      playlist: playlist,
+                                      controller: selectionController,
+                                    ),
+                                  SelectAllSelectionAction<Song>(
                                     controller: selectionController,
+                                    entryFactory: (content, index) => SelectionEntry<Song>.fromContent(
+                                      content: content,
+                                      index: index,
+                                      context: context,
+                                    ),
+                                    getAll: () => songs,
                                   ),
-                                SelectAllSelectionAction<Song>(
-                                  controller: selectionController,
-                                  entryFactory: (content, index) => SelectionEntry<Song>.fromContent(
-                                    content: content,
-                                    index: index,
-                                    context: context,
-                                  ),
-                                  getAll: () => songs,
-                                ),
-                              ]),
+                                ],
+                              ),
                             ),
                           ),
                         ],
@@ -696,9 +708,9 @@ class _PersistentQueueRouteState extends State<PersistentQueueRoute> with Select
                             onItemTap: editing
                                 ? null
                                 : (index) => QueueControl.instance.setOriginQueue(
-                                      origin: queue,
-                                      songs: songs,
-                                    ),
+                                    origin: queue,
+                                    songs: songs,
+                                  ),
                           ),
                           if (showAddSongsAction)
                             SliverToBoxAdapter(
@@ -777,14 +789,17 @@ class _ActionIconButtonState extends State<_ActionIconButton> with SingleTickerP
   void didChangeDependencies() {
     super.didChangeDependencies();
     final theme = Theme.of(context);
-    colorAnimation = ColorTween(
-      begin: theme.colorScheme.onSurface.withValues(alpha: 0.12),
-      end: theme.iconTheme.color,
-    ).animate(CurvedAnimation(
-      parent: controller,
-      curve: Curves.easeOut,
-      reverseCurve: Curves.easeIn,
-    ));
+    colorAnimation =
+        ColorTween(
+          begin: theme.colorScheme.onSurface.withValues(alpha: 0.12),
+          end: theme.iconTheme.color,
+        ).animate(
+          CurvedAnimation(
+            parent: controller,
+            curve: Curves.easeOut,
+            reverseCurve: Curves.easeIn,
+          ),
+        );
   }
 
   @override

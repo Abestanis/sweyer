@@ -74,13 +74,14 @@ class _InitialRouteState extends State<InitialRoute> {
                       );
                     }
                     return StreamBuilder<bool>(
-                        stream: ThemeControl.instance.themeChanging,
-                        builder: (context, snapshot) {
-                          if (snapshot.data == true) {
-                            return const SizedBox.shrink();
-                          }
-                          return const Home();
-                        });
+                      stream: ThemeControl.instance.themeChanging,
+                      builder: (context, snapshot) {
+                        if (snapshot.data == true) {
+                          return const SizedBox.shrink();
+                        }
+                        return const Home();
+                      },
+                    );
                   },
                 );
               }
